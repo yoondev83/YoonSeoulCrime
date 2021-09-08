@@ -15,7 +15,6 @@ import SearchBtn from './SearchBtn';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
-    paddingTop: 200,
     backgroundColor: "#1f1f1f",
 },
 tableRowText: {
@@ -68,6 +67,7 @@ tableRowText: {
 
   section: {
     paddingBottom: "100px",
+    paddingTop: 120,
   }
 });
 
