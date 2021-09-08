@@ -1,0 +1,25 @@
+.mainText {
+    z-index: 1000;
+    color: #fff;
+    position: absolute;
+    top: 32%;
+    left: 6%;
+}
+
+
+
+.mainTextFir {
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: 0.1px;
+    height: 40px;
+}
+
+.mainTextSec {
+    font-size: 25px;
+
+}
+
+.mainTextThi {
+    font-size: 20px;
+}
