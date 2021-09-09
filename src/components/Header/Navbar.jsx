@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import Menus from './Menus';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles(() => ({
@@ -26,11 +27,16 @@ const useStyles = makeStyles(() => ({
     background: "#1f1f1f",
     flexGrow: 1,
   },
+  loginBtn:{
+    textDecoration:"none",
+    color: "#fff",
+    fontSize: "20px",
+  }
 }));
 
 export default function MenuAppBar(props) {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
+  const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [value, setValue] = React.useState(0);
@@ -47,6 +53,9 @@ export default function MenuAppBar(props) {
     setAnchorEl(null);
   };
 
+  const test = () => {
+    return <Link to="/board" />;
+  };
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -55,9 +64,15 @@ export default function MenuAppBar(props) {
           
       <FormGroup>
         <FormControlLabel
-          control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
-          label={auth ? 'Logout' : 'Login'}
+          control={<Switch checked={auth} aria-label="login switch" />}
+          label={auth ? 'Logout' : <Link to="/login" className={classes.loginBtn}>Login</Link>}
         />
+
+        {/* 원본 */}
+        {/* <FormControlLabel
+          control={<Switch checked={auth} onChange={handleChange} onClick={} aria-label="login switch" />}
+          label={auth ? 'Logout' : 'Login'}
+        /> */}
       </FormGroup>
           {auth && (
             <div>

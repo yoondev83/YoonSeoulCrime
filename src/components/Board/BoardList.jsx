@@ -35,7 +35,7 @@ tableRowText: {
   postContent:{
     color: "#fff",
     fontSize: "25px",
-    paddingLeft: 0
+    paddingLeft: 0,
   },
   
   postDate:{

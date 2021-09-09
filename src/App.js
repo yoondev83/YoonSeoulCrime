@@ -8,6 +8,7 @@ import BoardList from './components/Board/BoardList';
 import classes from "./App.module.css";
 import WritingForm from './components/Board/Writing/WritingForm';
 import Post from './components/Board/Post';
+import SignInMain from './components/SignIn/SignInMain';
 
 function App() {
   
@@ -22,6 +23,7 @@ function App() {
             <Route path="/post" component={Post}/>
             <Route path="/graph" component={GraphMain}/>
             <Route path="/write" component={WritingForm}/>
+            <Route path="/login" component={SignInMain}/>
           </Switch>
         </Router>
     </div>

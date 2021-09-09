@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
     color: "#fff",
   },
   papers:{
-    backgroundColor: "#1f1f1f",
+    backgroundColor: "#121212",
   
     width: "100%",
     textAlign: "center",

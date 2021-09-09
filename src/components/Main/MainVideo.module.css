@@ -7,7 +7,7 @@
 }
 
 .videoWrapper {
-    background-image: radial-gradient(circle at 36% 48%, #1f1f1f, rgba(11, 39, 65, 0.32) 87%, rgba(0, 0, 0, 0.0));
+    background-image: radial-gradient(circle at 36% 48%, #121212, rgba(11, 39, 65, 0.32) 87%, rgba(0, 0, 0, 0.0));
     width: 100%;
     height: calc(100vh - 80px);
     min-height: 600px;
