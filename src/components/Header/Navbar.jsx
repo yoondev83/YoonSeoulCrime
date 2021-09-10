@@ -13,19 +13,28 @@ import Menus from './Menus';
 import { Link } from 'react-router-dom';
 
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     position: "fixed",
     zIndex: 400,
-    width: "100%",
+    // width: "100%",
     top: 0,
     left: 0,
     right: 0,
+    [theme.breakpoints.down('sm')]: {
+      width:"100%",
+      height:"10px",
+    },
+    appBar:{
+      // width:0
+    }
   },
   title: {
+    height:"10px",
     background: "#1f1f1f",
     flexGrow: 1,
+    // width:"100%"
   },
   loginBtn:{
     textDecoration:"none",
@@ -58,7 +67,7 @@ export default function MenuAppBar(props) {
   };
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar className={ classes.title}>
           <Menus />
           

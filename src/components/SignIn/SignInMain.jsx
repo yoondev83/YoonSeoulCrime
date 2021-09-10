@@ -14,27 +14,23 @@ import {useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
     section:{
-        fontFamily: "twayair",
-    },
-    backdrop: {
-        zIndex: theme.zIndex.drawer + 1,
-        color: '#fff',
+        height:"100vh",
     },
     loginBox:{
-        paddingTop: "16%",
-        textAlign:"right",
+        paddingTop: "8%",
+        // verticalAlign:"center",
+        // textAlign:"right",
+        // paddingBottom: "20%"
     },
     loginBtn:{
-        fontFamily: "twayair",
         fontSize: "30px",
         paddingRight:0,
         marginTop:"10px",
         width: "400px",
         height: "50px",
-        backgroundColor:"#5c842c",
+        backgroundColor:"#2699FB",
     },
     joinBtn:{
-        fontFamily: "twayair",
         fontSize: "30px",
         paddingRight:0,
         marginTop:"10px",
@@ -45,6 +41,8 @@ const useStyles = makeStyles((theme) => ({
     loginInput:{
         width: "400px",
         height: "50px",
+        borderColor:"#fff",
+        color: "#fff"
     },
     inputGrid:{
         textAlign:"center",
@@ -53,16 +51,18 @@ const useStyles = makeStyles((theme) => ({
 
     inputGridPadding:{
         paddingTop:"15px",
+        backgroundColor:"#1f1f1f",
+    },
+    inputIdGrid:{
+        backgroundColor:"#1f1f1f"
     },
 
     findTxt:{
-        fontFamily: "twayair",
         color: "#b4bbd0",
         padding: "0 40px",
     },
     findTxtId:{
-        borderRight: "solid"
-
+        borderRight: "solid",
     },
 }));
 
@@ -82,20 +82,17 @@ const SignInMain = () => {
 
     return (
         <section className={classes.section}>
-        <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-            <CircularProgress color="primary" />
-        </Backdrop>
         <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.loginBox}>
             <form >
-            <Grid item xs={12} >
-                <Input type="text" name="userEmail" placeholder="이메일"
+            <Grid item xs={12} className={classes.inputIdGrid}>
+                <Input type="text" name="userId" placeholder="ID"
                        startAdornment={( <InputAdornment position="start">
                                             <EmailIcon className={classes.icon}/>
                                         </InputAdornment>)}
                        className={classes.loginInput}/>
             </Grid>
             <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
-                <Input type="password" name="userPass" placeholder="비밀번호"
+                <Input type="password" name="userPass" placeholder="Password"
                        startAdornment={( <InputAdornment position="start">
                            <LockIcon className={classes.icon}/>
                        </InputAdornment>)}
@@ -106,10 +103,10 @@ const SignInMain = () => {
                 <Typography  display="inline" align="left" className={classes.findTxt}>비밀번호 찾기</Typography>
             </Grid>
             <Grid item xs={12}>
-                <Button type="submit" className={classes.loginBtn} >로그인</Button>
+                <Button type="submit" className={classes.loginBtn} >Login</Button>
             </Grid>
             <Grid item xs={12}>
-                <Button type="submit" href="/signUp" className={clsx(classes.joinBtn)}>회원가입</Button>
+                <Button type="submit" href="/signUp" className={clsx(classes.joinBtn)}>Sign Up</Button>
             </Grid>
             </form>
         </Grid>

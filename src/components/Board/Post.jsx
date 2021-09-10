@@ -47,20 +47,20 @@ const useStyles = makeStyles({
         height: "80px",
         paddingBottom: 0,
         
-      },
-      BrokenHeart:{
+    },
+    BrokenHeart:{
         width: "60px",
         height: "65px",
         marginTop:"10px"
-      },
-      iconGrid:{
-          textAlign:"right",
-          paddingRight: "15px",
+    },
+    iconGrid:{
+        textAlign:"right",
+        paddingRight: "15px",
         },
-        iconGrid2:{
-            textAlign:"left",
-            paddingLeft: "15px",
-      }
+    iconGrid2:{
+        textAlign:"left",
+        paddingLeft: "15px",
+    }
 });
 
 const text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vulputate pulvinar risus, auctor luctus ligula congue non. Donec commodo sapien lectus, in auctor metus tempor sed. Sed eleifend vulputate lacus, sed feugiat magna vestibulum a. Sed in erat massa. Nunc luctus magna non posuere aliquet. Etiam rutrum, lectus vel scelerisque sagittis, eros mauris tempor mi, id tempus ex magna eget ex. Duis consequat arcu vel sollicitudin gravida.

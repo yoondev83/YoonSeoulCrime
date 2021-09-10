@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import { CssBaseline } from '@material-ui/core';
 import GraphMain from './components/d3/GraphMain';
 import Header from './components/Header/Header';
@@ -9,6 +9,7 @@ import classes from "./App.module.css";
 import WritingForm from './components/Board/Writing/WritingForm';
 import Post from './components/Board/Post';
 import SignInMain from './components/SignIn/SignInMain';
+import SignUp from './components/SignUp/SignUp';
 
 function App() {
   
@@ -24,6 +25,7 @@ function App() {
             <Route path="/graph" component={GraphMain}/>
             <Route path="/write" component={WritingForm}/>
             <Route path="/login" component={SignInMain}/>
+            <Route path="/signUp" component={SignUp}/>
           </Switch>
         </Router>
     </div>

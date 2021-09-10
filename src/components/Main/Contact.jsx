@@ -20,6 +20,11 @@ const useStyles = makeStyles((theme) => ({
     gridTitle: {
         paddingTop: "8px",
         height: "90vh",
+        
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: "430px",
+            height: "150vh",
+        },
       },
       
     inputLabel:{

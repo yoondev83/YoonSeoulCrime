@@ -67,6 +67,7 @@ const StackedBarplot = props => {
           xAxes: [
             {
               stacked: true,
+              max: 65000,
               
             },
           ],
@@ -80,21 +81,19 @@ const StackedBarplot = props => {
                   }
               }
           },
-          
+          tooltip:{
+            boxWidth: 20
+          }
       },
       
       };
     
 
     return(
-        <section>
           <div className='header'>
             <h1 className={classes.title}>The Total Number of Reported Crimes & Arrests</h1>
-            <div className='links'>
-            </div>
+            <Bar data={data} options={options} />
           </div>
-          <Bar data={data} options={options} />
-      </section>
     );
 };
 

@@ -3,11 +3,15 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     navMenu: {
       color: "#fff",
       fontSize: "20px",
       padding: "0 50px",
+      
+      [theme.breakpoints.down('sm')]: {
+        padding: "0 20px",
+      },
     },
     navLink:{
       textDecoration: "none"
@@ -20,11 +24,25 @@ const useStyles = makeStyles(() => ({
     titleBtn:{
       color: "#fff",
       textDecoration: "none",
-      paddingLeft: "10%"
-  
+      paddingLeft: "10%",
+      
+      [theme.breakpoints.down('sm')]: {
+        display:"none",
+      },
+
+    },
+    hiddenTitleBtn:{
+      color: "#fff",
+      textDecoration: "none",
+      paddingLeft: "10%",
+      display: "none",
+
+      [theme.breakpoints.down('sm')]: {
+        display:"inline"
+      },
     }
   }));
-
+  
 const Menus = () => {
     const classes = useStyles();
     return(
@@ -33,6 +51,9 @@ const Menus = () => {
         <Link to="/" className={classes.navLink}>
           <IconButton edge="start" className={classes.titleBtn} color="inherit" aria-label="menu">
             Yoon's Seoul Crime Rate
+          </IconButton>
+          <IconButton edge="start" className={classes.hiddenTitleBtn} color="inherit" aria-label="menu">
+            Yoon's
           </IconButton>
         </Link>
         </Typography>

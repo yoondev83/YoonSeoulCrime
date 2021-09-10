@@ -65,7 +65,7 @@ tableRowText: {
     verticalAlign: "top",
   },
 
-  section: {
+  boardContainer: {
     paddingBottom: "100px",
     paddingTop: 120,
   }
@@ -90,12 +90,10 @@ const BoardList = () => {
   const classes = useStyles();
   const preventDefault = (event) => event.preventDefault();
     return(
-      <section className={classes.section}>
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" className={classes.boardContainer}>
             <TableContainer component={Paper} className={classes.table}>
               <WritingBtn />
               <SearchBtn />
-              
 
                 <Table aria-label="simple table">
                     <TableBody>
@@ -123,10 +121,9 @@ const BoardList = () => {
                     ))}
                     </TableBody>
                 </Table>
-    </TableContainer>
+            </TableContainer>
 
             </Container>
-        </section>
     );
 };
 
