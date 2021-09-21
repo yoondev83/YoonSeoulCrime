@@ -5,8 +5,8 @@ import clsx from "clsx";
 import BoardList from "./BoardList";
 
 const useStyles = makeStyles({
-    container:{
-        marginTop: "5%",
+    postContainer:{
+        paddingTop: "120px",
     },
     paper:{
         paddingLeft: "10px",
@@ -14,9 +14,7 @@ const useStyles = makeStyles({
         border:"none",
         backgroundColor:"#1f1f1f"
     },
-    section: {
-        paddingBottom: "100px",
-        minHeight: "1000px"
+    gridContainer:{
     },
     
     title:{
@@ -54,13 +52,9 @@ const useStyles = makeStyles({
         marginTop:"10px"
     },
     iconGrid:{
-        textAlign:"right",
+        textAlign:"center",
         paddingRight: "15px",
         },
-    iconGrid2:{
-        textAlign:"left",
-        paddingLeft: "15px",
-    }
 });
 
 const text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vulputate pulvinar risus, auctor luctus ligula congue non. Donec commodo sapien lectus, in auctor metus tempor sed. Sed eleifend vulputate lacus, sed feugiat magna vestibulum a. Sed in erat massa. Nunc luctus magna non posuere aliquet. Etiam rutrum, lectus vel scelerisque sagittis, eros mauris tempor mi, id tempus ex magna eget ex. Duis consequat arcu vel sollicitudin gravida.
@@ -79,36 +73,29 @@ const Post = () => {
     //하트는 useReducer로 해볼 것.
 
     return(
-        <section className={classes.section}>
+        // <section>
 
-            <Container maxWidth="lg" className={classes.container}>
-            <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0} >
+            <Container maxWidth="lg" className={classes.postContainer}>
+            <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0} className={classes.gridContainer}>
                 <Grid item xs={12}>
                     <Paper className={clsx(classes.paper)}><Typography variant="h2" className={classes.title}>Thie is the title section </Typography></Paper>
-                </Grid>
-                <Grid item xs={12}> 
                     <Paper className={clsx(classes.postInfoGrid, classes.paper)}><Typography variant="h5" className={classes.postInfoDate}>09/08/2021</Typography></Paper>
                     <Paper className={clsx(classes.paper)}><Typography variant="h5" className={classes.postInfoUser}>username </Typography></Paper>
-                </Grid>
-                <Grid item xs={12}>
                     <Paper className={clsx(classes.paper)}><Typography variant="h6" className={classes.content}>{text}</Typography></Paper>
-                </Grid>
-                <Grid item xs={6} className={classes.iconGrid}>
-                    <IconButton aria-label="heart">
-                        <img className={classes.Heart} src="/icons/heart.png"/>
-                    </IconButton>
-                </Grid>
-                <Grid item xs={6} className={classes.iconGrid2}>
-                    <IconButton aria-label="brokenHeart">
-                        <img className={classes.BrokenHeart} src="/icons/broken_heart.png"/>
-                    </IconButton>
+                    <Grid item xs={12} className={classes.iconGrid}>
+                        <IconButton aria-label="heart">
+                            <img className={classes.Heart} src="/icons/heart.png"/>
+                        </IconButton>
+                        <IconButton aria-label="brokenHeart">
+                            <img className={classes.BrokenHeart} src="/icons/broken_heart.png"/>
+                        </IconButton>
+                    </Grid>
                 </Grid>
 
             </Grid>
 
-            <BoardList />
             </Container>
-        </section>
+        // </section>
     );
 };
 

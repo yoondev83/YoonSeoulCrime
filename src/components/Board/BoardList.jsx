@@ -6,17 +6,23 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import {Container} from "@material-ui/core"
 import WritingBtn from './WritingBtn';
 import SearchBtn from './SearchBtn';
+import { Link } from 'react-router-dom';
+import Navbar from '../Header/Navbar';
 
 
 const useStyles = makeStyles({
+  boardContainer: {
+    paddingBottom: "100px",
+    paddingTop: 120,
+    height:"120vh"
+  },
   table: {
     minWidth: 650,
     backgroundColor: "#1f1f1f",
-},
+  },
 tableRowText: {
     color: "#fff",
     fontSize: "25px"
@@ -29,7 +35,8 @@ tableRowText: {
     border: "none",
     width: "90%",
     paddingBottom: 0,
-    paddingLeft: 0
+    paddingLeft: 0,
+    textDecoration: "none"
     
   },
   postContent:{
@@ -65,10 +72,6 @@ tableRowText: {
     verticalAlign: "top",
   },
 
-  boardContainer: {
-    paddingBottom: "100px",
-    paddingTop: 120,
-  }
 });
 
 function createData(name, calories, fat, carbs, protein) {
@@ -91,6 +94,7 @@ const BoardList = () => {
   const preventDefault = (event) => event.preventDefault();
     return(
             <Container maxWidth="lg" className={classes.boardContainer}>
+            <Navbar/>
             <TableContainer component={Paper} className={classes.table}>
               <WritingBtn />
               <SearchBtn />
@@ -102,7 +106,7 @@ const BoardList = () => {
                         <TableRow key={row.name}>
                           <TableCell component="th" scope="row" className={classes.postTitle} key={row.name+2}>
                             <TableCell align="left" className={classes.postTitle}> 
-                              <Link href="/post" className={classes.postTitle}>
+                              <Link to="/post" className={classes.postTitle}>
                                 {row.name}
                               </Link>
                             </TableCell>

@@ -8,13 +8,13 @@ const useStyles = makeStyles((theme) => ({
       color: "#fff",
       fontSize: "20px",
       padding: "0 50px",
-      
+      fontWeight: "bold",
       [theme.breakpoints.down('sm')]: {
         padding: "0 20px",
       },
     },
     navLink:{
-      textDecoration: "none"
+      textDecoration: "none",
     },
     
     title: {
@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
     titleBtn:{
       color: "#fff",
       textDecoration: "none",
-      paddingLeft: "10%",
+      paddingLeft: "8.7%",
+      fontWeight: "bold",
       
       [theme.breakpoints.down('sm')]: {
         display:"none",
@@ -36,9 +37,10 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "none",
       paddingLeft: "10%",
       display: "none",
-
+      
       [theme.breakpoints.down('sm')]: {
-        display:"inline"
+        display:"inline",
+        paddingLeft: "8%",
       },
     }
   }));
@@ -50,7 +52,7 @@ const Menus = () => {
         <Typography variant="h6" className={classes.title}>
         <Link to="/" className={classes.navLink}>
           <IconButton edge="start" className={classes.titleBtn} color="inherit" aria-label="menu">
-            Yoon's Seoul Crime Rate
+            Yoon's Seoul Crime Data
           </IconButton>
           <IconButton edge="start" className={classes.hiddenTitleBtn} color="inherit" aria-label="menu">
             Yoon's

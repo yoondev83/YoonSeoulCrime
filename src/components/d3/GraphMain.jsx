@@ -1,10 +1,12 @@
+import { Route } from "react-router-dom";
 import { Container } from "@material-ui/core";
-import StackedBarplot from "./StackedBarplot/StackedBarplot";
-
 import { UseData } from "./UseData";
+import Navbar from "../Header/Navbar";
+import GraphDrawer from "./GraphDrawer";
+import StackedBarplot from "./StackedBarplot/StackedBarplot";
+import LineArrestedCrimes from "./StackedBarplot/LineArrestedCrimes";
 
-
-const GraphMain = () => {
+const GraphMain = ({ match, location, history }) => {
     const data = UseData();
 
     if (!data){
@@ -12,8 +14,15 @@ const GraphMain = () => {
       }
     return(
         <section>
+   
+            <Navbar />
             <Container maxWidth="lg">
-                <StackedBarplot data={data}/>
+                <GraphDrawer/>
+                <Route exact path="/graph" render={() => <StackedBarplot data={data}/>} />
+                <Route path="/graph/graph2" render={() => <LineArrestedCrimes data={data}/>} />
+                <Route path="/graph/graph3" render={() => <LineArrestedCrimes data={data}/>} />
+                <Route path="/graph/graph4" render={() => <LineArrestedCrimes data={data}/>} />
+                {/* <Route path={`${match.url}/:graphN`} render={() => <StackedBarplotPerOffense data={data}/>} /> */}
             </Container>
         </section>
     );

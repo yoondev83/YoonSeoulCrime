@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import {Bar} from "react-chartjs-2";
 import { defaults } from 'react-chartjs-2';
+import ShowRawData from "../ShowRawData";
 import classes from "./StackedBarplot.module.css";
 
 const StackedBarplot = props => {
@@ -16,13 +17,13 @@ const StackedBarplot = props => {
       totalReport.push(y.Total_reports);
       totalArrest.push(y.Total_arrests);
     });
-  }, [year]);
+  }, []);
   
     const data = {
-        labels: year,
+        labels:year,
         datasets: [
           //Reported Crimes
-          {stack: arbitraryStackKey,
+          {
             label: 'Reported Crimes',
             data: totalReport,
             backgroundColor: [
@@ -35,7 +36,8 @@ const StackedBarplot = props => {
             hoverBackgroundColor: 'blue',
           },
           //Arrests
-          {stack: arbitraryStackKey,
+          {
+            // stack: arbitraryStackKey,
             label: 'Arrests',
             data: totalArrest,
             backgroundColor: [
@@ -66,8 +68,8 @@ const StackedBarplot = props => {
           ],
           xAxes: [
             {
-              stacked: true,
               max: 65000,
+              stacked: true,
               
             },
           ],
@@ -91,8 +93,9 @@ const StackedBarplot = props => {
 
     return(
           <div className='header'>
-            <h1 className={classes.title}>The Total Number of Reported Crimes & Arrests</h1>
-            <Bar data={data} options={options} />
+            <h1 className={classes.title}>The Total Number of Reported Crimes & Arrests (2010-2020)</h1>
+            <Bar data={data} options={options}/>
+            <ShowRawData data={props.data}/>
           </div>
     );
 };

@@ -1,69 +1,128 @@
-import react from "react";
-import Container from '@material-ui/core/Container';
-import { makeStyles } from '@material-ui/core/styles';
+import { Container, makeStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import SendIcon from '@material-ui/icons/Send';
-import MyButton from "../UI/Button";
-
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 const useStyles = makeStyles((theme) => ({
-    root: {
-        '& .MuiTextField-root': {
-          margin: theme.spacing(1),
-        },
-        paddingLeft: "5%",
-        display: 'flex',
-        flexWrap: 'wrap',
-      },
-
-    gridTitle: {
-        paddingTop: "8px",
-        height: "90vh",
-        
+    contactFirPap:{
+        backgroundColor: "#121212",
+        display: "inline-block",
+        width: "50%",
+        // height: 40,
+        [theme.breakpoints.down('md')]: {
+            width: "55%",
+            display: "block",
+            height: 550
+          },
+    },
+    contactFirContainer:{
+        paddingLeft: 40,
+        [theme.breakpoints.down('md')]: {
+            paddingLeft: 0,
+          },
         [theme.breakpoints.down('sm')]: {
-            paddingTop: "430px",
-            height: "150vh",
+            paddingLeft: 0,
         },
-      },
-      
+    },
+    leftTitle:{
+        paddingLeft:25,
+        paddingTop: 100,
+        color: "#667081",
+        [theme.breakpoints.down('md')]: {
+            paddingLeft:0,
+            paddingTop: 30,
+          },
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft:0,
+            paddingTop: 30,
+          },
+        
+    },
+    contactForm: {
+        paddingTop: 50,
+        '& .MuiTextField-root': {
+            margin: theme.spacing(3),
+        },
+        // display: 'flex',
+        flexWrap: 'wrap',
+        [theme.breakpoints.down('md')]: {
+            paddingTop: 0,
+            '& .MuiTextField-root': {
+                margin: theme.spacing(1),
+            },
+          },
+    },
+
     inputLabel:{
-        color: "#2699FB",
+        color: "#f2f2f2",
         fontSize: 25,
     },
-        
     inputLongLineText:{
+        borderBottom: "solid white",
+        width: "500px",
         color: "#fff",
-        borderBottom: "solid #fff",
-        width: "450px",
-    },
-    
-    inputLongLineEmail:{
-        color: "#fff",
-        borderBottom: "solid #fff",
-        width: "450px",
-    },
-    
-    inputMsg:{
-        color: "#fff",
-        borderBottom: "solid #fff",
-        width: "89%",
-
-    },
         
-    title:{
-        padding: "35px 0 35px 0",
-        color: "#2699FB",
+        [theme.breakpoints.down('md')]: {
+            width: "500px",
+          },
+        [theme.breakpoints.down('sm')]: {
+            width: "300px",
+          },
     },
-    grid:{
-        paddingTop:"10px"
-    },
-    
+
     sendBtn:{
-        marginTop: "20px",
-        paddingRight: "12%"
-    }
+        marginTop: 50,
+        width:"50%",
+        float: "right",
+        fontWeight: 400,
+        
+        [theme.breakpoints.down('md')]: {
+            marginTop: 10,
+            marginRight:70
+        },
+        [theme.breakpoints.down('sm')]: {
+            width: "300px",
+            marginRight:0,
+            float: "left",
+
+          },
+        
+    },
     
+    contactSecPap:{
+        paddingTop:200,
+        display: "inline-block",
+        backgroundColor: "#10203d",
+        width: "50%",
+        height: "1000px",
+        [theme.breakpoints.down('md')]: {
+            display: "block",
+            width: "100%",
+            height: "600px",
+          },
+    },
+    contactSecContainer:{
+        paddingRight: 60,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: 15,
+            display: "block"
+          },
+    },
+    rightTitle:{
+        marginBottom: 120,
+        fontWeight: 400,
+        color: "#284168",
+    },
+    rightSmallTitle:{
+        fontWeight: 500,
+        color: "#476597",
+    },
+    emailAddr:{
+        fontWeight: 400,
+        color:"#384e72",
+    }
+
 }
 ));
   
@@ -73,31 +132,47 @@ const Contact = () => {
 
 
     return (
-        <section className={classes.gridTitle}>
-                <Typography variant="h3" align="center" className={classes.title} >
-                    CONTACT
-                </Typography>
-                   
-                    <Grid container spacing={0} alignItems="flex-start"  justifyContent="center" >
-                    <form className={classes.root} noValidate autoComplete="off">
-                        <Grid className={classes.grid} item xs={12} md={6}>
-                            <TextField id="standard-required" label="First Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
-                        </Grid>
-                        <Grid className={classes.grid} item xs={12} md={6}>
-                            <TextField required id="standard-required" label="Last Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className:classes.inputLongLineText }}/>
-                        </Grid>
-                        <Grid className={classes.grid} item xs={12} md={12}>
-                            <TextField required id="standard-required" label="Email"  InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineEmail}}  />
-                        </Grid>
-                        <Grid className={classes.grid} item xs={12} md={12}>
-                            <TextField required id="standard-multiline-static" label="Message" fullWidth multiline rows={4} InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputMsg }} />
-                        </Grid>
-                    </form>
-                    </Grid>
-                    <Grid className={classes.sendBtn} container spacing={0} justifyContent="flex-end">
-                            <MyButton  color="primary" message="Send" icon={<SendIcon />} />
-                    </Grid>
-        </section>
+        <div>
+             <Paper className={classes.contactFirPap}>
+                <Container maxWidth="sm" className={classes.contactFirContainer}>
+                    <Typography variant="h6" align="left" className={classes.leftTitle} >
+                            Hello, Let's get in touch
+                    </Typography>
+                    <form className={classes.contactForm} noValidate autoComplete="off">
+                            <Grid className={classes.grid} item sm={12} md={12}>
+                                {/* <TextField id="standard-required" label="First Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} /> */}
+                                <TextField id="standard-required" label="First Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
+                            </Grid>
+                            <Grid className={classes.grid} item sm={12} md={12}>
+                                <TextField id="standard-required" label="Last Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
+                            </Grid>
+                            <Grid className={classes.grid} item sm={12} md={12}>
+                                <TextField id="standard-required" label="Email" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
+                            </Grid>
+                            <Grid className={classes.grid} item sm={12} md={12}>
+                                <TextField required id="standard-multiline-static" label="Message" fullWidth multiline rows={4} InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText }} />
+                            </Grid>
+                            <Grid className={classes.grid} item sm={12} md={12}>
+                                <Button variant="contained" color="secondary" className={classes.sendBtn}> <Typography variant="h6" align="center">Send</Typography></Button>
+                            </Grid>
+                            
+                        </form>
+                </Container>
+             </Paper>
+             <Paper className={classes.contactSecPap}>
+                <Container maxWidth="sm" className={classes.contactSecContainer}>
+                    <div className={classes.rightTitleDiv}>
+                    <Typography variant="h2" align="left" className={classes.rightTitle} >
+                            I'd Love to Hear From <span className={classes.rightSmallTitle}>You</span>
+                    </Typography>
+                    <Typography variant="h6" align="left" className={classes.emailAddr} >
+                            yoondev83@gmail.com
+                    </Typography>
+                    </div>
+                </Container>
+             </Paper>
+                
+        </div>
       );
     };
     

@@ -12,30 +12,45 @@ import Customclasses from "./MainBodyContent.module.css";
 /*
   모바일 사이즈 정도 되었을때 메인바디컨텐츠와 컨택트가 겹쳐버림.
 */
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  bodyDiv:{
+    paddingTop: "100px",
+    height: "90vh",
+    backgroundColor: "#252933",
+
+    [theme.breakpoints.down('md')]: {
+      height: "115vh",
+    },
+    [theme.breakpoints.down('sm')]: {
+      height: "120vh",
+    },
+
+  },
   gridTitle: {
     paddingTop: "80px",
-    height: "90vh",
   },
   icons: {
     fontSize: "150px",
     color: "#fff",
   },
   papers:{
-    backgroundColor: "#121212",
-  
+    backgroundColor: "#252933",
     width: "100%",
     textAlign: "center",
   },
   title:{
-    paddingTop: "70px",
-    fontWeight: "bold",
-    color: "#2699FB",
-  },
-  featureTitle:{
+    paddingTop: "30px",
     fontWeight: "bold",
     color: "#fff",
   },
+  featureIconTitle:{
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  featureContent:{
+    color:"#f2f2f2",
+    paddingTop: 70,
+  }
 
 }));
 
@@ -43,45 +58,45 @@ const MainBodyContent = () => {
   const classes = useStyles();
 
     return (
-      <section>
+      <div className={classes.bodyDiv}>
           <Typography variant="h3" align="center" className={classes.title} >
             FEATURES
           </Typography>
           <Grid container spacing={2} justifyContent="center" className={classes.gridTitle}>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={12} md={4}>
               <Paper elevation={0} className={classes.papers}>
                 <AccountBoxIcon color="secondary" className={classes.icons}/>
-                  <Typography variant="h5" align="center" className={classes.featureTitle} >
+                  <Typography variant="h5" align="center" className={classes.featureIconTitle} >
                     DATA
                   </Typography>
               </Paper>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={12} md={4}>
               <Paper elevation={0} className={classes.papers}>
                 <EqualizerIcon className={classes.icons} />
-                  <Typography variant="h5" align="center" className={classes.featureTitle} >
+                  <Typography variant="h5" align="center" className={classes.featureIconTitle} >
                     GRAPH
                   </Typography>
               </Paper>
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={12} md={4}>
               <Paper elevation={0} className={classes.papers} >
                 <MoneyOffIcon className={classes.icons} />
-                  <Typography variant="h5" align="center" className={classes.featureTitle} >
+                  <Typography variant="h5" align="center" className={classes.featureIconTitle} >
                     NO CHARGE
                   </Typography>
               </Paper>
             </Grid>
             <Grid item xs={12} sm={12}>
               <Paper elevation={0} className={classes.papers} >
-                  <Typography variant="h5" align="center" className={classes.featureTitle} >
+                  <Typography variant="h5" align="center" className={classes.featureContent}>
                   Data sources are from the Korea Institute of Criminology, the Supreme Prosecutors' Office of the Republic of Korea, and the Korean National Police Agency.
                   This website shows you a variety of graphs that you can read and analyze easily without any membership fee!
                   </Typography>
               </Paper>
             </Grid>
           </Grid>
-      </section>
+      </div>
     );
 };
 

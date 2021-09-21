@@ -123,7 +123,7 @@ const SignUp = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Button type="submit" className={classes.joinBtn} >회원가입</Button>
+                        <Button type="submit" className={classes.joinBtn} >Sign Up</Button>
                     </Grid>
                 </form>
             </Grid>
