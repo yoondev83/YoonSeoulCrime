@@ -1,0 +1,9 @@
+.container {
+    padding-right: 1000;
+}
+
+.mapContainer {
+    height: 80vh;
+    width: 100%;
+    z-index: 1;
+}

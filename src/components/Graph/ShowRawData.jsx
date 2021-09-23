@@ -17,6 +17,7 @@ const useStyles = makeStyles({
       width: "100%",
       height: "480px",
       marginTop: 80,
+      marginBottom: 30
     },
     tableHead:{
         color:"#fff",

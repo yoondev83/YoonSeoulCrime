@@ -11,6 +11,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Post from './Post';
+import Footer from '../Main/Footer';
 
 const useStyles = makeStyles((theme) => ({
   boardContainer: {
@@ -93,69 +94,71 @@ const rows = [
 const BoardList = () => {
   const classes = useStyles();
     return(
-            <Container maxWidth="lg" className={classes.boardContainer}>
-              <Navbar/>
-              <div className={classes.root}>
-              <WritingBtn />
-              <SearchBtn />
-                {rows.map((row) => (
-                <Accordion className={classes.accodrionBoard}>
-                  <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" className={classes.accodrionSummary}>
-                    <div className={classes.titleDiv}>
-                    <Typography className={classes.titleHeading}>{row.title}</Typography>
-                    </div>
-                    <div className={classes.dateDiv}>
-                    <Typography className={classes.dateTxt}>{row.date}</Typography>
-                    </div>
-                    <div className={classes.heartDiv}>
-                      <img className={classes.heart} src="/icons/heart.png"/>
-                      <Typography className={classes.heartTxt}>{row.heart}</Typography>
-                    </div>
-                    <div className={classes.brokenHeartDiv}>
-                      <img className={classes.brokenHeart} src="/icons/broken_heart.png"/>
-                      <Typography className={classes.brokenHeartTxt}>{row.brokenHeart}</Typography>
-                    </div>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Typography>
-                      <Post />
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
-                ))}
-              </div>
-                          {/* <div className={classes.userPost}>
-                          <TableRow key={row.name}>
-                            <TableCell component="th" scope="row" className={classes.postTitle} key={row.name+2}>
-                              <TableCell align="left" className={classes.postTitle}> 
-                                <Link to="/post" className={classes.postTitle}>
-                                  {row.name}
-                                </Link>
-                              </TableCell>
-                              <TableCell align="left" className={classes.postDate}>{row.fat}</TableCell>
-                            </TableCell>
-                            <TableCell align="center" className={classes.postDate}><img className={classes.Heart} src="/icons/heart.png"/>{row.carbs}</TableCell>
-                            <TableCell align="center" className={classes.postDate}><img className={classes.BrokenHeart} src="/icons/broken_heart.png"/>{row.carbs}</TableCell>
-                          </TableRow>
-                          <TableRow key={row.name+1}>
-                            <TableCell component="th" scope="row" className={classes.postContent}>
-                                {row.calories}
-                            </TableCell>
-                            <TableCell colSpan="2" align="right" className={classes.userID}>sdfgsdfgdsfdsfasfsd</TableCell>
-                          </TableRow>
-                          </div> */}
-              {/* <TableContainer component={Paper} className={classes.table}>
+            <>
+              <Container maxWidth="lg" className={classes.boardContainer}>
+                <Navbar/>
+                <div className={classes.root}>
                 <WritingBtn />
                 <SearchBtn />
+                  {rows.map((row) => (
+                  <Accordion className={classes.accodrionBoard}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" className={classes.accodrionSummary}>
+                      <div className={classes.titleDiv}>
+                      <Typography className={classes.titleHeading}>{row.title}</Typography>
+                      </div>
+                      <div className={classes.dateDiv}>
+                      <Typography className={classes.dateTxt}>{row.date}</Typography>
+                      </div>
+                      <div className={classes.heartDiv}>
+                        <img className={classes.heart} src="/icons/heart.png"/>
+                        <Typography className={classes.heartTxt}>{row.heart}</Typography>
+                      </div>
+                      <div className={classes.brokenHeartDiv}>
+                        <img className={classes.brokenHeart} src="/icons/broken_heart.png"/>
+                        <Typography className={classes.brokenHeartTxt}>{row.brokenHeart}</Typography>
+                      </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        <Post />
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  ))}
+                </div>
+                            {/* <div className={classes.userPost}>
+                            <TableRow key={row.name}>
+                              <TableCell component="th" scope="row" className={classes.postTitle} key={row.name+2}>
+                                <TableCell align="left" className={classes.postTitle}> 
+                                  <Link to="/post" className={classes.postTitle}>
+                                    {row.name}
+                                  </Link>
+                                </TableCell>
+                                <TableCell align="left" className={classes.postDate}>{row.fat}</TableCell>
+                              </TableCell>
+                              <TableCell align="center" className={classes.postDate}><img className={classes.Heart} src="/icons/heart.png"/>{row.carbs}</TableCell>
+                              <TableCell align="center" className={classes.postDate}><img className={classes.BrokenHeart} src="/icons/broken_heart.png"/>{row.carbs}</TableCell>
+                            </TableRow>
+                            <TableRow key={row.name+1}>
+                              <TableCell component="th" scope="row" className={classes.postContent}>
+                                  {row.calories}
+                              </TableCell>
+                              <TableCell colSpan="2" align="right" className={classes.userID}>sdfgsdfgdsfdsfasfsd</TableCell>
+                            </TableRow>
+                            </div> */}
+                {/* <TableContainer component={Paper} className={classes.table}>
+                  <WritingBtn />
+                  <SearchBtn />
 
-                  <Table aria-label="simple table">
-                      <TableBody>
-                      ))}
-                      </TableBody>
-                  </Table>
-              </TableContainer> */}
-
-            </Container>
+                    <Table aria-label="simple table">
+                        <TableBody>
+                        ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer> */}
+              </Container>
+          <Footer/>
+          </>
     );
 };
 
