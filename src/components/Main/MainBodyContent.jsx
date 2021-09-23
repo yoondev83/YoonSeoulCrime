@@ -1,13 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import MoneyOffIcon from '@material-ui/icons/MoneyOff';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import Customclasses from "./MainBodyContent.module.css";
 
 /*
   모바일 사이즈 정도 되었을때 메인바디컨텐츠와 컨택트가 겹쳐버림.
@@ -15,7 +13,7 @@ import Customclasses from "./MainBodyContent.module.css";
 const useStyles = makeStyles((theme) => ({
   bodyDiv:{
     paddingTop: "100px",
-    height: "90vh",
+    height: "110vh",
     backgroundColor: "#252933",
 
     [theme.breakpoints.down('md')]: {

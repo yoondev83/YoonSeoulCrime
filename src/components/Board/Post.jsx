@@ -1,32 +1,13 @@
-import { Container, Grid, Paper, Typography } from "@material-ui/core";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from "clsx";
-import BoardList from "./BoardList";
 
 const useStyles = makeStyles({
-    postContainer:{
-        paddingTop: "120px",
-    },
     paper:{
         paddingLeft: "10px",
         borderRadius: "0",
-        border:"none",
-        backgroundColor:"#1f1f1f"
-    },
-    gridContainer:{
-    },
-    
-    title:{
-        fontSize:"40px",
-        fontWeight: "bold",
-        textAlign: "left",
-        color: "#fff",
-    },
-    postInfoDate:{
-        fontSize: "16px",
-        color: "grey",
-        paddingLeft: "3px"
+        boxShadow: "none"
     },
     postInfoUser:{
         fontSize: "24px",
@@ -34,19 +15,16 @@ const useStyles = makeStyles({
         paddingLeft: "3px",
         paddingTop:"10px"
     },
-    postInfoGrid:{
-        borderBottom: "0.5px solid grey",
-    },
     content:{
         color:"#6B6B6B"
     },
-    Heart:{
+    heart:{
         width: "68px",
         height: "80px",
         paddingBottom: 0,
-        
+        marginRight: 30
     },
-    BrokenHeart:{
+    brokenHeart:{
         width: "60px",
         height: "65px",
         marginTop:"10px"
@@ -54,6 +32,7 @@ const useStyles = makeStyles({
     iconGrid:{
         textAlign:"center",
         paddingRight: "15px",
+        paddingTop: 50
         },
 });
 
@@ -73,9 +52,22 @@ const Post = () => {
     //하트는 useReducer로 해볼 것.
 
     return(
-        // <section>
+            <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0}>
+                <Grid item xs={12}>
+                    <Paper className={clsx(classes.paper)}><Typography variant="h5" className={classes.postInfoUser}>username </Typography></Paper>
+                    <Paper className={clsx(classes.paper)}><Typography variant="h6" className={classes.content}>{text}</Typography></Paper>
+                </Grid>
+                <Grid item xs={12} className={classes.iconGrid}>
+                    <IconButton aria-label="heart">
+                        <img className={classes.heart} src="/icons/heart.png"/>
+                    </IconButton>
+                    <IconButton aria-label="brokenHeart">
+                        <img className={classes.brokenHeart} src="/icons/broken_heart.png"/>
+                    </IconButton>
+                </Grid>
+            </Grid>
 
-            <Container maxWidth="lg" className={classes.postContainer}>
+            /* {<Container maxWidth="lg" className={classes.postContainer}>
             <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0} className={classes.gridContainer}>
                 <Grid item xs={12}>
                     <Paper className={clsx(classes.paper)}><Typography variant="h2" className={classes.title}>Thie is the title section </Typography></Paper>
@@ -94,8 +86,7 @@ const Post = () => {
 
             </Grid>
 
-            </Container>
-        // </section>
+            </Container> }*/ 
     );
 };
 
