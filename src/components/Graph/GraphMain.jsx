@@ -10,8 +10,8 @@ import SeoulCrimeMap from "./Map/SeoulCrimeMap";
 import Footer from "../Main/Footer";
 
 const GraphMain = ({ match, location, history }) => {
-    const [data, reportData] = UseData();
-    if (!data || !reportData){
+    const [data, reportData, seoulCrimetData] = UseData();
+    if (!data || !reportData || !seoulCrimetData){
         return <pre>Loading...</pre>;
       }
     return(
@@ -22,7 +22,7 @@ const GraphMain = ({ match, location, history }) => {
                 <Route exact path="/graph" render={() => <StackedBarplot data={data}/>} />
                 <Route path="/graph/graph2" render={() => <LineArrestedCrimes data={data}/>} />
                 <Route path="/graph/graph3" render={() => <BarGraphPoliceDispatch data={reportData}/>} />
-                <Route path="/graph/graph4" render={() => <SeoulCrimeMap/>} />
+                <Route path="/graph/graph4" render={() => <SeoulCrimeMap data={seoulCrimetData}/>}/>
                 {/* <Route path={`${match.url}/:graphN`} render={() => <StackedBarplotPerOffense data={data}/>} /> */}
             </Container>
             <Footer/>
