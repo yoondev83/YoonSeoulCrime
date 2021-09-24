@@ -1,7 +1,7 @@
 import { Container } from "@material-ui/core";
-import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon } from 'react-leaflet'
+import { MapContainer, TileLayer, Tooltip, Polygon, GeoJSON} from 'react-leaflet'
+import seoulGeoJson from "./seoulGeoJson.json";
 import 'leaflet/dist/leaflet.css';
-// import classes from "./SeoulCrimeMap.module.css";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles((theme) =>({
@@ -19,13 +19,16 @@ const useStyles = makeStyles((theme) =>({
 
 }));
 
+
+    
 const limeOptions = { color: 'purple' }
 const polyline = [
     [37.5605, 126.9780],
     [37.5635, 126.9980],
     [37.5665, 126.9780],
   ]
-const SeoulCrimeMap = props => {
+
+  const SeoulCrimeMap = props => {
     console.log(props.data);
     const classes = useStyles();
     let seoulLocation = [37.5605, 126.9780];
@@ -37,6 +40,14 @@ const SeoulCrimeMap = props => {
                     attribution='&copy; <a href="#">Seoul Crime Map</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+
+
+                {/* 1. 구역별 이름 나와야 함. 
+                    2. 구역별 데이터가 나와야 함.
+                    3. 데이터 건수에 따른 색깔 변화를 지도에 표시해야 함.*/}
+                <GeoJSON data={seoulGeoJson}>
+                    <Tooltip>testtt</Tooltip>
+                </GeoJSON>
                 <Polygon pathOptions={limeOptions} positions={polyline} />
                 {/* <Marker position={seoulLocation}>
                     <Popup>
