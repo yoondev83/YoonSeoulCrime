@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -35,17 +35,20 @@ const useStyles = makeStyles({
 
 const ShowSeoulDistrictCrimeData = props => {
   const classes = useStyles();
+  const tableData = props.data.data.filter(d => d.Year === props.year);
   
   return (
     <TableContainer component={Paper} className={classes.tableContainer}>
       <Table className={classes.table} size="small" aria-label="a dense table">
+        <TableHead >
           <TableRow>
-          { props.data.columns.map(column => (
+          {props.data.meta.fields.map(column => (
                 <TableCell key={column+Math.random()*2} align="right" className={classes.tableHead}>{column}</TableCell>
           ))}
           </TableRow>
+        </TableHead>
         <TableBody>
-          {props.data.map((d) => (
+          {tableData.map((d) => (
             <TableRow key={d.Total_Incidents+Math.random()*2}>
               <TableCell component="th" scope="row" className={classes.tableBody} colSpan="1">
                 {d.Year}

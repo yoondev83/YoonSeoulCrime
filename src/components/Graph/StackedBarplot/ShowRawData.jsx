@@ -32,19 +32,19 @@ const useStyles = makeStyles({
 
 const ShowRawData = props => {
   const classes = useStyles();
-
+  
   return (
     <TableContainer component={Paper} className={classes.tableContainer}>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead >
           <TableRow>
-          { props.data.columns.map(column => (
+          { props.data.meta.fields.map(column => (
                 <TableCell key={column} align="right" className={classes.tableHead}>{column}</TableCell>
           ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.data.map((d) => (
+          {props.data.data.map((d) => (
             <TableRow key={d.Year}>
               <TableCell component="th" scope="row" className={classes.tableBody}>
                 {d.Year}

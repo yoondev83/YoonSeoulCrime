@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import { Line } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
-import ShowRawData from "../ShowRawData";
+import ShowRawData from "../StackedBarplot/ShowRawData";
 import classes from "./LineArrestedCrimes.module.css";
 
 const LineArrestedCrimes = props => {
@@ -20,10 +20,8 @@ const LineArrestedCrimes = props => {
   //graph
   defaults.font.size="15";
   
-  console.log(props.data);
-
   useEffect(() => {
-    props.data.map(y => {
+    props.data.data.map(y => {
       year.push(y.Year);
 
       //arrest

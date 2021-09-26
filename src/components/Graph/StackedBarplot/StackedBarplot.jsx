@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Bar} from "react-chartjs-2";
 import { defaults } from 'react-chartjs-2';
-import ShowRawData from "../ShowRawData";
+import ShowRawData from "./ShowRawData";
 import classes from "./StackedBarplot.module.css";
 
 const StackedBarplot = props => {
@@ -12,7 +12,7 @@ const StackedBarplot = props => {
   defaults.font.size="15";
 
   useEffect(() => {
-    props.data.map(y => {
+    props.data.data.map(y => {
       year.push(y.Year);
       totalReport.push(y.Total_reports);
       totalArrest.push(y.Total_arrests);

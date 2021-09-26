@@ -61,9 +61,6 @@ const useStyles = makeStyles((theme) => ({
         color: "#b4bbd0",
         padding: "0 40px",
     },
-    findTxtId:{
-        borderRight: "solid",
-    },
 }));
 
 const SignInMain = () => {
@@ -99,8 +96,7 @@ const SignInMain = () => {
                        className={classes.loginInput}/>
             </Grid>
             <Grid item xs={12} className={classes.inputGrid}>
-                <Typography  display="inline" align="left" className={clsx(classes.findTxt, classes.findTxtId)}>아이디 찾기</Typography>
-                <Typography  display="inline" align="left" className={classes.findTxt}>비밀번호 찾기</Typography>
+                <Typography  display="inline" align="left" className={clsx(classes.findTxt, classes.findTxtId)}>Forgot your password?</Typography>
             </Grid>
             <Grid item xs={12}>
                 <Button type="submit" className={classes.loginBtn} >Login</Button>

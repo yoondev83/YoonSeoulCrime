@@ -53,8 +53,8 @@ const GraphDrawer = () => {
       "to"   : "graph3",
     },
     {
-      "menu" : "Crime Map in Seoul",
-      "to"   : "graph4",
+      "menu" : "Seoul Crime Map",
+      "to"   : "seoulCrimeMap",
     },
 ];
 

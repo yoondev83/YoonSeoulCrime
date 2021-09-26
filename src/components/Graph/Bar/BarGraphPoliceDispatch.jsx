@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { Bar } from 'react-chartjs-2';
-import ShowDispatchRawData from '../ShowDispatchRawData';
+import ShowDispatchRawData from './ShowDispatchRawData';
 import classes from "./BarGraphPoliceDispatch.module.css";
 
 
@@ -10,7 +10,7 @@ const BarGraphPoliceDispatch = props =>{
     const within5Min        =   [];
 
     useEffect(() => {
-        props.data.map(d => {
+        props.data.data.map(d => {
             year.push(d.Year);
             dispatcherVolume.push(d.The_Total_112_Dispatcher_Volume);
             within5Min.push(d.Within_5min);
