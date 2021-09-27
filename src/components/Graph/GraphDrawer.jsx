@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   drawerDiv:{
-    paddingLeft:0
+    paddingLeft:0,
   },
   button:{
     fontWeight: "400",

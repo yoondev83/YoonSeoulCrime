@@ -1,11 +1,10 @@
 import {useEffect, useState} from 'react';
 import papa from "papaparse";
 import {features} from "./Map/seoulGeoJson.json"
-// import {csv} from "d3";
-
+import legendItems from './Map/entities/LegendItems';
 const csvUrl = "https://gist.githubusercontent.com/yoondev83/c005986d80b0a16dc35f415c3b742abf/raw/fad0801f4bf194cf5409a8d401de9979f6202199/2010-2020_Annual_Seoul_Crime_Data.csv";
 const csvReportUrl = "https://gist.githubusercontent.com/yoondev83/9168b5f93ff4920478856c40373e4b48/raw/57be8a04d5fb2268fa2d8457cbef32f66bed9a52/2005-2009_The_Seoul_Police_Dispatches";
-const csvSeoulDistrictCrime = "https://gist.githubusercontent.com/yoondev83/7a811ec87fc150fcfba4cef6712070b4/raw/1503b578bebbe24b72bd9e69d89363f2b191db91/Seoul_District_Crimes.csv";
+const csvSeoulDistrictCrime = "https://gist.githubusercontent.com/yoondev83/7a811ec87fc150fcfba4cef6712070b4/raw/347b61b6025f13b564aef400424ea6ecbd2e1aaf/Seoul_District_Crimes.csv";
 const mapSeoulDistricts     = features;
 
 
@@ -14,18 +13,44 @@ export const UseData = () => {
     const [reportData, setReportData]   = useState(null);
     const [seoulCrimetData, setSeoulCrimeData]   = useState(null);
     
+    const setDistrictColor = mapDistrict => {
+        const legendItem2019 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2019));
+        const legendItem2018 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2018));
+        const legendItem2017 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2017));
+        const legendItem2016 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2016));
+        const legendItem2015 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2015));
+        const legendItem2014 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2014));
+
+        if(legendItem2019 != null){
+            mapDistrict.properties.totalIncidents_2019Color = legendItem2019.color;
+        }
+        if(legendItem2018 != null){
+            mapDistrict.properties.totalIncidents_2018Color = legendItem2018.color;
+        }
+        if(legendItem2017 != null){
+            mapDistrict.properties.totalIncidents_2017Color = legendItem2017.color;
+        }
+        if(legendItem2016 != null){
+            mapDistrict.properties.totalIncidents_2016Color = legendItem2016.color;
+        }
+        if(legendItem2015 != null){
+            mapDistrict.properties.totalIncidents_2015Color = legendItem2015.color;
+        }
+        if(legendItem2014 != null){
+            mapDistrict.properties.totalIncidents_2014Color = legendItem2014.color;
+        }
+    };
+
+
     const processCrimeMapData = (seoulDistrict) => {
         setSeoulCrimeData(seoulDistrict); 
-        
-
         //자료는 6년치인데 행정구역 정보는 년도별이 아닌 그냥 행정구역 이름이 나열된거니 한 해 수치밖에 나오지 못 함.
         for (let i = 0; i < mapSeoulDistricts.length; i++){
             const mapDistrict = mapSeoulDistricts[i];
-            // const crimeDistrict= seoulDistrict.data.find(data=> data.District === mapDistrict.properties.SIG_ENG_NM);
             const crimeDistrict= seoulDistrict.data.filter(data=> data.District === mapDistrict.properties.SIG_ENG_NM);
-            mapDistrict.properties.totalIncidents_2019      = 2019;
+            mapDistrict.properties.totalIncidents_2019      = 0;
             mapDistrict.properties.totalIncidentsText_2019  = "0";
-            mapDistrict.properties.totalIncidents_2018      = 2018;
+            mapDistrict.properties.totalIncidents_2018      = 0;
             mapDistrict.properties.totalIncidentsText_2018  = "0";
             mapDistrict.properties.totalIncidents_2017      = 0;
             mapDistrict.properties.totalIncidentsText_2017  = "0";
@@ -63,6 +88,7 @@ export const UseData = () => {
                 mapDistrict.properties.totalIncidentsText_2014 = totalCrimeIncidents2014;
 
             }
+            setDistrictColor(mapDistrict);
         };
     }
     useEffect(() => {

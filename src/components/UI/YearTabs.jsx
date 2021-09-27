@@ -23,8 +23,9 @@ const useStyles = makeStyles((theme) => ({
     },
     typography:{
       margin: 5,
-      paddingLeft:5,
-      paddingRight: 20
+      paddingLeft:6,
+      paddingRight: 20,
+      textAlign: "center"
     },
   
 }));
@@ -35,12 +36,18 @@ const YearTabs = () => {
     return(
         <div className={classes.root}>
         <AppBar position="static" className={classes.appbar}>
-            <Link to="/graph/seoulCrimeMap/2019" className={classes.link}><Typography variant="h6" className={classes.typography}>2019</Typography></Link>
-            <Link to="/graph/seoulCrimeMap/2018" className={classes.link}><Typography variant="h6" className={classes.typography}>2018</Typography></Link>
-            <Link to="/graph/seoulCrimeMap/2017" className={classes.link}><Typography variant="h6" className={classes.typography}>2017</Typography></Link>
-            <Link to="/graph/seoulCrimeMap/2016" className={classes.link}><Typography variant="h6" className={classes.typography}>2016</Typography></Link>
-            <Link to="/graph/seoulCrimeMap/2015" className={classes.link}><Typography variant="h6" className={classes.typography}>2015</Typography></Link>
-            <Link to="/graph/seoulCrimeMap/2014" className={classes.link}><Typography variant="h6" className={classes.typography}>2014</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/2019" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2019</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/2018" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2018</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/2017" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2017</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/2016" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2016</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/2015" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2015</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/2014" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2014</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/graph2019" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2019 Graph</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/graph2018" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2018 Graph</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/graph2017" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2017 Graph</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/graph2016" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2016 Graph</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/graph2015" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2015 Graph</Typography></Link>
+            <Link to="/graph/seoulCrimeMap/graph2014" className={classes.link}><Typography variant="subtitle2" className={classes.typography}>2014 Graph</Typography></Link>
         </AppBar>
        
       </div>

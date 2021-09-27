@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   tableContainer:{
       backgroundColor:"#1f1f1f",
       width: "100%",
-      height: "480px",
+      height: "550px",
       marginTop: 80,
       marginBottom: 30
     },
@@ -30,7 +30,7 @@ const useStyles = makeStyles({
         textAlign:"center",
         fontSize: "15px",
         border: "none"
-  }
+  },
 });
 
 const ShowSeoulDistrictCrimeData = props => {
@@ -40,8 +40,8 @@ const ShowSeoulDistrictCrimeData = props => {
   return (
     <TableContainer component={Paper} className={classes.tableContainer}>
       <Table className={classes.table} size="small" aria-label="a dense table">
-        <TableHead >
-          <TableRow>
+        <TableHead>
+          <TableRow >
           {props.data.meta.fields.map(column => (
                 <TableCell key={column+Math.random()*2} align="right" className={classes.tableHead}>{column}</TableCell>
           ))}
@@ -50,7 +50,7 @@ const ShowSeoulDistrictCrimeData = props => {
         <TableBody>
           {tableData.map((d) => (
             <TableRow key={d.Total_Incidents+Math.random()*2}>
-              <TableCell component="th" scope="row" className={classes.tableBody} colSpan="1">
+              <TableCell component="td" scope="row" className={classes.tableBody} colSpan="1">
                 {d.Year}
               </TableCell>
               <TableCell align="right" className={classes.tableBody}>{d.District}</TableCell>
