@@ -20,6 +20,14 @@ const useStyles = makeStyles((theme) => ({
     joinBox:{
         paddingTop: "10%",
         textAlign:"right",
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: "12%",
+            width: "100%",
+          },
+        [theme.breakpoints.down('xs')]: {
+            paddingTop: "30%",
+            width: "100%",
+          },
     },
     joinBtn:{
         fontSize: "30px",
@@ -28,11 +36,17 @@ const useStyles = makeStyles((theme) => ({
         width: "400px",
         height: "50px",
         backgroundColor:"#2699FB",
+        [theme.breakpoints.down('xs')]: {
+            width: "100%",
+          },
     },
     joinInput:{
         width: "400px",
         height: "50px",
-        color:"#fff"
+        color:"#fff",
+        [theme.breakpoints.down('xs')]: {
+            width: "100%",
+          },
     },
     inputIdGrid:{
         backgroundColor:"#1f1f1f",
@@ -47,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
+    const [userPass, setUserPass] = useState(null);
 
     const handleClose = () => {
         setOpen(false);
@@ -58,7 +75,15 @@ const SignUp = () => {
         }, 500);
     };
 
-
+    const idHandler = event=>{
+        setUserId(event.target.value);
+    };
+    const emailHandler = event=>{
+        setUserEmail(event.target.value);
+    };
+    const passHandler = event=>{
+        setUserPass(event.target.value);
+    };
 
     const fetchJoinInfo = (event) =>{
         event.preventDefault();
@@ -66,11 +91,11 @@ const SignUp = () => {
         console.log("pass: " + event.target.userPass.value);
         console.log("name: " + event.target.userName.value);
         console.log("phone: " + event.target.userPhone.value);
-        axios.post("/create", {
-            email : event.target.userEmail.value,
-            pass: event.target.userPass.value,
-            name: event.target.userName.value,
-            phone: event.target.userPhone.value,
+        
+        axios.post("/signUp", {
+            userMemberId: userId,
+            userMemberEmail : userEmail,
+            userMemberPass: userPass,
         }).then(res => {
             console.log("Post success! + res.data: " + res.data);
         }).catch(err => {
@@ -89,7 +114,7 @@ const SignUp = () => {
             <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.joinBox}>
                 <form onSubmit={fetchJoinInfo}>
                     <Grid item xs={12} className={clsx(classes.inputIdGrid)}>
-                        <Input type="text" name="userName" placeholder="ID"
+                        <Input type="text" name="userName" placeholder="ID" onChange={idHandler}
                                startAdornment={( <InputAdornment position="start">
                                     <AssignmentIndIcon />
                                     </InputAdornment>)}
@@ -97,8 +122,8 @@ const SignUp = () => {
 
                         />
                     </Grid>
-                    <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
-                        <Input type="text" name="userEmail" placeholder="Email"
+                    <Grid item xs={12} className={clsx(classes.inputGridPadding)}> 
+                        <Input type="text" name="userEmail" placeholder="Email" onChange={emailHandler}
                                startAdornment={( <InputAdornment position="start">
                                    <EmailIcon />
                                    </InputAdornment>)}
@@ -106,7 +131,7 @@ const SignUp = () => {
                         />
                     </Grid>
                     <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
-                        <Input type="password" name="userPass" placeholder="Password"
+                        <Input type="password" name="userPass" placeholder="Password" onChange={passHandler}
                                startAdornment={( <InputAdornment position="start">
                                     <LockIcon />
                                     </InputAdornment>)}
@@ -119,7 +144,6 @@ const SignUp = () => {
                                     <LockIcon />
                                     </InputAdornment>)}
                                className={classes.joinInput}
-
                         />
                     </Grid>
                     <Grid item xs={12}>

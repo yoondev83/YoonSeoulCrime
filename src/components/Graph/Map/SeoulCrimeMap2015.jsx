@@ -1,35 +1,13 @@
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography} from "@material-ui/core";
 import { MapContainer, TileLayer, GeoJSON} from 'react-leaflet'
 import seoulGeoJson from "./seoulGeoJson.json";
 import 'leaflet/dist/leaflet.css';
-import { makeStyles } from "@material-ui/styles";
 import ShowSeoulDistrictCrimeData from "./ShowSeoulDistrictCrimeData";
 import { useRef } from "react";
 import YearTabs from "../../UI/YearTabs";
 import Legend from "./Legend";
 import legendItems from "./entities/LegendItems";
-
-const useStyles = makeStyles((theme) =>({
-    container:{
-        padding: 0,
-        paddingTop: 30,
-        height: "100%"
-    },
-    mapContainer:{
-        height: "80vh",
-        width: "100%",
-        zIndex: 1
-    },
-    message:{
-        color: "grey",
-        fontWeight: 400
-    }
-}));
-const mapStyle={
-    color: "white",
-    weight:1,
-    fillOpacity: 1
-};
+import { mapStyle, MapStyles } from "./MapStyles";
 
 const mouseoverEvent= event=>{
     event.target.setStyle({
@@ -40,11 +18,9 @@ const mouseoverEvent= event=>{
     })
 };
 
-
-
 const SeoulCrimeMap2015 = props => {
     const getJsonRef = useRef();
-    const classes = useStyles();
+    const classes = MapStyles();
     const legendReverse = [...legendItems].reverse();
     let seoulLocation = [37.5605, 126.9780];
     const mouseoutEvent= event=>{
@@ -75,7 +51,7 @@ const SeoulCrimeMap2015 = props => {
                 <GeoJSON ref={getJsonRef} data={seoulGeoJson} onEachFeature={OnEachDistrict} style={mapStyle}/>
             </MapContainer>
                 <Legend data={legendReverse} />
-            <Typography variant="subtitle1" className={classes.message}>*The data is based on the total number of incidents 2015</Typography>
+            <Typography variant="subtitle1" className={classes.message}>*The data is based on the total number of incidents in 2015</Typography>
             <ShowSeoulDistrictCrimeData data={props.data} year="2015"/>
         </Container>
     );

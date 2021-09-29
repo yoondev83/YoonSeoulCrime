@@ -1,5 +1,3 @@
-import L from "react-leaflet"
-
 const legendItems = [
     {
         title:  "5,500 +",

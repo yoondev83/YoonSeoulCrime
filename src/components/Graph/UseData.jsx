@@ -107,9 +107,6 @@ export const UseData = () => {
             header: true,
             complete: result => processCrimeMapData(result),
         });
-        // csv(csvUrl).then(data => {
-        //     setData(data);
-        // });
         }, []);
     return [data, reportData, seoulCrimetData];
   }

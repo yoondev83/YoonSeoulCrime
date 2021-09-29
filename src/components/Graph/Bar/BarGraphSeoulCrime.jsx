@@ -20,35 +20,45 @@ const useStyles = makeStyles((theme) =>({
 }));
 
 const BarGraphSeoulCrime = props =>{
-    //년도별 출력?
-    
-    const classes = useStyles();
+    const classes           = useStyles();
     const crimeData         =   props.data.data;
-    console.log("crimeData: " + crimeData.slice(26,50));
-    const data_2019         =   props.data.data.slice(1,25);
+    const selectedYear      =   +props.year;
     const incidents         =   [];
-    const year              =   [];
     const districts         =   [];
+    let selectedYearData;
+
+    switch (selectedYear) {
+      case 2019:  selectedYearData = crimeData.slice(1,25);
+        break;
+      case 2018:  selectedYearData = crimeData.slice(27,51);
+        break;
+      case 2017:  selectedYearData = crimeData.slice(53,77);
+        break;
+      case 2016:  selectedYearData = crimeData.slice(79,103);
+        break;
+      case 2015:  selectedYearData = crimeData.slice(105,129);
+        break;
+      case 2014:  selectedYearData = crimeData.slice(131,155);
+        break;
+    
+      default:    selectedYearData = crimeData.slice(1,25);
+        break;
+    }
     
     useEffect(() => {
-        // for(var a = 0 ; a < crimeData.length; a++){
-        //     if (a != 0 || a !== 26 || a !== 52 || a !== 78 || a !== 104 || a !== 130){
-        //         annualIncidents.push(crimeData[a].Total_Incidents);
-        //     }
-        // }
-        data_2019.map(d => {
+        selectedYearData.map(d => {
             districts.push(d.District);
             incidents.push(d.Total_Incidents);
       });
-    }, [props.data]);
+    }, []);
 
     const data = {
       labels: districts,
       datasets: [
         {
-          label: 'The Crime Incidents per District',
+          label: 'The Total Incidents',
           data: incidents,
-          backgroundColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgb(238,155,85)',
         },
       ],
     };
@@ -56,7 +66,6 @@ const BarGraphSeoulCrime = props =>{
     const options = {
         responsive: true,
         maintainAspectRatio: true,
-        // indexAxis: 'y',
         scales: {
           yAxes: [
             {
@@ -69,7 +78,6 @@ const BarGraphSeoulCrime = props =>{
         plugins: {
           legend: {
               labels: {
-                  // This more specific font property overrides the global property
                   font: {
                       size: 15
                   }
@@ -80,12 +88,11 @@ const BarGraphSeoulCrime = props =>{
           }
       },
     };
-console.log(props.data);
     return(
         <Container maxWidth="lg" className={classes.container}>
 
             <YearTabs/>
-            <h1 className={classes.title}>The Crime Incidents per District (2019)</h1>
+            <h1 className={classes.title}>The Crime Incidents Per District ({selectedYear})</h1>
             <Bar data={data} options={options} />
         </Container>
     );

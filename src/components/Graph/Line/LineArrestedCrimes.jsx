@@ -33,7 +33,7 @@ const LineArrestedCrimes = props => {
       otherCrimeArrests.push(y.Other_crime_arrests);
       specialCrimeArrests.push(y.Special_act_violation_arrests);
     });
-  }, [props.data]);
+  }, []);
   
     const data = {
         labels: year,

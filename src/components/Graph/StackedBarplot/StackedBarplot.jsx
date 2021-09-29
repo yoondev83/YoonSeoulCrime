@@ -8,7 +8,7 @@ const StackedBarplot = props => {
   const year = [];
   const totalReport = [];
   const totalArrest = [];
-  const arbitraryStackKey = "stack1";
+  // const arbitraryStackKey = "stack1";
   defaults.font.size="15";
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const StackedBarplot = props => {
       totalReport.push(y.Total_reports);
       totalArrest.push(y.Total_arrests);
     });
-  }, [props.data]);
+  }, []);
   
     const data = {
         labels:year,

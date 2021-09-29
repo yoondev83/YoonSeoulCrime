@@ -15,7 +15,7 @@ const BarGraphPoliceDispatch = props =>{
             dispatcherVolume.push(d.The_Total_112_Dispatcher_Volume);
             within5Min.push(d.Within_5min);
       });
-    }, [props.data]);
+    }, []);
 
     const data = {
       labels: year,

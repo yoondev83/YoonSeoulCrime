@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Post from './Post';
 import Footer from '../Main/Footer';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   boardContainer: {
@@ -25,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.typography.pxToRem(24),
     fontWeight: theme.typography.fontWeightRegular,
     paddingTop: "1.5%",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: theme.typography.pxToRem(20),
+    },
   },
   accodrionBoard:{
     backgroundColor: "#fff",
@@ -43,36 +47,60 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "2%",
     marginRight: 15,
     textAlign: "right",
-    tableLayout: "fixed"
+    tableLayout: "fixed",
+    [theme.breakpoints.down('xs')]: {
+      width: "5px",
+      paddingRight: 40,
+    },
   },
   dateTxt: {
     fontSize: theme.typography.pxToRem(18),
     paddingTop: "2%",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: theme.typography.pxToRem(15),
+    },
   },
   heartDiv:{
     width: 100,
     textAlign:"center",
-    paddingRight: 20
+    paddingRight: 20,
+    [theme.breakpoints.down('sm')]: {
+      height: "100%",
+    },
+    [theme.breakpoints.down('xs')]: {
+      display:"none"
+    },
   },
   heart:{
-    width: 100,
     width: "30px",
     height: "30px",
     paddingBottom: 0,
     textAlign:"center"
   },
   heartTxt:{
-    textAlign:"center"
+    textAlign:"center",
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 15
+    },
   },
   brokenHeartDiv:{
-    textAlign:"center"
+    textAlign:"center",
+    [theme.breakpoints.down('sm')]: {
+      width: "100px",
+    },
+    [theme.breakpoints.down('xs')]: {
+      display:"none"
+    },
   },
   brokenHeart:{
     width: "30px",
     height: "30px",
   },
   brokenHeartTxt:{
-    textAlign:"center"
+    textAlign:"center",
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 15
+    },
   },
 }));
 
@@ -90,6 +118,14 @@ const rows = [
   createData('This is post 5', 356, "09/15/2021", 49, 3.9),
 ];
 
+const getBoardList = props =>{
+  axios.get("/board", {
+    title: "",
+    date: "",
+    heartNum: "",
+    brkhrtNum: "",
+  });
+};
 
 const BoardList = () => {
   const classes = useStyles();
@@ -101,7 +137,7 @@ const BoardList = () => {
                 <WritingBtn />
                 <SearchBtn />
                   {rows.map((row) => (
-                  <Accordion className={classes.accodrionBoard}>
+                  <Accordion key={row.date+Math.random()*10} className={classes.accodrionBoard}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" className={classes.accodrionSummary}>
                       <div className={classes.titleDiv}>
                       <Typography className={classes.titleHeading}>{row.title}</Typography>
@@ -110,52 +146,20 @@ const BoardList = () => {
                       <Typography className={classes.dateTxt}>{row.date}</Typography>
                       </div>
                       <div className={classes.heartDiv}>
-                        <img className={classes.heart} src="/icons/heart.png"/>
+                        <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
                         <Typography className={classes.heartTxt}>{row.heart}</Typography>
                       </div>
                       <div className={classes.brokenHeartDiv}>
-                        <img className={classes.brokenHeart} src="/icons/broken_heart.png"/>
+                        <img className={classes.brokenHeart} src="/icons/broken_heart.png" alt="broken heart"/>
                         <Typography className={classes.brokenHeartTxt}>{row.brokenHeart}</Typography>
                       </div>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography>
                         <Post />
-                      </Typography>
                     </AccordionDetails>
                   </Accordion>
                   ))}
                 </div>
-                            {/* <div className={classes.userPost}>
-                            <TableRow key={row.name}>
-                              <TableCell component="th" scope="row" className={classes.postTitle} key={row.name+2}>
-                                <TableCell align="left" className={classes.postTitle}> 
-                                  <Link to="/post" className={classes.postTitle}>
-                                    {row.name}
-                                  </Link>
-                                </TableCell>
-                                <TableCell align="left" className={classes.postDate}>{row.fat}</TableCell>
-                              </TableCell>
-                              <TableCell align="center" className={classes.postDate}><img className={classes.Heart} src="/icons/heart.png"/>{row.carbs}</TableCell>
-                              <TableCell align="center" className={classes.postDate}><img className={classes.BrokenHeart} src="/icons/broken_heart.png"/>{row.carbs}</TableCell>
-                            </TableRow>
-                            <TableRow key={row.name+1}>
-                              <TableCell component="th" scope="row" className={classes.postContent}>
-                                  {row.calories}
-                              </TableCell>
-                              <TableCell colSpan="2" align="right" className={classes.userID}>sdfgsdfgdsfdsfasfsd</TableCell>
-                            </TableRow>
-                            </div> */}
-                {/* <TableContainer component={Paper} className={classes.table}>
-                  <WritingBtn />
-                  <SearchBtn />
-
-                    <Table aria-label="simple table">
-                        <TableBody>
-                        ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer> */}
               </Container>
           <Footer/>
           </>

@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
             display: "block",
             height: 550
           },
+          [theme.breakpoints.down('sm')]: {
+            width: "100%",
+          },
     },
     contactFirContainer:{
         paddingLeft: 40,
@@ -30,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: 100,
         color: "#667081",
         [theme.breakpoints.down('md')]: {
-            paddingLeft:0,
+            paddingLeft:53,
             paddingTop: 30,
           },
         [theme.breakpoints.down('sm')]: {
-            paddingLeft:0,
+            paddingLeft:20,
             paddingTop: 30,
           },
         
@@ -44,13 +47,16 @@ const useStyles = makeStyles((theme) => ({
         '& .MuiTextField-root': {
             margin: theme.spacing(3),
         },
-        // display: 'flex',
         flexWrap: 'wrap',
         [theme.breakpoints.down('md')]: {
             paddingTop: 0,
+            paddingLeft: 50,
             '& .MuiTextField-root': {
                 margin: theme.spacing(1),
             },
+        },
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft: 10,
           },
     },
 
@@ -64,10 +70,13 @@ const useStyles = makeStyles((theme) => ({
         color: "#fff",
         
         [theme.breakpoints.down('md')]: {
-            width: "500px",
+            width: "520px",
           },
         [theme.breakpoints.down('sm')]: {
-            width: "300px",
+            width: "500px",
+          },
+        [theme.breakpoints.down('xs')]: {
+            width: "100%",
           },
     },
 
@@ -79,17 +88,20 @@ const useStyles = makeStyles((theme) => ({
         
         [theme.breakpoints.down('md')]: {
             marginTop: 10,
-            marginRight:70
+            width:"100%"
         },
         [theme.breakpoints.down('sm')]: {
-            width: "300px",
+            width: "100%",
             marginRight:0,
-            float: "left",
-
+            float: "right",
+          },
+        [theme.breakpoints.down('xs')]: {
+            width: "100%",
+            marginRight:0,
+            float: "right",
           },
         
     },
-    
     contactSecPap:{
         paddingTop:200,
         display: "inline-block",
@@ -113,6 +125,12 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 120,
         fontWeight: 400,
         color: "#284168",
+        [theme.breakpoints.down('sm')]: {
+            marginBottom: 50
+          },
+        [theme.breakpoints.down('xs')]: {
+            marginBottom: 0
+          },
     },
     rightSmallTitle:{
         fontWeight: 500,
@@ -121,6 +139,7 @@ const useStyles = makeStyles((theme) => ({
     emailAddr:{
         fontWeight: 400,
         color:"#384e72",
+
     }
 
 }

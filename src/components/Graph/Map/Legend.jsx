@@ -1,17 +1,16 @@
-import { makeStyles } from "@material-ui/styles";
-import { Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) =>({
-    legendDiv:{
-        display:"flex",
-        alignItems: "stretch",
-    },
+
     legendDiv:{
         display:"flex",
         width:"100%", 
         alignItems:"center",
         justifyContent:"center",
         height: "5vh", 
-        fontWeight: 400
+        fontWeight: 400,
+        [theme.breakpoints.down('sm')]: {
+            display:"block",
+        },
     },
     legendTxt:{
         color: "#fff",

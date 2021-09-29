@@ -15,14 +15,12 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "100px",
     height: "110vh",
     backgroundColor: "#252933",
-
     [theme.breakpoints.down('md')]: {
       height: "115vh",
     },
     [theme.breakpoints.down('sm')]: {
       height: "120vh",
     },
-
   },
   gridTitle: {
     paddingTop: "80px",
@@ -49,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
     color:"#f2f2f2",
     paddingTop: 70,
   }
-
 }));
 
 const MainBodyContent = () => {
@@ -88,7 +85,7 @@ const MainBodyContent = () => {
             <Grid item xs={12} sm={12}>
               <Paper elevation={0} className={classes.papers} >
                   <Typography variant="h5" align="center" className={classes.featureContent}>
-                  Data sources are from the Korea Institute of Criminology, the Supreme Prosecutors' Office of the Republic of Korea, and the Korean National Police Agency.
+                  Data sources are from the Korea Institute of Criminology, the Supreme Prosecutors' Office of the Republic of Korea, and Data Seoul!
                   This website shows you a variety of graphs that you can read and analyze easily without any membership fee!
                   </Typography>
               </Paper>

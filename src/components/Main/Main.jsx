@@ -31,13 +31,17 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "25px",
             height: "80px",
         },
+        [theme.breakpoints.down('xs')]: {
+            fontSize: "25px",
+            height: "100px",
+        },
     },
             
     mainTextSec: {
         fontSize: "25px",
         [theme.breakpoints.down('sm')]: {
             fontSize: "25px",
-            height:"50px"
+            height:"80px"
         },
     },
     
@@ -47,19 +51,16 @@ const useStyles = makeStyles((theme) => ({
             display:"inline",
         },
     },
-            
     mainTextFour: {
         fontsiz: "20px",
         display:"inline",
     },
-    
     mainContentPaper:{
         backgroundColor: "#252933"
     },
     mainContactPaper:{
         backgroundColor: "#10203d"
     },
-
     mainContentContainer:{
         [theme.breakpoints.down('sm')]: {
             paddingBottom: 800
@@ -78,8 +79,8 @@ const Main = () => {
             <div className={classes.mainText}>
                 <Typography variant="h1" align="left" className={classes.mainTextFir}>THE VISUALIZED CRIME DATA IN SEOUL </Typography>
                 <Typography variant="h4" align="left" className={classes.mainTextSec}>Easy to Access & Free for Everyone </Typography>
-                <Typography variant="subtitle1" align="left" className={classes.mainTextThi}>This website is created to provide people with usual information </Typography>
-                <Typography variant="subtitle1" align="left" className={classes.mainTextFour}>in an interesting way </Typography>
+                <Typography variant="subtitle1" align="left" className={classes.mainTextThi}>This website is created to show you visualized data</Typography>
+                <Typography variant="subtitle1" align="left" className={classes.mainTextFour}>so that you would have better understandings of Seoul, South Korea </Typography>
             </div>
             <MainVideo videoSrc="video/project_main.mp4" />
             
@@ -88,11 +89,10 @@ const Main = () => {
                     <MainBodyContent />
                 </Container>
             </Paper>
-                <div>
+            <div>
                 <Contact />
-
-                </div>
-                <Footer />
+            </div>
+            <Footer />
         </>
     );
 };

@@ -10,13 +10,24 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme)=> ({
   drawerDiv:{
     paddingLeft:0,
+    [theme.breakpoints.down('md')]: {
+      paddingTop:30,
+      paddingBottom: 10,
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingTop:40,
+    },
   },
   button:{
     fontWeight: "400",
-    fontSize: 20
+    fontSize: 20,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 15,
+    },
+
   },
   list: {
     width: 250,
@@ -28,7 +39,7 @@ const useStyles = makeStyles({
       textDecoration: "none",
       color: "black",
   }
-});
+}));
 
 const GraphDrawer = () => {
   const classes = useStyles();
@@ -41,11 +52,11 @@ const GraphDrawer = () => {
 
   const menuList = [
     {
-      "menu" : "Annual Reported Crimes & Arrests 1",
+      "menu" : "Seoul Crime Reports & Arrests (2010-2020)",
       "to"   : "",
     },
     {
-      "menu" : "Arrested Crimes",
+      "menu" : "Arrests Per Crime (2010-2020)",
       "to"   : "graph2",
     },
     {
