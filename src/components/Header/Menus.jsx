@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   submenuDiv:{
     display:"inline-block",
     float:"right",
+    paddingTop:5,
     [theme.breakpoints.down('xs')]: {
       display:"none"
     },
@@ -119,17 +120,17 @@ const Menus = () => {
           </Link>
         </div>
         <div className={classes.submenuDiv}>
-          <Link to="/" className={classes.navLink}>
+          <Link to="/main" className={classes.navLink}>
             <IconButton edge="start" className={classes.navMenuBtn} color="inherit" aria-label="menu">
               <Typography variant="subtitle1" className={classes.subMenus}>ABOUT</Typography>
             </IconButton>
           </Link>
-          <Link to="/graph" className={classes.navLink}>
+          <Link to="/api/graph" className={classes.navLink}>
             <IconButton edge="start" className={classes.navMenuBtn} color="inherit" aria-label="menu">
               <Typography variant="subtitle1" className={classes.subMenus}>DATA</Typography>
             </IconButton>
           </Link>
-          <Link to="/board" className={classes.navLink}>
+          <Link to="/api/board/boardlist" className={classes.navLink}>
             <IconButton edge="start" className={classes.navMenuBtn} color="inherit" aria-label="menu">
               <Typography variant="subtitle1" className={classes.subMenus}>BOARD</Typography>
             </IconButton>
@@ -141,9 +142,9 @@ const Menus = () => {
             <MenuIcon className={classes.menuIcon}/>
           </Button>
           <Menu id="fade-menu" anchorEl={anchorEl} keepMounted open={open} onClose={handleClose} TransitionComponent={Fade}>
-            <MenuItem onClick={handleClose}> <Link to="/" className={classes.mobileLink}>ABOUT</Link></MenuItem>
-            <MenuItem onClick={handleClose}> <Link to="/graph" className={classes.mobileLink}>DATA</Link></MenuItem>
-            <MenuItem onClick={handleClose}><Link to="/board" className={classes.mobileLink}>BOARD</Link></MenuItem>
+            <MenuItem onClick={handleClose}> <Link to="/main" className={classes.mobileLink}>ABOUT</Link></MenuItem>
+            <MenuItem onClick={handleClose}> <Link to="/api/graph" className={classes.mobileLink}>DATA</Link></MenuItem>
+            <MenuItem onClick={handleClose}><Link to="/api/board/boardlist" className={classes.mobileLink}>BOARD</Link></MenuItem>
           </Menu>
         </div>
         </Container>

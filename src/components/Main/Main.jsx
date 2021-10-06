@@ -70,12 +70,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Main = () => {
+const Main = props => {
     const classes = useStyles();
 
     return (
         <>
-            <Navbar />
+            <Navbar isAuth={props.auth} logout={props.logout}/>
             <div className={classes.mainText}>
                 <Typography variant="h1" align="left" className={classes.mainTextFir}>THE VISUALIZED CRIME DATA IN SEOUL </Typography>
                 <Typography variant="h4" align="left" className={classes.mainTextSec}>Easy to Access & Free for Everyone </Typography>

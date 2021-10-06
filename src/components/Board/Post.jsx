@@ -47,15 +47,15 @@ Suspendisse potenti. Donec in nunc neque. Cras nunc felis, vestibulum vel varius
 Sed non lectus eget diam pulvinar tincidunt id ac est. Vestibulum sit amet diam velit. In rhoncus quam eu feugiat pulvinar. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean dignissim eros id neque faucibus, eu pharetra quam luctus. Quisque laoreet, eros gravida sollicitudin gravida, risus justo suscipit nulla, non congue quam ex vel nibh. Pellentesque a rhoncus sapien. Integer at malesuada sapien. Curabitur sit amet justo leo.`;
 
 
-const Post = () => {
+const Post = props => {
     const classes = useStyles();
     //하트는 useReducer로 해볼 것.
 
     return(
             <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0}>
                 <Grid item xs={12}>
-                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>username </Typography></Paper>
-                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'} className={classes.content}>{text}</Typography></Paper>
+                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>{props.author}</Typography></Paper>
+                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'} className={classes.content}>{props.content}</Typography></Paper>
                 </Grid>
                 <Grid item xs={12} className={classes.iconGrid}>
                     <IconButton aria-label="heart">

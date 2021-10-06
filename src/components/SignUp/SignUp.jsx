@@ -11,7 +11,8 @@ import LockIcon from "@material-ui/icons/Lock";
 import Button from "@material-ui/core/Button";
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import makeStyles from "@material-ui/core/styles/makeStyles";
-
+import useInput from "../hooks/use-input";
+import { Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
@@ -55,56 +56,86 @@ const useStyles = makeStyles((theme) => ({
         paddingTop:"15px",
         backgroundColor:"#1f1f1f",
     },
+    invalid:{
+        border: "1px solid #b40e0e",
+        backgroundColor: "#fddddd",
+        "&.Mui-focused": {
+            backgroundColor: "#fbe8d2",
+            borderColor:"#ff8800",
+        },
+    },
+    errorText:{
+        color: "#b40e0e"
+    },
 
 }));
 
-const SignUp = () => {
-    const classes = useStyles();
-    const [open, setOpen] = useState(false);
-    const [userId, setUserId] = useState(null);
-    const [userEmail, setUserEmail] = useState(null);
-    const [userPass, setUserPass] = useState(null);
+const SignUp = props => {
+    const classes                       = useStyles();
+    const [open, setOpen]               = useState(false);
+    
+    //custom hook
+    const { value: enteredEmail ,
+        validation: emailValidation,
+        isValid: enteredEmailIsValid,
+        hasError: emailInputHasError,
+        valueChangeHandlerWithEmailValidation: emailChangeHandler,
+        inputBlurHandler: emailBlurHandler,
+        reset: resetEmailInput}         = useInput(value => value.trim() !=='' && value.includes('@'));
+    const { value: enteredId ,
+        validationId: idValidation,
+        isValid: enteredIdIsValid,
+        hasError: idInputHasError,
+        valueChangeHandlerWithIdValidation: idChangeHandler,
+        inputBlurHandler: idBlurHandler,
+        reset: resetIdInput}            = useInput(value => value.trim() !=='' && value.length >= 6);
+    const { value: enteredPass ,
+        isValid: enteredPassIsValid,
+        hasError: passInputHasError,
+        valueChangeHandler: passChangeHandler,
+        inputBlurHandler: passBlurHandler,
+        reset: resetPassInput}            = useInput(value => value.trim() !=='' && value.length >= 6);
+    const { value: enteredRePass ,
+        isValid: enteredRePassIsValid,
+        hasError: rePassInputHasError,
+        valueChangeHandler: rePassChangeHandler,
+        inputBlurHandler: rePassBlurHandler,
+        reset: resetRePassInput}          = useInput(value => value.trim() !=='' && value.length >= 6 && value === enteredPass);
+    
+    let formIsValid                     = false;
+    if(enteredIdIsValid && enteredEmailIsValid && enteredPassIsValid && enteredRePassIsValid && emailValidation && idValidation){
+        formIsValid = true;
+    };
 
     const handleClose = () => {
         setOpen(false);
     };
-    const handleToggle = () => {
-        setOpen(!open);
-        setTimeout(() => {
-            setOpen(false);
-        }, 500);
-    };
-
-    const idHandler = event=>{
-        setUserId(event.target.value);
-    };
-    const emailHandler = event=>{
-        setUserEmail(event.target.value);
-    };
-    const passHandler = event=>{
-        setUserPass(event.target.value);
-    };
 
     const fetchJoinInfo = (event) =>{
         event.preventDefault();
-        console.log("email: "+ event.target.userEmail.value);
-        console.log("pass: " + event.target.userPass.value);
-        console.log("name: " + event.target.userName.value);
-        console.log("phone: " + event.target.userPhone.value);
+
+        if(!enteredIdIsValid || !enteredEmailIsValid || !enteredPassIsValid || !enteredRePassIsValid || !emailValidation || !idValidation){
+            return;
+        }
+        axios.post("/api/signup", {
+            userMemberId: enteredId,
+            userMemberEmail : enteredEmail,
+            userMemberPass: enteredPass,
+        })
+        .then(res => {
+            props.history.push("/main")
+        })
+        .catch(err => console.log(err) );
         
-        axios.post("/signUp", {
-            userMemberId: userId,
-            userMemberEmail : userEmail,
-            userMemberPass: userPass,
-        }).then(res => {
-            console.log("Post success! + res.data: " + res.data);
-        }).catch(err => {
-            console.log("Login Failed");
-            handleToggle();
-        });
+        resetEmailInput();
+        resetIdInput();
+        resetPassInput();
+        resetRePassInput();
     }
 
-
+    const idInputClasses       =   idInputHasError? clsx(classes.joinInput, classes.invalid): classes.joinInput;
+    const emailInputClasses    =   emailInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
+    const passInputClasses     =   passInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
     return (
         <section>
             <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
@@ -114,37 +145,45 @@ const SignUp = () => {
             <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.joinBox}>
                 <form onSubmit={fetchJoinInfo}>
                     <Grid item xs={12} className={clsx(classes.inputIdGrid)}>
-                        <Input type="text" name="userName" placeholder="ID" onChange={idHandler}
+                        <Input type="text" name="userName" placeholder="ID" onChange={idChangeHandler} onBlur={idBlurHandler}
+                            value={enteredId}
                                startAdornment={( <InputAdornment position="start">
                                     <AssignmentIndIcon />
                                     </InputAdornment>)}
-                               className={classes.joinInput}
-
+                               className={idInputClasses}
                         />
+                        {idInputHasError && <Typography className={classes.errorText} align="center">Enter A Valid ID</Typography>}
+                        {!idValidation && <Typography className={classes.errorText} align="center">This ID Has Been Already Used</Typography>}
                     </Grid>
                     <Grid item xs={12} className={clsx(classes.inputGridPadding)}> 
-                        <Input type="text" name="userEmail" placeholder="Email" onChange={emailHandler}
+                        <Input type="text" name="userEmail" placeholder="Email" onChange={emailChangeHandler} onBlur={emailBlurHandler}
+                               value={enteredEmail}
                                startAdornment={( <InputAdornment position="start">
                                    <EmailIcon />
                                    </InputAdornment>)}
-                               className={classes.joinInput}
+                               className={emailInputClasses}
                         />
+                        {!emailValidation && <Typography className={classes.errorText} align="center">Your Email Has Been Already Used</Typography>}
+                        {emailInputHasError && <Typography className={classes.errorText} align="center">Enter A Valid Email Address</Typography>}
                     </Grid>
                     <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
-                        <Input type="password" name="userPass" placeholder="Password" onChange={passHandler}
+                        <Input type="password" name="userPass" placeholder="Password" onChange={passChangeHandler} onBlur={passBlurHandler}
+                               value={enteredPass}
                                startAdornment={( <InputAdornment position="start">
                                     <LockIcon />
                                     </InputAdornment>)}
-                               className={classes.joinInput}
+                               className={passInputClasses}
                         />
+                        {passInputHasError && <Typography className={classes.errorText} align="center">Enter Valid Password</Typography>}
                     </Grid>
                     <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
-                        <Input type="password" name="userPassCheck" placeholder="Password"
+                        <Input type="password" name="userPassCheck" placeholder="Password" onChange={rePassChangeHandler} onBlur={rePassBlurHandler}
                                startAdornment={( <InputAdornment position="start">
                                     <LockIcon />
                                     </InputAdornment>)}
-                               className={classes.joinInput}
+                               className={passInputClasses}
                         />
+                        {rePassInputHasError && <Typography className={classes.errorText} align="center">Check Your Password</Typography>}
                     </Grid>
                     <Grid item xs={12}>
                         <Button type="submit" className={classes.joinBtn} >Sign Up</Button>

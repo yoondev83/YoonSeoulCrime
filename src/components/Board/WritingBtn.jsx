@@ -20,7 +20,7 @@ const WritingBtn = () => {
 
     return(
         <>
-            <Link to="/write" >
+            <Link to="/api/board/boardlist/write" >
                 <IconButton aria-label="write" className={classes.button}>
                     <CreateIcon className={classes.icon} />
                 </IconButton>

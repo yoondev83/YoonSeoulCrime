@@ -52,14 +52,15 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     fontSize: "20px",
     paddingRight: "3.5%",
-    
-  },
-
-  authDiv:{
-    paddingRight: "8%"
   },
   
+  authDiv:{
+    paddingRight: "8%",
+  },
+  authForm:{
+  },
   formControlLab:{
+    paddingTop: 6,
     paddingRight: "5.5rem",
     [theme.breakpoints.down('md')]: {
       paddingRight: 0,
@@ -72,13 +73,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = props => {
   const classes = useStyles();
-  const [auth, setAuth] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  // const handleChange = (event) => {
-  //   setAuth(event.target.checked);
-  // };
+  const handleChange = (event) => {
+    props.logout(false);
+  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -91,21 +91,15 @@ const Navbar = props => {
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
-        <Toolbar className={auth === true? classes.titleLogin:classes.title}>
+        <Toolbar className={props.isAuth === true? classes.titleLogin:classes.title}>
           <Menus/>
       <FormGroup>
         <FormControlLabel
-          control={<Switch checked={auth} aria-label="login switch" />} className={!auth? classes.formControlLab: null}
-          label={auth ? 'Logout' : <Link to="/login" className={classes.loginBtn}>Login</Link>}
+          control={<Switch checked={props.isAuth} onChange={handleChange} aria-label="login switch" />} className={!props.isAuth? classes.formControlLab: classes.authForm}
+          label={props.isAuth ? 'Logout' : <Link to="/api/signin" className={classes.loginBtn}>Login</Link>}
         />
-
-        {/* 원본 */}
-        {/* <FormControlLabel
-          control={<Switch checked={auth} onChange={handleChange} onClick={} aria-label="login switch" />}
-          label={auth ? 'Logout' : 'Login'}
-        /> */}
       </FormGroup>
-          {auth && (
+          {props.isAuth && (
             <div className={classes.authDiv}>
               <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
                 <AccountCircle />

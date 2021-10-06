@@ -74,15 +74,19 @@ const useStyles = makeStyles((theme) => ({
         color: "#b4bbd0",
         padding: "0 40px",
     },
+    errorText:{
+        color: "#b40e0e"
+    },
 }));
 
-const SignInMain = () => {
-    const classes = useStyles();
-    const [userId, setUserId] = useState(null);
-    const [userPass, setUserPass] = useState(null);
+const SignInMain = (props) => {
+    const classes                       = useStyles();
+    const [userEmail, setUserEmail]     = useState(null);
+    const [userPass, setUserPass]       = useState(null);
+    const [loginError, setLoginError]   = useState(false);
    
-    const idHandler = event=>{
-        setUserId(event.target.value);
+    const emailHandler = event=>{
+        setUserEmail(event.target.value);
     };
     const passHandler = event=>{
         setUserPass(event.target.value);
@@ -90,10 +94,22 @@ const SignInMain = () => {
 
     const submitHandler = event => {
         event.preventDefault();
-        axios.post("/login", {
-            userMemberId: userId,
+        axios.post("/api/signin", {
+            userMemberEmail: userEmail,
             userMemberPass: userPass
-        });
+        })
+        .then(res =>{
+            if(res.data.authentication === true){
+                props.setAuth(true);
+                props.history.push("/main");
+            }else{
+                setLoginError(true);
+            }
+                })
+        .catch(err => console.log(err));
+
+        setUserEmail("");
+        setUserPass("");
     };
 
     return (
@@ -101,7 +117,7 @@ const SignInMain = () => {
         <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.loginBox}>
             <form onSubmit={submitHandler}>
             <Grid item xs={12} className={classes.inputIdGrid}>
-                <Input type="text" name="userId" placeholder="ID" onChange={idHandler}
+                <Input type="email" name="userEmail" placeholder="Email" onChange={emailHandler}
                        startAdornment={( <InputAdornment position="start">
                                             <EmailIcon className={classes.icon}/>
                                         </InputAdornment>)}
@@ -114,6 +130,7 @@ const SignInMain = () => {
                        </InputAdornment>)}
                        className={classes.loginInput}/>
             </Grid>
+            {loginError &&  <Typography className={classes.errorText} align="center">Check Your Email or Password!</Typography>}
             <Grid item xs={12} className={classes.inputGrid}>
                 <Typography  display="inline" align="left" className={clsx(classes.findTxt, classes.findTxtId)}>Forgot your password?</Typography>
             </Grid>
@@ -121,7 +138,7 @@ const SignInMain = () => {
                 <Button type="submit" className={classes.loginBtn} >Login</Button>
             </Grid>
             <Grid item xs={12}>
-                <Button type="submit" href="/signUp" className={clsx(classes.joinBtn)}>Sign Up</Button>
+                <Button type="submit" href="/api/signup" className={clsx(classes.joinBtn)}>Sign Up</Button>
             </Grid>
             </form>
         </Grid>

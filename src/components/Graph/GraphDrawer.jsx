@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme)=> ({
   drawerDiv:{
+    marginTop:80,
     paddingLeft:0,
     [theme.breakpoints.down('md')]: {
       paddingTop:30,
@@ -88,7 +89,7 @@ const toggleDrawer = (anchor, open) => (event) => {
     >
       <List>
         {menuList.map((text, index) => (
-          <Link key={text.menu+"Link"} to={`/graph/${text.to}`} className={classes.subMenuLink}>
+          <Link key={text.menu+"Link"} to={`/api/graph/${text.to}`} className={classes.subMenuLink}>
           <ListItem button key={text.menu} >
             <ListItemText primary={text.menu} />
           </ListItem>
