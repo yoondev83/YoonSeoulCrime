@@ -30,6 +30,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import LoadingSpinner from '../UI/LoadingSpinner';
 
 
 
@@ -215,7 +216,6 @@ const BoardList = props => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
     return(
             <>
               <Container maxWidth="lg" className={classes.boardContainer}>
@@ -223,6 +223,7 @@ const BoardList = props => {
                 <WritingBtn/>
                 <SearchBtn />
                 <TableContainer component={Paper}>
+                  {props.boardLists === null? <LoadingSpinner/> : 
                   <Table className={classes.table} aria-label="custom pagination table">
                     <TableBody className={classes.accodrionSummary}>
                       {(rowsPerPage > 0 ? props.boardLists.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -246,7 +247,7 @@ const BoardList = props => {
                             </div>
                           </AccordionSummary>
                         <AccordionDetails>
-                          <Post content={article.content} author={article.userId}/>
+                          <Post data={article}/>
                         </AccordionDetails>
                         </Accordion>
                       ))}
@@ -270,6 +271,7 @@ const BoardList = props => {
                       </TableRow>
                     </TableFooter>
                   </Table>
+                  }
                 </TableContainer>
               </Container>
           <Footer/>

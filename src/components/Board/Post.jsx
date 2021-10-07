@@ -2,6 +2,8 @@ import { Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from "clsx";
+import { useState } from "react";
+import axios from "axios";
 
 const useStyles = makeStyles({
     paper:{
@@ -36,33 +38,43 @@ const useStyles = makeStyles({
         },
 });
 
-const text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vulputate pulvinar risus, auctor luctus ligula congue non. Donec commodo sapien lectus, in auctor metus tempor sed. Sed eleifend vulputate lacus, sed feugiat magna vestibulum a. Sed in erat massa. Nunc luctus magna non posuere aliquet. Etiam rutrum, lectus vel scelerisque sagittis, eros mauris tempor mi, id tempus ex magna eget ex. Duis consequat arcu vel sollicitudin gravida.
-
-Mauris vehicula bibendum lacus, aliquam rutrum magna eleifend eu. Sed porta accumsan fermentum. Nulla placerat accumsan pulvinar. Vestibulum accumsan efficitur gravida. Nunc gravida tincidunt nulla, molestie viverra justo auctor ut. Donec quis venenatis felis, in aliquam justo. In condimentum massa ante, porttitor aliquam nisl fermentum in. Cras euismod diam vitae commodo vehicula. Nunc tincidunt condimentum eros sit amet ullamcorper.
-
-Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed ornare mi eget quam finibus finibus. Vivamus sed tincidunt augue, ut iaculis nulla. Suspendisse eget lobortis erat. Proin elit nisl, tincidunt non feugiat id, ultrices eget leo. Praesent non ante at elit lacinia accumsan a vel lectus. Proin sed velit cursus, pretium justo mollis, aliquam massa. Sed semper semper orci sit amet scelerisque. Sed ultricies hendrerit velit, nec vehicula magna suscipit nec. Sed efficitur enim eu libero varius cursus sed sit amet tellus. Morbi nec accumsan justo.
-
-Suspendisse potenti. Donec in nunc neque. Cras nunc felis, vestibulum vel varius vel, semper ac neque. Aenean eget ultricies nisi. Mauris eget tristique mi. Phasellus placerat massa augue, a semper magna viverra ac. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin vehicula libero ac urna tincidunt fermentum. Nam auctor, dolor non gravida tincidunt, leo erat mattis quam, sed porttitor arcu ipsum sed velit. Cras pulvinar lacus eu velit viverra, quis ultrices tellus convallis. Curabitur accumsan posuere nibh semper iaculis. Sed a nibh lobortis, euismod elit in, mollis velit. Nullam consectetur eros sed condimentum iaculis. Cras et laoreet metus.
-
-Sed non lectus eget diam pulvinar tincidunt id ac est. Vestibulum sit amet diam velit. In rhoncus quam eu feugiat pulvinar. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean dignissim eros id neque faucibus, eu pharetra quam luctus. Quisque laoreet, eros gravida sollicitudin gravida, risus justo suscipit nulla, non congue quam ex vel nibh. Pellentesque a rhoncus sapien. Integer at malesuada sapien. Curabitur sit amet justo leo.`;
-
-
 const Post = props => {
-    const classes = useStyles();
-    //하트는 useReducer로 해볼 것.
+    const classes                    =   useStyles();
+    const [heart, setHeart]          =   useState(props.data.heart);
+    const [brokenHeart, setBrkHeart] =   useState(props.data.brokenHeart);
+    const heartBtnHandler            =  () =>{
+        setHeart(heart+1);
+        console.log(heart);
+        axios.patch("/api/board/boardlist",{
+            postNum: props.data.articleNum,
+            heart: heart+1
+        }).then(console.log("성공"))
+        .catch(err => console.log(err));
+    }
+    const brokenHeartBtnHandler      =  () =>{
+        setBrkHeart(brokenHeart+1);
+        
+        axios.patch("/api/board/boardlist",{
+            postNum: props.data.articleNum,
+            brokenHeart: brokenHeart+1,
+        }).then(console.log("성공"))
+        .catch(err => console.log(err));
+    }
 
     return(
             <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0}>
                 <Grid item xs={12}>
-                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>{props.author}</Typography></Paper>
-                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'} className={classes.content}>{props.content}</Typography></Paper>
+                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>{props.data.userId}</Typography></Paper>
+                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'} className={classes.content}>{props.data.content}</Typography></Paper>
                 </Grid>
                 <Grid item xs={12} className={classes.iconGrid}>
-                    <IconButton aria-label="heart">
+                    <IconButton aria-label="heart" onClick={heartBtnHandler}>
                         <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
+                        <Typography component={'span'} variant={"subtitle1"} className={classes.content}>{heart}</Typography>
                     </IconButton>
-                    <IconButton aria-label="brokenHeart">
+                    <IconButton aria-label="brokenHeart" onClick={brokenHeartBtnHandler}>
                         <img className={classes.brokenHeart} src="/icons/broken_heart.png" alt="broken heart"/>
+                        <Typography component={'span'} variant={"subtitle1"} className={classes.content}>{brokenHeart}</Typography>
                     </IconButton>
                 </Grid>
             </Grid>

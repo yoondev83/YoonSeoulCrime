@@ -22,6 +22,7 @@ import SeoulCrimeMap2017 from './components/Graph/Map/SeoulCrimeMap2017';
 import SeoulCrimeMap2016 from './components/Graph/Map/SeoulCrimeMap2016';
 import SeoulCrimeMap2015 from './components/Graph/Map/SeoulCrimeMap2015';
 import SeoulCrimeMap2014 from './components/Graph/Map/SeoulCrimeMap2014';
+import LoadingSpinner from "./components/UI/LoadingSpinner";
 
 function App() {
   const [boardLists, setBoardLists]         = useState(null);
@@ -32,12 +33,12 @@ function App() {
   useEffect(() => {
     const getBoardLists = async() =>{
         const response    = await axios.get("/api/board/boardlist");
-        console.log(response);
         if (response.status !== 200){
           throw new Error("Oops!!");
         }
         const data        = response.data.map(d => {
           return{
+            articleNum: d.articleNum,
             userId: d.userId,
             title: d.title,
             content: d.content,
@@ -52,10 +53,7 @@ function App() {
 
     getBoardLists();
   }, []);
-  console.log("boardList: " + JSON.stringify(boardLists));
 
-
-  // 2. 하트 연동
   // 5. 로그인 세션
   // 6. App.js 정리
   // 7. 배포전 코드 확인 및 링크 수정
@@ -65,6 +63,7 @@ function App() {
   return (
     <div className={classes.App}>
       <CssBaseline/>
+      {boardLists === null? <LoadingSpinner />:
         <Router>
           <Switch>
             {/* Main */}
@@ -105,6 +104,7 @@ function App() {
             <Route component={NotFound} />
           </Switch>
         </Router>
+      }
     </div>
   );
 }
