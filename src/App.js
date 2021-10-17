@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
+import Layout from './components/Layout/Layout';
+import {useDispatch, useSelector} from "react-redux";
+import { authActions } from './store/auth-slice';
 import { Container, CssBaseline } from '@material-ui/core';
 import Main from './components/Main/Main';
 import BoardList from './components/Board/BoardList';
@@ -9,12 +12,12 @@ import SignInMain from './components/SignIn/SignInMain';
 import SignUp from './components/SignUp/SignUp';
 import NotFound from './components/NotFound';
 import axios from 'axios';
+import MyPage from './components/MyPage/MyPage';
 import LineArrestedCrimes from './components/Graph/Line/LineArrestedCrimes';
 import { UseData } from "./components/Graph/UseData";
 import BarGraphPoliceDispatch from './components/Graph/Bar/BarGraphPoliceDispatch';
 import BarGraphSeoulCrime from './components/Graph/Bar/BarGraphSeoulCrime';
 import GraphDrawer from './components/Graph/GraphDrawer';
-import Navbar from './components/Header/Navbar';
 import StackedBarplot from './components/Graph/StackedBarplot/StackedBarplot';
 import SeoulCrimeMap2019 from './components/Graph/Map/SeoulCrimeMap2019';
 import SeoulCrimeMap2018 from './components/Graph/Map/SeoulCrimeMap2018';
@@ -22,13 +25,25 @@ import SeoulCrimeMap2017 from './components/Graph/Map/SeoulCrimeMap2017';
 import SeoulCrimeMap2016 from './components/Graph/Map/SeoulCrimeMap2016';
 import SeoulCrimeMap2015 from './components/Graph/Map/SeoulCrimeMap2015';
 import SeoulCrimeMap2014 from './components/Graph/Map/SeoulCrimeMap2014';
-import LoadingSpinner from "./components/UI/LoadingSpinner";
 
 function App() {
   const [boardLists, setBoardLists]         = useState(null);
-  const [error, setError]                   = useState(null);
-  const [isAuth, setIsAuth]                 = useState(false);
   const [data, reportData, seoulCrimetData] = UseData();
+  const [isChanged, setIsChanged]           = useState(false);
+  const isAuth                              = useSelector(state => state.auth.isAuthenticated);
+  const dispatch                            = useDispatch();
+  useEffect(() => {
+    axios.get('/checkAuthentication')
+         .then(res => {
+          if(res.data.isAuth){
+            dispatch(authActions.login({userEmail: res.data.userEmail, userId: res.data.userId}));
+          }
+      })
+      .catch((error) => {
+        console.log(error);
+    });
+
+  }, [dispatch]);
 
   useEffect(() => {
     const getBoardLists = async() =>{
@@ -47,38 +62,37 @@ function App() {
             brokenHeart: d.brokenheart,
           };
         });
-        setBoardLists(data);
+        setBoardLists(data.reverse());
   
     }
 
     getBoardLists();
-  }, []);
-
-  // 5. 로그인 세션
-  // 6. App.js 정리
-  // 7. 배포전 코드 확인 및 링크 수정
-  // 8. 히로쿠 연동
-  // 9. 깃허브 페이지
-
+  }, [isChanged]);
   return (
     <div className={classes.App}>
-      <CssBaseline/>
-      {boardLists === null? <LoadingSpinner />:
-        <Router>
+      <Router>
+        <Layout>
+          <CssBaseline/>
           <Switch>
             {/* Main */}
-            <Route path="/" exact render={()=> <Main auth={isAuth} logout={setIsAuth}/>} />
-            <Route path="/main" render={()=> <Main auth={isAuth} logout={setIsAuth}/>} />
+            <Route path="/" exact>
+              <Redirect to="/main"/>
+            </Route>
+            <Route path="/main" render={()=> <Main/>} />
+
             {/* Board */}
             <Route path="/api/board/boardlist" exact render={()=> <BoardList boardLists={boardLists} />} />
-            <Route path="/api/board/boardlist/write"  component={WritingForm}/>
+            <Route path="/api/board/boardlist/write" render={props => <WritingForm  {...props} isChanged={setIsChanged} />} />
+
             {/* Login & Join */} 
-            <Route exact path="/api/signin" render={props => <SignInMain setAuth={setIsAuth} {...props} />} />
+            <Route exact path="/api/signin" render={props => <SignInMain {...props} />} />
             <Route exact path="/api/signup" render={props => <SignUp {...props} />} />
             
+            {/* Accout */}
+            {isAuth && <Route path="/api/mypage" exact render={() => <MyPage/>} />}
+
             {/* Graph */}
             <Container maxWidth="lg">
-              <Navbar auth={isAuth}/>
               <GraphDrawer/>
               <Route path="/api/graph" exact render={() => <StackedBarplot data={data}/>} />
               <Route path="/api/graph/graph2" render={() => <LineArrestedCrimes data={data}/>} />
@@ -99,12 +113,12 @@ function App() {
               <Route exact path="/api/graph/seoulCrimeMap/graph2015" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2015"/>}/>
               <Route exact path="/api/graph/seoulCrimeMap/graph2014" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2014"/>}/>
             </Container>
-
+            
             {/* Not Found Page */}
             <Route component={NotFound} />
           </Switch>
-        </Router>
-      }
+        </Layout>
+      </Router>
     </div>
   );
 }

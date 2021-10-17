@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Fab, Grid, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import EditIcon from '@material-ui/icons/Edit';
-import Footer from "../../Main/Footer";
-import Navbar from "../../Header/Navbar";
 import axios from "axios";
 const useStyles = makeStyles(() =>({
     inputTxt:{
@@ -26,7 +24,7 @@ const useStyles = makeStyles(() =>({
 }));
 
 
-const WritingForm = ({ history }) => {
+const WritingForm = (props) => {
     const classes                       =   useStyles();
     const [postTitle, setPostTitle]     =   useState(null);
     const [postContent, setPostContent] =   useState(null);
@@ -42,10 +40,12 @@ const WritingForm = ({ history }) => {
         event.preventDefault();
         axios.post("/api/board/boardlist", {
             title: postTitle,
-            content: postContent
+            content: postContent,
+            userId: props.userId,
         })
         .then(() => {
-            history.push("/api/board/boardlist");
+            props.isChanged(true);
+            window.location.replace("/api/board/boardlist");
         })
         .catch(err => console.log(err));
 
@@ -55,7 +55,6 @@ const WritingForm = ({ history }) => {
 
     return(
         <>
-        <Navbar/>
         <section className={classes.section}>
                 <form noValidate autoComplete="off" >
                     <Grid container spacing={0} alignItems="flex-start" justifyContent="center" >
@@ -69,7 +68,6 @@ const WritingForm = ({ history }) => {
                     </Grid>
                 </form>
         </section>
-                <Footer/>
         </>
     );
 };

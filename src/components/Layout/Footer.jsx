@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#284168",
         width: "100%",
         height: "200px",
-        textAlign: "center"
+        textAlign: "center",
     },
 
     icon:{
@@ -34,7 +34,7 @@ const Footer = () => {
             <a href="https://www.linkedin.com/in/yoonsuk-chang-577b64125/">
                 <LinkedInIcon className={classes.icon}/>
             </a>
-            <a href="https://yoondev83.github.io/portfolio_Yoon/">
+            <a href="https://yoondev83.github.io/Yoon_Portfolio/">
                 <GitHubIcon className={classes.icon}/>
             </a>
             <p className={classes.copyright}>©2021 Yoonsuk Chang</p>

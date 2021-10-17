@@ -46,11 +46,11 @@ const BarGraphSeoulCrime = props =>{
     }
     
     useEffect(() => {
-        selectedYearData.map(d => {
+        selectedYearData.forEach(d => {
             districts.push(d.District);
             incidents.push(d.Total_Incidents);
       });
-    }, []);
+    }, [selectedYearData]);
 
     const data = {
       labels: districts,

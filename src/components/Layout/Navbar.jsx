@@ -11,6 +11,8 @@ import Menu from '@material-ui/core/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import Menus from './Menus';
 import { Link } from 'react-router-dom';
+import {useDispatch, useSelector} from "react-redux";
+import { authActions } from '../../store/auth-slice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,12 +74,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = props => {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-
+  const classes                               = useStyles();
+  const dispatch                              = useDispatch();
+  const [anchorEl, setAnchorEl]               = useState(null);
+  const open                                  = Boolean(anchorEl);
+  const isAuth                                = useSelector(state => state.auth.isAuthenticated);
   const handleChange = (event) => {
-    props.logout(false);
+    dispatch(authActions.logout());
   };
 
   const handleMenu = (event) => {
@@ -91,23 +94,22 @@ const Navbar = props => {
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
-        <Toolbar className={props.isAuth === true? classes.titleLogin:classes.title}>
+        <Toolbar className={isAuth === true? classes.titleLogin:classes.title}>
           <Menus/>
       <FormGroup>
         <FormControlLabel
-          control={<Switch checked={props.isAuth} onChange={handleChange} aria-label="login switch" />} className={!props.isAuth? classes.formControlLab: classes.authForm}
-          label={props.isAuth ? 'Logout' : <Link to="/api/signin" className={classes.loginBtn}>Login</Link>}
+          control={<Switch checked={isAuth} onChange={handleChange} aria-label="login switch" />} className={!isAuth? classes.formControlLab: classes.authForm}
+          label={isAuth ? 'Logout' : <Link to="/api/signin" className={classes.loginBtn}>Login</Link>}
         />
       </FormGroup>
-          {props.isAuth && (
+          {isAuth && (
             <div className={classes.authDiv}>
               <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
                 <AccountCircle />
               </IconButton>
               <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{vertical: 'top',horizontal: 'right',}} keepMounted 
                     transformOrigin={{vertical: 'top', horizontal: 'right',}} open={open} onClose={handleClose}>
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem component={Link} to="/api/mypage" onClick={handleClose}>Profile</MenuItem>
               </Menu>
             </div>
           )}

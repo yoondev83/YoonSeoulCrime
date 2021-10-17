@@ -1,29 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import {useSelector} from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import {Container} from "@material-ui/core"
 import WritingBtn from './WritingBtn';
-import SearchBtn from './SearchBtn';
-import { withRouter  } from 'react-router-dom';
-import Navbar from '../Header/Navbar';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Post from './Post';
-import Footer from '../Main/Footer';
-import axios from 'axios';
-
-
 import PropTypes from 'prop-types';
 import { useTheme } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -32,13 +21,14 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import LoadingSpinner from '../UI/LoadingSpinner';
 
-
-
-
 const useStyles = makeStyles((theme) => ({
   boardContainer: {
     paddingBottom: "100px",
     paddingTop: 120,
+    height: "100%",
+  },
+  paper:{
+    backgroundColor: "#252933",
   },
   tablePagin: {
     backgroundColor: "#252933",
@@ -47,8 +37,12 @@ const useStyles = makeStyles((theme) => ({
   selectDropdown:{
     color: "black",
   },
+  titleDiv:{
+    width: "100%",
+    paddingTop: 0,
+  },
   titleHeading: {
-    fontSize: theme.typography.pxToRem(24),
+    fontSize: theme.typography.pxToRem(20),
     fontWeight: theme.typography.fontWeightRegular,
     paddingTop: "1.5%",
     [theme.breakpoints.down('xs')]: {
@@ -65,11 +59,8 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     
   },
-  titleDiv:{
-    width: "100%",
-  },
   dateDiv:{
-    paddingTop: "2%",
+    paddingTop: "10px",
     marginRight: 15,
     textAlign: "right",
     tableLayout: "fixed",
@@ -80,8 +71,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   dateTxt: {
-    fontSize: theme.typography.pxToRem(18),
-    paddingTop: "2%",
+    fontSize: theme.typography.pxToRem(20),
+    paddingBottom: "10px",
     [theme.breakpoints.down('xs')]: {
       fontSize: theme.typography.pxToRem(15),
     },
@@ -196,17 +187,12 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-// const useStyles2 = makeStyles({
-//   table: {
-//     minWidth: 500,
-//   },
-// });
-
 const BoardList = props => {
   const classes                       = useStyles();
   const [page, setPage]               = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const emptyRows                     = rowsPerPage - Math.min(rowsPerPage, props.boardLists.length - page * rowsPerPage);
+  const isAuth                        = useSelector(state => state.auth.isAuthenticated);
+  // const emptyRows                     = rowsPerPage - Math.min(rowsPerPage, props.boardLists.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -219,23 +205,21 @@ const BoardList = props => {
     return(
             <>
               <Container maxWidth="lg" className={classes.boardContainer}>
-                <Navbar/>
-                <WritingBtn/>
-                <SearchBtn />
-                <TableContainer component={Paper}>
-                  {props.boardLists === null? <LoadingSpinner/> : 
-                  <Table className={classes.table} aria-label="custom pagination table">
-                    <TableBody className={classes.accodrionSummary}>
-                      {(rowsPerPage > 0 ? props.boardLists.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                {isAuth && <WritingBtn/>}
+                {/* <SearchBtn /> */}
+                <TableContainer component={Paper} className={classes.paper}>
+                  {props.boardLists === null? <LoadingSpinner/> :
+                  <div>
+                  {(rowsPerPage > 0 ? props.boardLists.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : props.boardLists
                       ).map((article) => (
                         <Accordion key={article.date} className={classes.accodrionBoard}>
                           <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" className={classes.accodrionSummary}>
                             <div className={classes.titleDiv}>
-                            <Typography className={classes.titleHeading}>{article.title}</Typography>
+                              <Typography className={classes.titleHeading}>{article.title.length > 40? article.title.slice(0, 40) + "...": article.title}</Typography>
                             </div>
                             <div className={classes.dateDiv}>
-                            <Typography className={classes.dateTxt}>{article.date.toString().slice(0, 10)}</Typography>
+                              <Typography className={classes.dateTxt}>{article.date.toString().slice(0, 10)}</Typography>
                             </div>
                             <div className={classes.heartDiv}>
                               <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
@@ -251,30 +235,18 @@ const BoardList = props => {
                         </AccordionDetails>
                         </Accordion>
                       ))}
-                      {/* 10개 게시물이 안 차는 경우 만들어짐. */}
-                      {/* {emptyRows > 0 && (
-                        <TableRow style={{ height: 30 * emptyRows }}>
-                          <TableCell colSpan={3} />
-                        </TableRow>
-                      )} */}
-                    </TableBody>
-                    <TableFooter>
-                      <TableRow>
-                        <TablePagination rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]} colSpan={3} count={props.boardLists.length}
-                          rowsPerPage={rowsPerPage} page={page} className={classes.tablePagin}
+                      <TablePagination rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]} colSpan={3} count={props.boardLists.length}
+                          rowsPerPage={rowsPerPage} page={page} className={classes.tablePagin} component="div"
                           SelectProps={{
                             MenuProps: { classes: {paper: classes.selectDropdown} },
                             inputProps: { 'aria-label': 'rows per page' },
-                            // native: true,
                           }}
                           onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} ActionsComponent={TablePaginationActions}/>
-                      </TableRow>
-                    </TableFooter>
-                  </Table>
+                  </div> 
+                          
                   }
                 </TableContainer>
               </Container>
-          <Footer/>
           </>
     );
 };

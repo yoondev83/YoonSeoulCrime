@@ -21,7 +21,7 @@ const LineArrestedCrimes = props => {
   defaults.font.size="15";
   
   useEffect(() => {
-    props.data.data.map(y => {
+    props.data.data.forEach(y => {
       year.push(y.Year);
 
       //arrest

@@ -9,9 +9,9 @@ const mapSeoulDistricts     = features;
 
 
 export const UseData = () => {
-    const [data, setData]   = useState(null);
-    const [reportData, setReportData]   = useState(null);
-    const [seoulCrimetData, setSeoulCrimeData]   = useState(null);
+    const [data, setData]   = useState([]);
+    const [reportData, setReportData]   = useState([]);
+    const [seoulCrimetData, setSeoulCrimeData]   = useState([]);
     
     const setDistrictColor = mapDistrict => {
         const legendItem2019 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2019));

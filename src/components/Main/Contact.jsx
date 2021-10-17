@@ -163,16 +163,16 @@ const Contact = () => {
                                 <TextField id="standard-required" label="First Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
                             </Grid>
                             <Grid className={classes.grid} item sm={12} md={12}>
-                                <TextField id="standard-required" label="Last Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
+                                <TextField required id="standard-required" label="Last Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
                             </Grid>
                             <Grid className={classes.grid} item sm={12} md={12}>
-                                <TextField id="standard-required" label="Email" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
+                                <TextField required id="standard-required" label="Email" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
                             </Grid>
                             <Grid className={classes.grid} item sm={12} md={12}>
                                 <TextField required id="standard-multiline-static" label="Message" fullWidth multiline rows={4} InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText }} />
                             </Grid>
                             <Grid className={classes.grid} item sm={12} md={12}>
-                                <Button variant="contained" color="secondary" className={classes.sendBtn}> <Typography variant="h6" align="center">Send</Typography></Button>
+                                <Button variant="contained" color="secondary" className={classes.sendBtn} href="mailto:yoondev83@gmail.com"> <Typography variant="h6" align="center">Send</Typography></Button>
                             </Grid>
                             
                         </form>

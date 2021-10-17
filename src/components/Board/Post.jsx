@@ -1,4 +1,5 @@
 import { Grid, Paper, Typography } from "@material-ui/core";
+import {useSelector} from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from "clsx";
@@ -22,9 +23,9 @@ const useStyles = makeStyles({
     },
     heart:{
         width: "68px",
-        height: "80px",
+        height: "65px",
         paddingBottom: 0,
-        marginRight: 30
+        marginRight: 15
     },
     brokenHeart:{
         width: "60px",
@@ -42,31 +43,43 @@ const Post = props => {
     const classes                    =   useStyles();
     const [heart, setHeart]          =   useState(props.data.heart);
     const [brokenHeart, setBrkHeart] =   useState(props.data.brokenHeart);
+    const [heartPoint, setHeartPoint]=   useState(1);
+    const isAuth                     =   useSelector(state => state.auth.isAuthenticated);
     const heartBtnHandler            =  () =>{
-        setHeart(heart+1);
-        console.log(heart);
-        axios.patch("/api/board/boardlist",{
-            postNum: props.data.articleNum,
-            heart: heart+1
-        }).then(console.log("성공"))
-        .catch(err => console.log(err));
+        if(heartPoint < 1){
+            return;
+        }
+        else{
+            setHeartPoint(heartPoint-1);
+            setHeart(heart+1);
+            axios.patch("/api/board/boardlist",{
+                postNum: props.data.articleNum,
+                heart: heart+1
+            }).then(console.log("성공"))
+            .catch(err => console.log(err));
+        }
     }
     const brokenHeartBtnHandler      =  () =>{
+        if(heartPoint < 1){
+            return;
+        }
+        else{
+        setHeartPoint(heartPoint-1);
         setBrkHeart(brokenHeart+1);
-        
         axios.patch("/api/board/boardlist",{
             postNum: props.data.articleNum,
             brokenHeart: brokenHeart+1,
         }).then(console.log("성공"))
         .catch(err => console.log(err));
+        }
     }
-
     return(
             <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0}>
                 <Grid item xs={12}>
                     <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>{props.data.userId}</Typography></Paper>
                     <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'} className={classes.content}>{props.data.content}</Typography></Paper>
                 </Grid>
+                {isAuth &&
                 <Grid item xs={12} className={classes.iconGrid}>
                     <IconButton aria-label="heart" onClick={heartBtnHandler}>
                         <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
@@ -77,6 +90,7 @@ const Post = props => {
                         <Typography component={'span'} variant={"subtitle1"} className={classes.content}>{brokenHeart}</Typography>
                     </IconButton>
                 </Grid>
+                }
             </Grid>
 
     );

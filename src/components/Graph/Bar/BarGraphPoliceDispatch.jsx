@@ -10,12 +10,12 @@ const BarGraphPoliceDispatch = props =>{
     const within5Min        =   [];
 
     useEffect(() => {
-        props.data.data.map(d => {
+        props.data.data.forEach(d => {
             year.push(d.Year);
             dispatcherVolume.push(d.The_Total_112_Dispatcher_Volume);
             within5Min.push(d.Within_5min);
       });
-    }, []);
+    }, [props.data.data]);
 
     const data = {
       labels: year,
@@ -59,7 +59,6 @@ const BarGraphPoliceDispatch = props =>{
           }
       },
     };
-console.log(props.data);
     return(
         <div className='header'>
             <h1 className={classes.title}>How Fast Is The Seoul Police? (2005 - 2009)</h1>

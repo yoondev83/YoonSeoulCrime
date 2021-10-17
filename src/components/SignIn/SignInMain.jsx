@@ -9,18 +9,16 @@ import LockIcon from '@material-ui/icons/Lock';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useState} from "react";
-
+import {useDispatch} from "react-redux";
+import {authActions} from "../../store/auth-slice";
 const useStyles = makeStyles((theme) => ({
     section:{
         height:"100vh",
-        [theme.breakpoints.down('md')]: {
-            height:"100%",
-          },
     },
     loginBox:{
         paddingTop: "8%",
         [theme.breakpoints.down('md')]: {
-            paddingTop: "20%",
+            paddingTop: "250px",
           },
         [theme.breakpoints.down('xs')]: {
             paddingTop: "40%",
@@ -81,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignInMain = (props) => {
     const classes                       = useStyles();
+    const dispatch                      = useDispatch();
     const [userEmail, setUserEmail]     = useState(null);
     const [userPass, setUserPass]       = useState(null);
     const [loginError, setLoginError]   = useState(false);
@@ -100,7 +99,7 @@ const SignInMain = (props) => {
         })
         .then(res =>{
             if(res.data.authentication === true){
-                props.setAuth(true);
+                dispatch(authActions.login({userEmail: res.data.userEmail, userId: res.data.userId}));
                 props.history.push("/main");
             }else{
                 setLoginError(true);
@@ -132,7 +131,7 @@ const SignInMain = (props) => {
             </Grid>
             {loginError &&  <Typography className={classes.errorText} align="center">Check Your Email or Password!</Typography>}
             <Grid item xs={12} className={classes.inputGrid}>
-                <Typography  display="inline" align="left" className={clsx(classes.findTxt, classes.findTxtId)}>Forgot your password?</Typography>
+                {/* <Typography  display="inline" align="left" className={clsx(classes.findTxt, classes.findTxtId)}>Forgot your password?</Typography> */}
             </Grid>
             <Grid item xs={12}>
                 <Button type="submit" className={classes.loginBtn} >Login</Button>

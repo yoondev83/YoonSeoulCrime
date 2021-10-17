@@ -19,8 +19,10 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
     },
     joinBox:{
-        paddingTop: "10%",
+        paddingTop: "5%",
+        paddingBottom: "100px",
         textAlign:"right",
+        height:"100vh",
         [theme.breakpoints.down('sm')]: {
             paddingTop: "12%",
             width: "100%",
@@ -73,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = props => {
     const classes                       = useStyles();
     const [open, setOpen]               = useState(false);
-    
     //custom hook
     const { value: enteredEmail ,
         validation: emailValidation,
@@ -95,18 +96,16 @@ const SignUp = props => {
         valueChangeHandler: passChangeHandler,
         inputBlurHandler: passBlurHandler,
         reset: resetPassInput}            = useInput(value => value.trim() !=='' && value.length >= 6);
-    const { value: enteredRePass ,
+    const {
         isValid: enteredRePassIsValid,
         hasError: rePassInputHasError,
         valueChangeHandler: rePassChangeHandler,
         inputBlurHandler: rePassBlurHandler,
         reset: resetRePassInput}          = useInput(value => value.trim() !=='' && value.length >= 6 && value === enteredPass);
+    const idInputClasses                  = idInputHasError? clsx(classes.joinInput, classes.invalid): classes.joinInput;
+    const emailInputClasses               = emailInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
+    const passInputClasses                = passInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
     
-    let formIsValid                     = false;
-    if(enteredIdIsValid && enteredEmailIsValid && enteredPassIsValid && enteredRePassIsValid && emailValidation && idValidation){
-        formIsValid = true;
-    };
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -123,7 +122,7 @@ const SignUp = props => {
             userMemberPass: enteredPass,
         })
         .then(res => {
-            props.history.push("/main")
+            props.history.push("/main");
         })
         .catch(err => console.log(err) );
         
@@ -132,10 +131,6 @@ const SignUp = props => {
         resetPassInput();
         resetRePassInput();
     }
-
-    const idInputClasses       =   idInputHasError? clsx(classes.joinInput, classes.invalid): classes.joinInput;
-    const emailInputClasses    =   emailInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
-    const passInputClasses     =   passInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
     return (
         <section>
             <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
@@ -177,7 +172,7 @@ const SignUp = props => {
                         {passInputHasError && <Typography className={classes.errorText} align="center">Enter Valid Password</Typography>}
                     </Grid>
                     <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
-                        <Input type="password" name="userPassCheck" placeholder="Password" onChange={rePassChangeHandler} onBlur={rePassBlurHandler}
+                        <Input type="password" name="userPassCheck" placeholder="Confirm Password" onChange={rePassChangeHandler} onBlur={rePassBlurHandler}
                                startAdornment={( <InputAdornment position="start">
                                     <LockIcon />
                                     </InputAdornment>)}

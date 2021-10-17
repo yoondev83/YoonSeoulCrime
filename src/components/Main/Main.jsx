@@ -4,9 +4,7 @@ import MainBodyContent from './MainBodyContent';
 import Contact from './Contact';
 import Typography from '@material-ui/core/Typography';
 import { Container, makeStyles } from '@material-ui/core';
-import Navbar from '../Header/Navbar';
 import Paper from '@material-ui/core/Paper';
-import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
     mainText: {
@@ -19,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
             top: "30%",
             left: "6%",
         },
-          
     },
     mainTextFir: {
         fontSize: "35px",
@@ -66,16 +63,12 @@ const useStyles = makeStyles((theme) => ({
             paddingBottom: 800
         },
     }
-
 }));
-
 
 const Main = props => {
     const classes = useStyles();
-
     return (
         <>
-            <Navbar isAuth={props.auth} logout={props.logout}/>
             <div className={classes.mainText}>
                 <Typography variant="h1" align="left" className={classes.mainTextFir}>THE VISUALIZED CRIME DATA IN SEOUL </Typography>
                 <Typography variant="h4" align="left" className={classes.mainTextSec}>Easy to Access & Free for Everyone </Typography>
@@ -92,7 +85,6 @@ const Main = props => {
             <div>
                 <Contact />
             </div>
-            <Footer />
         </>
     );
 };
