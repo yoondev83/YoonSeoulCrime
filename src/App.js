@@ -70,7 +70,7 @@ function App() {
   }, [isChanged]);
   return (
     <div className={classes.App}>
-      <Router>
+      <Router basename="/YoonSeoulCrimeFront">
         <Layout>
           <CssBaseline/>
           <Switch>
