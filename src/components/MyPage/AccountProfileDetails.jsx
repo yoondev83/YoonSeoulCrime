@@ -98,7 +98,7 @@ const AccountProfileDetails = (props) => {
     const deleteBtnHandler                = (event) =>{
       event.preventDefault();
       dispatch(authActions.logout());
-      axios.post("/api/account/removal", {userEmail: userEmail})
+      axios.post("https://mighty-cliffs-33902.herokuapp.com/api/account/removal", {userEmail: userEmail})
       .then(res => {
              window.location.replace("/main");
            })
@@ -108,7 +108,7 @@ const AccountProfileDetails = (props) => {
         event.preventDefault();
 
         if(!passInputHasError && !rePassInputHasError && enteredPass !== ''){
-          axios.patch("/api/account/change", {userEmail: userEmail, userPass: enteredPass})
+          axios.patch("https://mighty-cliffs-33902.herokuapp.com/api/account/change", {userEmail: userEmail, userPass: enteredPass})
           .then(res => {
             setIsAnswerYes(true);
           })

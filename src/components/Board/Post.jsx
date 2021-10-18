@@ -52,7 +52,7 @@ const Post = props => {
         else{
             setHeartPoint(heartPoint-1);
             setHeart(heart+1);
-            axios.patch("/api/board/boardlist",{
+            axios.patch("https://mighty-cliffs-33902.herokuapp.com/api/board/boardlist",{
                 postNum: props.data.articleNum,
                 heart: heart+1
             }).then(console.log("성공"))
@@ -66,7 +66,7 @@ const Post = props => {
         else{
         setHeartPoint(heartPoint-1);
         setBrkHeart(brokenHeart+1);
-        axios.patch("/api/board/boardlist",{
+        axios.patch("https://mighty-cliffs-33902.herokuapp.com/api/board/boardlist",{
             postNum: props.data.articleNum,
             brokenHeart: brokenHeart+1,
         }).then(console.log("성공"))
