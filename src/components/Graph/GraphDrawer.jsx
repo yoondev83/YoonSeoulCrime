@@ -13,10 +13,15 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme)=> ({
   drawerDiv:{
     marginTop:80,
-    paddingLeft:0,
+    textAlign:"left",
+    paddingLeft: "350px",
+    [theme.breakpoints.down('lg')]: {
+      paddingLeft: "300px",
+    },
     [theme.breakpoints.down('md')]: {
       paddingTop:30,
       paddingBottom: 10,
+      paddingLeft: "30px",
     },
     [theme.breakpoints.down('xs')]: {
       paddingTop:40,

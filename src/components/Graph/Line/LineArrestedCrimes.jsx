@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { Line } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import ShowRawData from "../StackedBarplot/ShowRawData";
 import classes from "./LineArrestedCrimes.module.css";
-
+import { Container} from '@material-ui/core';
 const LineArrestedCrimes = props => {
   const year = [];
   // reports
@@ -20,10 +20,10 @@ const LineArrestedCrimes = props => {
   //graph
   defaults.font.size="15";
   
-  useEffect(() => {
+  if(props.data.data){
     props.data.data.forEach(y => {
       year.push(y.Year);
-
+  
       //arrest
       violentCrimeArrests.push(y.Violent_crime_arrests);
       larcenyArrests.push(y.Larceny_arrests);
@@ -33,7 +33,7 @@ const LineArrestedCrimes = props => {
       otherCrimeArrests.push(y.Other_crime_arrests);
       specialCrimeArrests.push(y.Special_act_violation_arrests);
     });
-  }, []);
+  }
   
     const data = {
         labels: year,
@@ -166,11 +166,13 @@ const LineArrestedCrimes = props => {
     
 
     return(
+      <Container maxWidth="lg">
           <div className='header'>
             <h1 className={classes.title}>The Arrested Crimes (2010-2020) </h1>
             <Line data={data} options={options} />
             <ShowRawData data={props.data}/>
           </div>
+      </Container>
     );
 };
 

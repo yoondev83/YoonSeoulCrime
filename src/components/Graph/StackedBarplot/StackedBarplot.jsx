@@ -1,23 +1,24 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import {Bar} from "react-chartjs-2";
 import { defaults } from 'react-chartjs-2';
 import ShowRawData from "./ShowRawData";
 import classes from "./StackedBarplot.module.css";
-
+import { Container} from '@material-ui/core';
 const StackedBarplot = props => {
   const year = [];
   const totalReport = [];
   const totalArrest = [];
   // const arbitraryStackKey = "stack1";
   defaults.font.size="15";
-
-  useEffect(() => {
+  
+  if(props.data.data){
     props.data.data.forEach(y => {
       year.push(y.Year);
       totalReport.push(y.Total_reports);
       totalArrest.push(y.Total_arrests);
     });
-  }, []);
+  }
+
   
     const data = {
         labels:year,
@@ -90,13 +91,17 @@ const StackedBarplot = props => {
       
       };
     
-
+      useEffect(() => {
+        window.scrollTo(0,0);
+    }, [])
     return(
+      <Container maxWidth="lg">
           <div className='header'>
             <h1 className={classes.title}>The Total Number of Reported Crimes & Arrests (2010-2020)</h1>
             <Bar data={data} options={options}/>
             <ShowRawData data={props.data}/>
           </div>
+      </Container>
     );
 };
 

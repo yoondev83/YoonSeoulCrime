@@ -116,7 +116,7 @@ const SignUp = props => {
         if(!enteredIdIsValid || !enteredEmailIsValid || !enteredPassIsValid || !enteredRePassIsValid || !emailValidation || !idValidation){
             return;
         }
-        axios.post("https://mighty-cliffs-33902.herokuapp.com/api/signup", {
+        axios.post("/api/signup", {
             userMemberId: enteredId,
             userMemberEmail : enteredEmail,
             userMemberPass: enteredPass,

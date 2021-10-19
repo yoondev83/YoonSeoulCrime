@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-do
 import Layout from './components/Layout/Layout';
 import {useDispatch, useSelector} from "react-redux";
 import { authActions } from './store/auth-slice';
-import { Container, CssBaseline } from '@material-ui/core';
 import Main from './components/Main/Main';
 import BoardList from './components/Board/BoardList';
 import classes from "./App.module.css";
@@ -17,7 +16,6 @@ import LineArrestedCrimes from './components/Graph/Line/LineArrestedCrimes';
 import { UseData } from "./components/Graph/UseData";
 import BarGraphPoliceDispatch from './components/Graph/Bar/BarGraphPoliceDispatch';
 import BarGraphSeoulCrime from './components/Graph/Bar/BarGraphSeoulCrime';
-import GraphDrawer from './components/Graph/GraphDrawer';
 import StackedBarplot from './components/Graph/StackedBarplot/StackedBarplot';
 import SeoulCrimeMap2019 from './components/Graph/Map/SeoulCrimeMap2019';
 import SeoulCrimeMap2018 from './components/Graph/Map/SeoulCrimeMap2018';
@@ -33,7 +31,7 @@ function App() {
   const isAuth                              = useSelector(state => state.auth.isAuthenticated);
   const dispatch                            = useDispatch();
   useEffect(() => {
-    axios.get('https://mighty-cliffs-33902.herokuapp.com/checkAuthentication')
+    axios.get('/checkAuthentication')
          .then(res => {
           if(res.data.isAuth){
             dispatch(authActions.login({userEmail: res.data.userEmail, userId: res.data.userId}));
@@ -47,7 +45,7 @@ function App() {
 
   useEffect(() => {
     const getBoardLists = async() =>{
-        const response    = await axios.get("https://mighty-cliffs-33902.herokuapp.com/api/board/boardlist");
+        const response    = await axios.get("/api/board/boardlist");
         if (response.status !== 200){
           throw new Error("Oops!!");
         }
@@ -72,7 +70,7 @@ function App() {
     <div className={classes.App}>
       <Router basename="/YoonSeoulCrimeFront">
         <Layout>
-          <CssBaseline/>
+          {/* <CssBaseline/> */}
           <Switch>
             {/* Main */}
             <Route path="/" exact>
@@ -90,14 +88,12 @@ function App() {
             
             {/* Accout */}
             {isAuth && <Route path="/api/mypage" exact render={() => <MyPage/>} />}
-
+            
             {/* Graph */}
-            <Container maxWidth="lg">
-              <GraphDrawer/>
-              <Route path="/api/graph" exact render={() => <StackedBarplot data={data}/>} />
-              <Route path="/api/graph/graph2" render={() => <LineArrestedCrimes data={data}/>} />
-              <Route path="/api/graph/graph3" render={() => <BarGraphPoliceDispatch data={reportData}/>} />
-              <Route path="/api/graph/graph4" render={() => <BarGraphSeoulCrime data={seoulCrimetData}/>} />
+              <Route exact path="/api/graph"  render={() => <StackedBarplot data={data}/>} />
+              <Route exact path="/api/graph/graph2" render={() => <LineArrestedCrimes data={data}/>} />
+              <Route exact path="/api/graph/graph3" render={() => <BarGraphPoliceDispatch data={reportData}/>} />
+              <Route exact path="/api/graph/graph4" render={() => <BarGraphSeoulCrime data={seoulCrimetData}/>} />
 
               <Route exact path="/api/graph/seoulCrimeMap" render={() => <SeoulCrimeMap2019 data={seoulCrimetData}/>}/>
               <Route exact path="/api/graph/seoulCrimeMap/2019" render={() => <SeoulCrimeMap2019 data={seoulCrimetData}/>}/>
@@ -112,10 +108,10 @@ function App() {
               <Route exact path="/api/graph/seoulCrimeMap/graph2016" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2016"/>}/>
               <Route exact path="/api/graph/seoulCrimeMap/graph2015" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2015"/>}/>
               <Route exact path="/api/graph/seoulCrimeMap/graph2014" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2014"/>}/>
-            </Container>
+              
+              {/* Not Found Page */}
+              <Route path="*" component={NotFound} />
             
-            {/* Not Found Page */}
-            <Route component={NotFound} />
           </Switch>
         </Layout>
       </Router>

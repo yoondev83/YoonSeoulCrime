@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import LoadingSpinner from '../../UI/LoadingSpinner';
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -35,6 +35,7 @@ const ShowRawData = props => {
   
   return (
     <TableContainer component={Paper} className={classes.tableContainer}>
+    {props.data.data === undefined? <LoadingSpinner />:
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead >
           <TableRow>
@@ -69,6 +70,7 @@ const ShowRawData = props => {
           ))}
         </TableBody>
       </Table>
+    }
     </TableContainer>
   );
 }
