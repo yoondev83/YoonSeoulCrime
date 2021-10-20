@@ -116,7 +116,7 @@ const SignUp = props => {
         if(!enteredIdIsValid || !enteredEmailIsValid || !enteredPassIsValid || !enteredRePassIsValid || !emailValidation || !idValidation){
             return;
         }
-        axios.post("/api/signup", {
+        axios.post("https://pure-shelf-22063.herokuapp.com/api/signup", {
             userMemberId: enteredId,
             userMemberEmail : enteredEmail,
             userMemberPass: enteredPass,
