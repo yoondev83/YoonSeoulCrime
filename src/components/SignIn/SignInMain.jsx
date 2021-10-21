@@ -94,9 +94,18 @@ const SignInMain = (props) => {
     const submitHandler = event => {
         event.preventDefault();
         axios.post("https://pure-shelf-22063.herokuapp.com/api/signin", {
+            headers:{
+                withCredentials: true,
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length, X-PINGOTHER, Content-Type"
+            },
+            data:{
             userMemberEmail: userEmail,
             userMemberPass: userPass
-        },  {header:{ withCredentials: true }})
+            }
+        })
         .then(res =>{
             if(res.data.authentication === true){
                 dispatch(authActions.login({userEmail: res.data.userEmail, userId: res.data.userId}));
