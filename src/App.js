@@ -31,7 +31,7 @@ function App() {
   const isAuth                              = useSelector(state => state.auth.isAuthenticated);
   const dispatch                            = useDispatch();
   useEffect(() => {
-    axios.get('/checkAuthentication')
+    axios.get('https://salty-dusk-00893.herokuapp.com/checkAuthentication')
          .then(res => {
           if(res.data.isAuth){
             dispatch(authActions.login({userEmail: res.data.userEmail, userId: res.data.userId}));
@@ -45,7 +45,7 @@ function App() {
 
   useEffect(() => {
     const getBoardLists = async() =>{
-        const response    = await axios.get("/api/board/boardlist");
+        const response    = await axios.get("https://salty-dusk-00893.herokuapp.com/api/board/boardlist");
         if (response.status !== 200){
           throw new Error("Oops!!");
         }
