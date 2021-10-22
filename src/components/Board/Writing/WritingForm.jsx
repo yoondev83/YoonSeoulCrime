@@ -42,7 +42,10 @@ const WritingForm = (props) => {
             title: postTitle,
             content: postContent,
             userId: props.userId,
-        })
+        }, {
+            headers: { 
+            "Content-Type": "application/x-www-form-urlencoded"
+          }})
         .then(() => {
             props.isChanged(true);
             window.location.replace("/api/board/boardlist");

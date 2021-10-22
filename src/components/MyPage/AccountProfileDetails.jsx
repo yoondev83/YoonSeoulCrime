@@ -98,7 +98,10 @@ const AccountProfileDetails = (props) => {
     const deleteBtnHandler                = (event) =>{
       event.preventDefault();
       dispatch(authActions.logout());
-      axios.post("/api/account/removal", {userEmail: userEmail})
+      axios.post("/api/account/removal", {userEmail: userEmail}, {
+        headers: { 
+        "Content-Type": "application/x-www-form-urlencoded"
+      }})
       .then(res => {
              window.location.replace("/main");
            })
@@ -108,7 +111,10 @@ const AccountProfileDetails = (props) => {
         event.preventDefault();
 
         if(!passInputHasError && !rePassInputHasError && enteredPass !== ''){
-          axios.patch("/api/account/change", {userEmail: userEmail, userPass: enteredPass})
+          axios.patch("/api/account/change", {userEmail: userEmail, userPass: enteredPass}, {
+            headers: { 
+            "Content-Type": "application/x-www-form-urlencoded"
+          }})
           .then(res => {
             setIsAnswerYes(true);
           })

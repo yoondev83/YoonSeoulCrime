@@ -97,7 +97,10 @@ const SignInMain = (props) => {
             {
             userMemberEmail: userEmail,
             userMemberPass: userPass
-            }
+            }, {
+                headers: { 
+                "Content-Type": "application/x-www-form-urlencoded"
+              }}
         )
         .then(res =>{
             if(res.data.authentication === true){

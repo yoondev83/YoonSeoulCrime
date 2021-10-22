@@ -17,7 +17,10 @@ const authSlice = createSlice({
             console.log("logout!");
             state.isAuthenticated = false;
             state.userId          = null;
-            axios.post("/api/logout")
+            axios.post("/api/logout", {
+                headers: { 
+                "Content-Type": "application/x-www-form-urlencoded"
+              }})
             .then(res => console.log(res.data))
             .catch(err => console.log(err));
         },

@@ -55,7 +55,10 @@ const Post = props => {
             axios.patch("/api/board/boardlist",{
                 postNum: props.data.articleNum,
                 heart: heart+1
-            }).then(console.log("성공"))
+            }, {
+                headers: { 
+                "Content-Type": "application/x-www-form-urlencoded"
+              }}).then(console.log("성공"))
             .catch(err => console.log(err));
         }
     }
@@ -69,7 +72,10 @@ const Post = props => {
         axios.patch("/api/board/boardlist",{
             postNum: props.data.articleNum,
             brokenHeart: brokenHeart+1,
-        }).then(console.log("성공"))
+        }, {
+            headers: { 
+            "Content-Type": "application/x-www-form-urlencoded"
+          }}).then(console.log("성공"))
         .catch(err => console.log(err));
         }
     }

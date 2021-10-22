@@ -13,7 +13,10 @@ const useInput = validateValue => {
         setEnteredValue(event.target.value);
         axios.post("/api/signup/check/email", {
             userMemberEmail: event.target.value
-        })
+        }, {
+            headers: { 
+            "Content-Type": "application/x-www-form-urlencoded"
+          }})
         .then(res => {
             if(res.data.validation === true){
                 setValidation(true);
@@ -27,7 +30,10 @@ const useInput = validateValue => {
         setEnteredValue(event.target.value);
         axios.post("/api/signup/check/id", {
             userMemberId: event.target.value
-        })
+        }, {
+            headers: { 
+            "Content-Type": "application/x-www-form-urlencoded"
+          }})
         .then(res => {
             if(res.data.validation === true){
                 setValidationId(true);
