@@ -97,10 +97,10 @@ const Navbar = props => {
         <Toolbar className={isAuth === true? classes.titleLogin:classes.title}>
           <Menus/>
       <FormGroup>
-        <FormControlLabel
+        {/* <FormControlLabel
           control={<Switch checked={isAuth} onChange={handleChange} aria-label="login switch" />} className={!isAuth? classes.formControlLab: classes.authForm}
           label={isAuth ? 'Logout' : <Link to="/api/signin" className={classes.loginBtn}>Login</Link>}
-        />
+        /> */}
       </FormGroup>
           {isAuth && (
             <div className={classes.authDiv}>
