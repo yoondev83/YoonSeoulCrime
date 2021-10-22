@@ -38,14 +38,14 @@ const WritingForm = (props) => {
 
     const submitPostHandler = event => {
         event.preventDefault();
-        axios.post("https://pure-shelf-22063.herokuapp.com/api/board/boardlist", {
+        axios.post("/api/board/boardlist", {
             title: postTitle,
             content: postContent,
             userId: props.userId,
         })
         .then(() => {
             props.isChanged(true);
-            window.location.replace("https://pure-shelf-22063.herokuapp.com/api/board/boardlist");
+            window.location.replace("/api/board/boardlist");
         })
         .catch(err => console.log(err));
 

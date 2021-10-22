@@ -17,7 +17,7 @@ const authSlice = createSlice({
             console.log("logout!");
             state.isAuthenticated = false;
             state.userId          = null;
-            axios.post("https://pure-shelf-22063.herokuapp.com/api/logout")
+            axios.post("/api/logout")
             .then(res => console.log(res.data))
             .catch(err => console.log(err));
         },

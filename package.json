@@ -27,7 +27,7 @@
     "react-spinners": "^0.11.0",
     "web-vitals": "^1.1.2"
   },
-  "proxy": "https://pure-shelf-22063.herokuapp.com/",
+  "proxy": "https://salty-dusk-00893.herokuapp.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

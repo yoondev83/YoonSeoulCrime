@@ -11,7 +11,7 @@ const useInput = validateValue => {
 
     const valueChangeHandlerWithEmailValidation  =   event =>{
         setEnteredValue(event.target.value);
-        axios.post("https://pure-shelf-22063.herokuapp.com/api/signup/check/email", {
+        axios.post("/api/signup/check/email", {
             userMemberEmail: event.target.value
         })
         .then(res => {
@@ -25,7 +25,7 @@ const useInput = validateValue => {
     };
     const valueChangeHandlerWithIdValidation  =   event =>{
         setEnteredValue(event.target.value);
-        axios.post("https://pure-shelf-22063.herokuapp.com/api/signup/check/id", {
+        axios.post("/api/signup/check/id", {
             userMemberId: event.target.value
         })
         .then(res => {
