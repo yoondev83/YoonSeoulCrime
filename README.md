@@ -25,6 +25,8 @@ https://yoondev83.github.io/YoonSeoulCrimeFront/
 
 This project is to provide non Korean speakers with visualized crime data in Seoul so that people would know how Seoul is in terms of safety. Graphs are based on data that shows the number of reports and incidents and how fast the Korea Police is. Sources are from '서울 열린데이터 광장', which I don't think they have language services on their website, and I trimed the sources to make CSVs and uploaded on my gist. It's my first project in the IT field. I would work on this project step by step.
 
+### Project Period (프로젝트 기간) : 
+
 ## Front-End Project Structure 프론트엔드 프로젝트 구조
 ```
 📦 
@@ -159,13 +161,51 @@ This project is to provide non Korean speakers with visualized crime data in Seo
 5.	Comments
 
 ## Code
+### Explanations are written between codes as comments and Korean comments are written between components below.
+### 영문 설명은 주석 형식으로 달아두었으며 한국어 설명은 각 컴포넌트 사이에 적어 두었습니다.
 
 #### index.js
 ```javascript
 //Redux Provider is used
-//리덕스 사용
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root')); 
 ```
+### store/index.js
+```javascript
+const store = configureStore({
+    reducer: {
+        auth: authSlice.reducer,
+    },
+});
+```
+
+### store/auth-slice.js
+```javascript
+const authSlice = createSlice({
+    name: "auth",
+    initialState: {
+        isAuthenticated: false,
+        userId: null,
+        userEmail: null,
+    },
+    reducers:{
+        login(state, action){
+            state.isAuthenticated = true;
+            state.userEmail       = action.payload.userEmail;
+            state.userId          = action.payload.userId;
+        },
+        logout(state){
+            console.log("logout!");
+            state.isAuthenticated = false;
+            state.userId          = null;
+            axios.post("/api/logout")
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err));
+        },
+    },
+});
+```
+##### 로그인 관련 기능들을 리덕스로 구현하였습니다. 규모가 작은 프로젝트라 리덕스를 굳이 사용할 필요가 없었지만, 차후 규모가 커질 경우 한곳에서 데이터를 관리해줄 필요가 있을뿐만 아니라 가까운 미래에 구현하는 기능들을 위해 지금 만들어두어 효율적인 관리를 위해 지금 만는게 좋을거 같아 사용하였습니다. 밑에 App.js에서 useEffect와 axios를 통해 로그인 세션을 유지하고 있습니다. 리덕스 덕분에 로그인 되었을때 이메일 주소를 보여주는 값을 불필요하게 여러 컴포넌트를 거치지 않고 바로 전달할 수 있습니다.
+
 #### App.js
 
 ```javascript
@@ -387,6 +427,8 @@ export const UseData = () => {
     return [data, reportData, seoulCrimetData];
   }
 ```
+#### UseData는 그래프 관련 데이터를 받아오는 기능을 수행하고 있습니다. 위 세 주소를 하단에 papa 라이브러리를 통해 parsing하고 있습니다. 단순 그래프들은 csv 파일을 미리 가공하였기 때문에 단순히 불러와서 데이터를 넘겨주면 되지만 map 관련 데이터는 여러 전처리 과정을 요구하고 있습니다. setDistrictColor 속의 legendItems 들은 오브젝트들로 구성되어 있으며 toatal incidents를 기준으로 타이틀에 다른 색깔들을 넣어주고 있습니다. 다음에 for문으로 본격적인 값 초기화 및 값을 넣어주고 있습니다. 우선 데이터는 6년치이고 서울의 자치구 개수는 25개 입니다. 자료는 6년치인 반면에 행정구역은 단순히 25개라 1년치만 커버가 됩니다. 저는 위의 for문으로 자치구별로 넘어가는 걸 바탕으로 6년치 자료를 위처럼 선언 및 초기화하여 모든 자치구에 데이터를 넣었습니다. 
+
 #### SeoulCrimeMap2019.jsx
 ```javascript
 const mouseoverEvent= event=>{
@@ -423,6 +465,7 @@ const SeoulCrimeMap2019 = props => {
         layer.bindPopup(`${districtName} ${totalIncidentsText.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`);
     };
 
+    // I used react-leaflet to visualize data on maps with the data that I processed above because not only is it easy to mark things on map, but it also simply enables me to show beautified graphs, which reduces a huge amount of css work.
     return(
         <Container maxWidth="lg" className={classes.container}>
             <YearTabs/>
@@ -437,6 +480,8 @@ const SeoulCrimeMap2019 = props => {
     );
 };
 ```
+#### 위의 코드는 가공한 data로 구현한 컴포넌트 입니다. 저는 react-leaflet 라이브러리로 데이터를 시각화하였습니다. 이 라이브러리를 사용한 이유는 데이터를 이용하여 지도에 손쉽게 시각화 할 수 있을 뿐만 아니라, 데이터 가공만 잘 한다면 손쉽게 예쁜 그래프를 출력할 수 있기에 선택하였습니다. 
+
 #### BarGraphPoliceDispatch.jsx
 ```javascript
 const BarGraphPoliceDispatch = props =>{
@@ -494,6 +539,9 @@ const BarGraphPoliceDispatch = props =>{
           }
       },
     };
+
+    // 
+
     return(
       <Container maxWidth="lg">
         <div className='header'>
@@ -505,363 +553,8 @@ const BarGraphPoliceDispatch = props =>{
     );
 };
 ```
-#### BarGraphSeoulCrime.jsx
-```javascript
-const BarGraphSeoulCrime = props =>{
-    const classes           = useStyles();
-    const crimeData         =   props.data.data;
-    const selectedYear      =   +props.year;
-    const incidents         =   [];
-    const districts         =   [];
-    let selectedYearData;
-    if(crimeData){
+#### map이 아닌 그래프들은 react-chartjs-2 라이브러리를 통해 구현하였습니다. 이 라이브러리 또한 단순하면서도 예쁜 그래프들은 제공하고 있습니다. 고난이도의 그래프가아닌 단순한 수준의 그래프를 우선 구현해보자는 생각으로 이 라이브러리를 선택하였습니다. 이 역시 데이터 가공만 잘한다면 손쉽게 예쁜 그래프들을 표현할 수가 있습니다.
 
-     switch (selectedYear) {
-       case 2019:  selectedYearData = crimeData.slice(1,25);
-         break;
-       case 2018:  selectedYearData = crimeData.slice(27,51);
-         break;
-       case 2017:  selectedYearData = crimeData.slice(53,77);
-         break;
-       case 2016:  selectedYearData = crimeData.slice(79,103);
-         break;
-       case 2015:  selectedYearData = crimeData.slice(105,129);
-         break;
-       case 2014:  selectedYearData = crimeData.slice(131,155);
-         break;
-     
-       default:    selectedYearData = crimeData.slice(1,25);
-         break;
-     }
-     selectedYearData.forEach(d => {
-      districts.push(d.District);
-      incidents.push(d.Total_Incidents);
-   });
-    }
-
-    const data = {
-      labels: districts,
-      datasets: [
-        {
-          label: 'The Total Incidents',
-          data: incidents,
-          backgroundColor: 'rgb(238,155,85)',
-        },
-      ],
-    };
-    
-    const options = {
-        responsive: true,
-        maintainAspectRatio: true,
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
-        plugins: {
-          legend: {
-              labels: {
-                  font: {
-                      size: 15
-                  }
-              }
-          },
-          tooltip:{
-            boxWidth: 20
-          }
-      },
-    };
-    return(
-        <Container maxWidth="lg" className={classes.container}>
-
-            <YearTabs/>
-            <h1 className={classes.title}>The Crime Incidents Per District ({selectedYear})</h1>
-            <Bar data={data} options={options} />
-        </Container>
-    );
-};
-```
-#### LineArrestedCrimes.jsx
-```javascript
-const LineArrestedCrimes = props => {
-  const year = [];
-  // reports
-
-  //arrest
-  const violentCrimeArrests = [];
-  const larcenyArrests      = [];
-  const assaultArrests      = [];
-  const whiteCollarArrests  = [];
-  const sexualCrimeArrests  = [];
-  const otherCrimeArrests   = [];
-  const specialCrimeArrests = [];
-  
-  //graph
-  defaults.font.size="15";
-  
-  if(props.data.data){
-    props.data.data.forEach(y => {
-      year.push(y.Year);
-  
-      //arrest
-      violentCrimeArrests.push(y.Violent_crime_arrests);
-      larcenyArrests.push(y.Larceny_arrests);
-      assaultArrests.push(y.Assault_arrests);
-      whiteCollarArrests.push(y.White_collar_arrests);
-      sexualCrimeArrests.push(y.Sexual_crime_arrests);
-      otherCrimeArrests.push(y.Other_crime_arrests);
-      specialCrimeArrests.push(y.Special_act_violation_arrests);
-    });
-  }
-  
-    const data = {
-        labels: year,
-        datasets: [
-          {
-            label: 'Violent Crimes',
-            data: violentCrimeArrests,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-            ],
-            borderWidth: 1,
-            hoverBackgroundColor: 'blue',
-          },
-          {
-            label: 'Larceny',
-            data: larcenyArrests,
-            backgroundColor: [
-              'rgba(54, 162, 235, 0.2)',
-            ],
-            borderColor: [
-              'rgba(34, 204, 0, 1)',
-            ],
-            borderWidth: 1,
-            hoverBackgroundColor: 'red',
-          },
-          {
-            label: 'Assult Crimes',
-            data: assaultArrests,
-            backgroundColor: [
-              'rgba(255, 206, 86, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255, 206, 86, 1)',
-            ],
-            borderWidth: 1,
-            hoverBackgroundColor: 'red',
-          },
-          {
-            label: 'White Collar',
-            data: whiteCollarArrests,
-            backgroundColor: [
-              'rgba(75, 192, 192, 0.2)',
-            ],
-            borderColor: [
-              'rgba(75, 192, 192, 1)',
-            ],
-            borderWidth: 1,
-            hoverBackgroundColor: 'red',
-          },
-
-          {
-            label: 'Sexual Crimes',
-            data: sexualCrimeArrests,
-            backgroundColor: [
-              'rgba(153, 102, 255, 0.2)',
-            ],
-            borderColor: [
-              'rgba(153, 102, 255, 1)',
-            ],
-            borderWidth: 1,
-            hoverBackgroundColor: 'red',
-          },
-          {
-            label: 'Other Crimes',
-            data: otherCrimeArrests,
-            backgroundColor: [
-              'rgba(255, 159, 64, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255, 159, 64, 1)',
-            ],
-            borderWidth: 1,
-            hoverBackgroundColor: 'red',
-          },
-          {
-            label: 'Special Act Violations',
-            data: specialCrimeArrests,
-            backgroundColor: [
-              'rgb(75, 192, 192, 0.2)',
-            ],
-            borderColor: [
-              'rgb(77, 225, 255)',
-            ],
-            borderWidth: 1,
-            hoverBackgroundColor: 'red',
-          },
-          
-       
-        ],
-      };
-      
-      const options = {
-        responsive: true,
-        // indexAxis: 'y',
-        maintainAspectRatio: true,
-        scales: {
-          yAxes: [
-            {
-              // stacked: true,
-              ticks: {
-                beginAtZero: true,
-              },
-              
-            },
-          ],
-          xAxes: [
-            {
-              
-            },
-          ],
-        },
-        plugins: {
-          legend: {
-              labels: {
-                  // This more specific font property overrides the global property
-                  font: {
-                      size: 15
-                  }
-              }
-          },
-          tooltip:{
-            boxWidth: 20
-          }
-      },
-      
-      };
-    
-
-    return(
-      <Container maxWidth="lg">
-          <div className='header'>
-            <h1 className={classes.title}>The Arrested Crimes (2010-2020) </h1>
-            <Line data={data} options={options} />
-            <ShowRawData data={props.data}/>
-          </div>
-      </Container>
-    );
-};
-```
-#### StackedBarplot.jsx
-```javascript
-const StackedBarplot = props => {
-  const year = [];
-  const totalReport = [];
-  const totalArrest = [];
-  // const arbitraryStackKey = "stack1";
-  defaults.font.size="15";
-  
-  if(props.data.data){
-    props.data.data.forEach(y => {
-      year.push(y.Year);
-      totalReport.push(y.Total_reports);
-      totalArrest.push(y.Total_arrests);
-    });
-  }
-
-  
-    const data = {
-        labels:year,
-        datasets: [
-          //Reported Crimes
-          {
-            label: 'Reported Crimes',
-            data: totalReport,
-            backgroundColor: [
-              'rgba(54, 162, 235, 0.2)',
-            ],
-            borderColor: [
-              'rgba(54, 162, 235, 1)',
-            ],
-            borderWidth: 1,
-            hoverBackgroundColor: 'blue',
-          },
-          //Arrests
-          {
-            // stack: arbitraryStackKey,
-            label: 'Arrests',
-            data: totalArrest,
-            backgroundColor: [
-                'rgba(255, 206, 86, 0.2)',
-            ],
-            borderColor: [
-                'rgba(255, 206, 86, 1)',
-            ],
-            borderWidth: 1,
-            hoverBackgroundColor: 'red',
-          },
-       
-        ],
-      };
-      
-      const options = {
-        responsive: true,
-        indexAxis: 'y',
-        maintainAspectRatio: true,
-        scales: {
-          yAxes: [
-            {stacked: true,
-              ticks: {
-                beginAtZero: true,
-              },
-              
-            },
-          ],
-          xAxes: [
-            {
-              max: 65000,
-              stacked: true,
-              
-            },
-          ],
-        },
-        plugins: {
-          legend: {
-              labels: {
-                  // This more specific font property overrides the global property
-                  font: {
-                      size: 18
-                  }
-              }
-          },
-          tooltip:{
-            boxWidth: 20
-          }
-      },
-      
-      };
-    
-      useEffect(() => {
-        window.scrollTo(0,0);
-    }, [])
-    return(
-      <Container maxWidth="lg">
-          <div className='header'>
-            <h1 className={classes.title}>The Total Number of Reported Crimes & Arrests (2010-2020)</h1>
-            <Bar data={data} options={options}/>
-            <ShowRawData data={props.data}/>
-          </div>
-      </Container>
-    );
-};
-```
 #### BoardList.jsx
 ```javascript
 function TablePaginationActions(props) {
