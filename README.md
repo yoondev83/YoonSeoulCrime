@@ -540,7 +540,7 @@ const BarGraphPoliceDispatch = props =>{
       },
     };
 
-    // 
+    // The other graphs apart from visualized map components are using react-chartjs-2. This library also provides simple and beautified graphs that you can easily make.
 
     return(
       <Container maxWidth="lg">
@@ -631,6 +631,8 @@ const BoardList = props => {
     setPage(0);
   };
     return(
+
+             //boardList comes from App.js, which processed by axios to server. Each article is shown in accordions provided by React Material-ui. When you click an article, it shows you the article surrounded by AccordionDetails. In each article, you can click 'heart' and 'broken heart', which is 'like' or 'dislike' on social networks.
             <>
               <Container maxWidth="lg" className={classes.boardContainer}>
                 {isAuth && <WritingBtn/>}
@@ -678,6 +680,9 @@ const BoardList = props => {
           </>
     );
 };
+
+#### board를 보여주는 컴포넌트입니다. React Material-ui가 제공하는 테이블을 통해 게시판처럼 1페이지 2페이지를 보여줄 수 있도록 하였습니다. 게시판 정보는 App.js에서 axios를 통해 데이터를 받아오고 있습니다. 받아온 데이터가 없다면 LoadingSpinner가 뜹니다. 게시물을 클릭할 경우 상세페이지 이동이아닌 Accordion를 통해 펼쳐 볼 수 있도록 구현하였습니다. 또한 펼쳐본 글들 속에는 하트와 깨진하트 아이콘이 있습니다. SNS의 좋아요 싫어요처럼 클릭하여 숫자를 올릴 수 있습니다. 
+
 ```
 #### Post.jsx
 ```javascript
@@ -716,6 +721,8 @@ const Post = props => {
         }
     }
     return(
+
+//
             <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0}>
                 <Grid item xs={12}>
                     <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>{props.data.userId}</Typography></Paper>
@@ -737,6 +744,9 @@ const Post = props => {
 
     );
 };
+
+#### Post 컴포넌트에서는 글의 상세 내용을 보여주고 있을 뿐만 아니라 위에서 언급된 좋아요 싫어요 기능을 구현하였습니다. 기본적으로 유저들은 한번 누를 수 있는 값인 1이 주어졌으며, 버튼을 눌렀을 때 이 값이 1보다 작은 경우 바로 return하여 끝내도록 하였습니다. 1보다 작은 경우가 아니면 useState를 통해 하트들의 상태 관리를하고 이 값들을 서버에 전송하고 있습니다.
+
 ```
 ### hooks/use-input.jsx
 ```javascript
