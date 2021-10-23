@@ -93,14 +93,11 @@ const SignInMain = (props) => {
 
     const submitHandler = event => {
         event.preventDefault();
-        axios.post("https://salty-dusk-00893.herokuapp.com/api/signin", 
+        axios.post("/api/signin", 
             {
             userMemberEmail: userEmail,
             userMemberPass: userPass
-            }, {
-                headers: { 
-                "Content-Type": "application/x-www-form-urlencoded"
-              }}
+            }, 
         )
         .then(res =>{
             if(res.data.authentication === true){

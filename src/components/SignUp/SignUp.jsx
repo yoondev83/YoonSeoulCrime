@@ -120,10 +120,7 @@ const SignUp = props => {
             userMemberId: enteredId,
             userMemberEmail : enteredEmail,
             userMemberPass: enteredPass,
-        }, {
-            headers: { 
-            "Content-Type": "application/x-www-form-urlencoded"
-          }})
+        })
         .then(res => {
             props.history.push("/main");
         })

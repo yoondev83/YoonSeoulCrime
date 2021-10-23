@@ -111,10 +111,7 @@ const AccountProfileDetails = (props) => {
         event.preventDefault();
 
         if(!passInputHasError && !rePassInputHasError && enteredPass !== ''){
-          axios.patch("/api/account/change", {userEmail: userEmail, userPass: enteredPass}, {
-            headers: { 
-            "Content-Type": "application/x-www-form-urlencoded"
-          }})
+          axios.patch("/api/account/change", {userEmail: userEmail, userPass: enteredPass})
           .then(res => {
             setIsAnswerYes(true);
           })
