@@ -318,6 +318,9 @@ export const UseData = () => {
     const processCrimeMapData = (seoulDistrict) => {
         setSeoulCrimeData(seoulDistrict); //it saves the parsed data of csvSeoulDistrictCrime.
         //자료는 6년치인데 행정구역 정보는 년도별이 아닌 그냥 행정구역 이름이 나열된거니 한 해 수치밖에 나오지 못 함.
+        // There 25 districts in Seoul. The parsed data is for six years.
+        // This for loop initializes the initial value and text of 2014~2019 per district.
+        // For exmaple, mapSeoulDistrict[0] initializes the first district that is written on {feature}.
         for (let i = 0; i < mapSeoulDistricts.length; i++){
             const mapDistrict = mapSeoulDistricts[i];
             const crimeDistrict= seoulDistrict.data.filter(data=> data.District === mapDistrict.properties.SIG_ENG_NM);
@@ -334,7 +337,7 @@ export const UseData = () => {
             mapDistrict.properties.totalIncidents_2014      = 0;
             mapDistrict.properties.totalIncidentsText_2014  = "0";
             
-            if(crimeDistrict != null){ 
+            if(crimeDistrict != null){  //It adds actual values for each year and district.
                 //2019
                 const totalCrimeIncidents2019 = crimeDistrict[5].Total_Incidents;
                 mapDistrict.properties.totalIncidents_2019 = totalCrimeIncidents2019;
