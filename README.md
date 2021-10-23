@@ -681,9 +681,9 @@ const BoardList = props => {
     );
 };
 
+```
 #### board를 보여주는 컴포넌트입니다. React Material-ui가 제공하는 테이블을 통해 게시판처럼 1페이지 2페이지를 보여줄 수 있도록 하였습니다. 게시판 정보는 App.js에서 axios를 통해 데이터를 받아오고 있습니다. 받아온 데이터가 없다면 LoadingSpinner가 뜹니다. 게시물을 클릭할 경우 상세페이지 이동이아닌 Accordion를 통해 펼쳐 볼 수 있도록 구현하였습니다. 또한 펼쳐본 글들 속에는 하트와 깨진하트 아이콘이 있습니다. SNS의 좋아요 싫어요처럼 클릭하여 숫자를 올릴 수 있습니다. 
 
-```
 #### Post.jsx
 ```javascript
 const Post = props => {
@@ -745,9 +745,9 @@ const Post = props => {
     );
 };
 
+```
 #### Post 컴포넌트에서는 글의 상세 내용을 보여주고 있을 뿐만 아니라 위에서 언급된 좋아요 싫어요 기능을 구현하였습니다. 기본적으로 유저들은 한번 누를 수 있는 값인 1이 주어졌으며, 버튼을 눌렀을 때 이 값이 1보다 작은 경우 바로 return하여 끝내도록 하였습니다. 1보다 작은 경우가 아니면 useState를 통해 하트들의 상태 관리를하고 이 값들을 서버에 전송하고 있습니다.
 
-```
 ### hooks/use-input.jsx
 ```javascript
 const useInput = validateValue => {
@@ -939,3 +939,7 @@ const SignUp = props => {
     );
 };
 ```
+#### Custom hooks are used for SignUp.jsx. It is not necessary for this project since it's not a big project. But I've decided to create it because this project may get bigger in the future and custom hooks would be very useful to deal with constantly used similar useStates. I added simple validations such as checking '@' or length in order to prevent uncessary post requests. In addition, for the user experience aspect, users can see error messages below each input in real time.
+
+
+#### SignUp.jsx에서는 커스텀 훅스를 활용하였습니다. 커스텀훅스를 만든 이유는 동일한 기능을 가진 useState가 빈번히 사용될 뿐만 아니라 프로젝트 규모를 키울 경우 더 많이 사용되기에 미리 구현을 하였습니다. 커스텀훅스에서는 간단한 validation를 만들어 이메일에 @가 없거나 비밀번호와 아이디 길이가 6보다 작은 경우 false를 반환하도록 하였습니다. 이 기능을 만든 이유가 회원가입시 위 조건을 만족하지도 않은 상황에서 서버에 post에 전송되는 경우를 막고자 만들었습니다. fetchJoinInfo속의 if 문을 통해 실수로 전송되는걸 막고 있습니다. 또한, UX 관점에서 유저가 회원가입을 위한 값을 입력하는데 조건을 만족하지 않는 경우 바로 확인 할 수 있도록 각 input 밑에 <Typography>를 만들었습니다. 각 Typography는 dynamic css를 통해 입력되는 값에 오류가 있을 경우 hasError가 true가 될때 발동되록하였습니다.
