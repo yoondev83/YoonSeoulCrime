@@ -387,34 +387,852 @@ export const UseData = () => {
     return [data, reportData, seoulCrimetData];
   }
 ```
-
-
-
-#### 
+#### SeoulCrimeMap2019.jsx
 ```javascript
+const mouseoverEvent= event=>{
+    event.target.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.5
+    })
+};
 
+const SeoulCrimeMap2019 = props => {
+    const getJsonRef = useRef();
+    const classes = MapStyles();
+    const legendReverse = [...legendItems].reverse();
+    let seoulLocation = [37.5605, 126.9780];
+    const mouseoutEvent= event=>{
+        getJsonRef.current.setStyle({color: "white",
+        weight:1,
+        fillOpacity: 1
+        })
+    };
+
+    const OnEachDistrict = (district, layer) =>{
+        const districtName            = district.properties.SIG_ENG_NM;
+        const totalIncidentsText      = district.properties.totalIncidents_2019;
+       
+        layer.on({
+            mouseover: mouseoverEvent,
+            mouseout: mouseoutEvent
+        });
+
+        layer.options.fillColor = district.properties.totalIncidents_2019Color;
+        layer.bindPopup(`${districtName} ${totalIncidentsText.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`);
+    };
+
+    return(
+        <Container maxWidth="lg" className={classes.container}>
+            <YearTabs/>
+            <MapContainer center={seoulLocation} zoom={11} scrollWheelZoom={true} className={classes.mapContainer}>
+                <TileLayer attribution='&copy; <a href="#">Seoul Crime Map</a>' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <GeoJSON ref={getJsonRef} data={seoulGeoJson} onEachFeature={OnEachDistrict} style={mapStyle}/>
+            </MapContainer>
+                <Legend data={legendReverse} />
+            <Typography variant="subtitle1" className={classes.message}>*The data is based on the total number of incidents in 2019</Typography>
+            <ShowSeoulDistrictCrimeData data={props.data} year="2019"/>
+        </Container>
+    );
+};
 ```
-#### 
+#### BarGraphPoliceDispatch.jsx
 ```javascript
+const BarGraphPoliceDispatch = props =>{
+    const year              =   [];
+    const dispatcherVolume  =   [];
+    const within5Min        =   [];
 
+    if(props.data.data){
+      props.data.data.forEach(d => {
+        year.push(d.Year);
+        dispatcherVolume.push(d.The_Total_112_Dispatcher_Volume);
+        within5Min.push(d.Within_5min);
+      });
+    }
+
+    const data = {
+      labels: year,
+      datasets: [
+        {
+          label: 'The Total 112 Dispatcher Volume',
+          data: dispatcherVolume,
+          backgroundColor: 'rgb(255, 99, 132)',
+        },
+        {
+          label: 'Within 5 Minutes',
+          data: within5Min,
+          backgroundColor: 'rgb(54, 162, 235)',
+        },
+      ],
+    };
+    
+    const options = {
+        responsive: true,
+        maintainAspectRatio: true,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+        plugins: {
+          legend: {
+              labels: {
+                  // This more specific font property overrides the global property
+                  font: {
+                      size: 15
+                  }
+              }
+          },
+          tooltip:{
+            boxWidth: 20
+          }
+      },
+    };
+    return(
+      <Container maxWidth="lg">
+        <div className='header'>
+            <h1 className={classes.title}>How Fast Is The Seoul Police? (2005 - 2009)</h1>
+            <Bar data={data} options={options} />
+            <ShowDispatchRawData data={props.data}/>
+        </div>
+        </Container>
+    );
+};
 ```
-#### 
+#### BarGraphSeoulCrime.jsx
 ```javascript
+const BarGraphSeoulCrime = props =>{
+    const classes           = useStyles();
+    const crimeData         =   props.data.data;
+    const selectedYear      =   +props.year;
+    const incidents         =   [];
+    const districts         =   [];
+    let selectedYearData;
+    if(crimeData){
 
+     switch (selectedYear) {
+       case 2019:  selectedYearData = crimeData.slice(1,25);
+         break;
+       case 2018:  selectedYearData = crimeData.slice(27,51);
+         break;
+       case 2017:  selectedYearData = crimeData.slice(53,77);
+         break;
+       case 2016:  selectedYearData = crimeData.slice(79,103);
+         break;
+       case 2015:  selectedYearData = crimeData.slice(105,129);
+         break;
+       case 2014:  selectedYearData = crimeData.slice(131,155);
+         break;
+     
+       default:    selectedYearData = crimeData.slice(1,25);
+         break;
+     }
+     selectedYearData.forEach(d => {
+      districts.push(d.District);
+      incidents.push(d.Total_Incidents);
+   });
+    }
+
+    const data = {
+      labels: districts,
+      datasets: [
+        {
+          label: 'The Total Incidents',
+          data: incidents,
+          backgroundColor: 'rgb(238,155,85)',
+        },
+      ],
+    };
+    
+    const options = {
+        responsive: true,
+        maintainAspectRatio: true,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+        plugins: {
+          legend: {
+              labels: {
+                  font: {
+                      size: 15
+                  }
+              }
+          },
+          tooltip:{
+            boxWidth: 20
+          }
+      },
+    };
+    return(
+        <Container maxWidth="lg" className={classes.container}>
+
+            <YearTabs/>
+            <h1 className={classes.title}>The Crime Incidents Per District ({selectedYear})</h1>
+            <Bar data={data} options={options} />
+        </Container>
+    );
+};
 ```
-#### 
+#### LineArrestedCrimes.jsx
 ```javascript
+const LineArrestedCrimes = props => {
+  const year = [];
+  // reports
 
+  //arrest
+  const violentCrimeArrests = [];
+  const larcenyArrests      = [];
+  const assaultArrests      = [];
+  const whiteCollarArrests  = [];
+  const sexualCrimeArrests  = [];
+  const otherCrimeArrests   = [];
+  const specialCrimeArrests = [];
+  
+  //graph
+  defaults.font.size="15";
+  
+  if(props.data.data){
+    props.data.data.forEach(y => {
+      year.push(y.Year);
+  
+      //arrest
+      violentCrimeArrests.push(y.Violent_crime_arrests);
+      larcenyArrests.push(y.Larceny_arrests);
+      assaultArrests.push(y.Assault_arrests);
+      whiteCollarArrests.push(y.White_collar_arrests);
+      sexualCrimeArrests.push(y.Sexual_crime_arrests);
+      otherCrimeArrests.push(y.Other_crime_arrests);
+      specialCrimeArrests.push(y.Special_act_violation_arrests);
+    });
+  }
+  
+    const data = {
+        labels: year,
+        datasets: [
+          {
+            label: 'Violent Crimes',
+            data: violentCrimeArrests,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1,
+            hoverBackgroundColor: 'blue',
+          },
+          {
+            label: 'Larceny',
+            data: larcenyArrests,
+            backgroundColor: [
+              'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+              'rgba(34, 204, 0, 1)',
+            ],
+            borderWidth: 1,
+            hoverBackgroundColor: 'red',
+          },
+          {
+            label: 'Assult Crimes',
+            data: assaultArrests,
+            backgroundColor: [
+              'rgba(255, 206, 86, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1,
+            hoverBackgroundColor: 'red',
+          },
+          {
+            label: 'White Collar',
+            data: whiteCollarArrests,
+            backgroundColor: [
+              'rgba(75, 192, 192, 0.2)',
+            ],
+            borderColor: [
+              'rgba(75, 192, 192, 1)',
+            ],
+            borderWidth: 1,
+            hoverBackgroundColor: 'red',
+          },
+
+          {
+            label: 'Sexual Crimes',
+            data: sexualCrimeArrests,
+            backgroundColor: [
+              'rgba(153, 102, 255, 0.2)',
+            ],
+            borderColor: [
+              'rgba(153, 102, 255, 1)',
+            ],
+            borderWidth: 1,
+            hoverBackgroundColor: 'red',
+          },
+          {
+            label: 'Other Crimes',
+            data: otherCrimeArrests,
+            backgroundColor: [
+              'rgba(255, 159, 64, 0.2)',
+            ],
+            borderColor: [
+              'rgba(255, 159, 64, 1)',
+            ],
+            borderWidth: 1,
+            hoverBackgroundColor: 'red',
+          },
+          {
+            label: 'Special Act Violations',
+            data: specialCrimeArrests,
+            backgroundColor: [
+              'rgb(75, 192, 192, 0.2)',
+            ],
+            borderColor: [
+              'rgb(77, 225, 255)',
+            ],
+            borderWidth: 1,
+            hoverBackgroundColor: 'red',
+          },
+          
+       
+        ],
+      };
+      
+      const options = {
+        responsive: true,
+        // indexAxis: 'y',
+        maintainAspectRatio: true,
+        scales: {
+          yAxes: [
+            {
+              // stacked: true,
+              ticks: {
+                beginAtZero: true,
+              },
+              
+            },
+          ],
+          xAxes: [
+            {
+              
+            },
+          ],
+        },
+        plugins: {
+          legend: {
+              labels: {
+                  // This more specific font property overrides the global property
+                  font: {
+                      size: 15
+                  }
+              }
+          },
+          tooltip:{
+            boxWidth: 20
+          }
+      },
+      
+      };
+    
+
+    return(
+      <Container maxWidth="lg">
+          <div className='header'>
+            <h1 className={classes.title}>The Arrested Crimes (2010-2020) </h1>
+            <Line data={data} options={options} />
+            <ShowRawData data={props.data}/>
+          </div>
+      </Container>
+    );
+};
 ```
-#### 
+#### StackedBarplot.jsx
 ```javascript
+const StackedBarplot = props => {
+  const year = [];
+  const totalReport = [];
+  const totalArrest = [];
+  // const arbitraryStackKey = "stack1";
+  defaults.font.size="15";
+  
+  if(props.data.data){
+    props.data.data.forEach(y => {
+      year.push(y.Year);
+      totalReport.push(y.Total_reports);
+      totalArrest.push(y.Total_arrests);
+    });
+  }
 
+  
+    const data = {
+        labels:year,
+        datasets: [
+          //Reported Crimes
+          {
+            label: 'Reported Crimes',
+            data: totalReport,
+            backgroundColor: [
+              'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+              'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1,
+            hoverBackgroundColor: 'blue',
+          },
+          //Arrests
+          {
+            // stack: arbitraryStackKey,
+            label: 'Arrests',
+            data: totalArrest,
+            backgroundColor: [
+                'rgba(255, 206, 86, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1,
+            hoverBackgroundColor: 'red',
+          },
+       
+        ],
+      };
+      
+      const options = {
+        responsive: true,
+        indexAxis: 'y',
+        maintainAspectRatio: true,
+        scales: {
+          yAxes: [
+            {stacked: true,
+              ticks: {
+                beginAtZero: true,
+              },
+              
+            },
+          ],
+          xAxes: [
+            {
+              max: 65000,
+              stacked: true,
+              
+            },
+          ],
+        },
+        plugins: {
+          legend: {
+              labels: {
+                  // This more specific font property overrides the global property
+                  font: {
+                      size: 18
+                  }
+              }
+          },
+          tooltip:{
+            boxWidth: 20
+          }
+      },
+      
+      };
+    
+      useEffect(() => {
+        window.scrollTo(0,0);
+    }, [])
+    return(
+      <Container maxWidth="lg">
+          <div className='header'>
+            <h1 className={classes.title}>The Total Number of Reported Crimes & Arrests (2010-2020)</h1>
+            <Bar data={data} options={options}/>
+            <ShowRawData data={props.data}/>
+          </div>
+      </Container>
+    );
+};
 ```
-#### 
+#### BoardList.jsx
 ```javascript
+function TablePaginationActions(props) {
+  const classes = useStyles1();
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
 
+  const handleFirstPageButtonClick = (event) => {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <div className={classes.root}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </div>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+
+const BoardList = props => {
+  const classes                       = useStyles();
+  const [page, setPage]               = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const isAuth                        = useSelector(state => state.auth.isAuthenticated);
+  // const emptyRows                     = rowsPerPage - Math.min(rowsPerPage, props.boardLists.length - page * rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+    return(
+            <>
+              <Container maxWidth="lg" className={classes.boardContainer}>
+                {isAuth && <WritingBtn/>}
+                {/* <SearchBtn /> */}
+                <TableContainer component={Paper} className={classes.paper}>
+                  {props.boardLists === null? <LoadingSpinner/> :
+                  <div>
+                  {(rowsPerPage > 0 ? props.boardLists.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        : props.boardLists
+                      ).map((article) => (
+                        <Accordion key={article.date} className={classes.accodrionBoard}>
+                          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" className={classes.accodrionSummary}>
+                            <div className={classes.titleDiv}>
+                              <Typography className={classes.titleHeading}>{article.title.length > 40? article.title.slice(0, 40) + "...": article.title}</Typography>
+                            </div>
+                            <div className={classes.dateDiv}>
+                              <Typography className={classes.dateTxt}>{article.date.toString().slice(0, 10)}</Typography>
+                            </div>
+                            <div className={classes.heartDiv}>
+                              <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
+                              <Typography className={classes.heartTxt}>{article.heart}</Typography>
+                            </div>
+                            <div className={classes.brokenHeartDiv}>
+                              <img className={classes.brokenHeart} src="/icons/broken_heart.png" alt="broken heart"/>
+                              <Typography className={classes.brokenHeartTxt}>{article.brokenHeart}</Typography>
+                            </div>
+                          </AccordionSummary>
+                        <AccordionDetails>
+                          <Post data={article}/>
+                        </AccordionDetails>
+                        </Accordion>
+                      ))}
+                      <TablePagination rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]} colSpan={3} count={props.boardLists.length}
+                          rowsPerPage={rowsPerPage} page={page} className={classes.tablePagin} component="div"
+                          SelectProps={{
+                            MenuProps: { classes: {paper: classes.selectDropdown} },
+                            inputProps: { 'aria-label': 'rows per page' },
+                          }}
+                          onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} ActionsComponent={TablePaginationActions}/>
+                  </div> 
+                          
+                  }
+                </TableContainer>
+              </Container>
+          </>
+    );
+};
 ```
-#### 
+#### Post.jsx
 ```javascript
+const Post = props => {
+    const classes                    =   useStyles();
+    const [heart, setHeart]          =   useState(props.data.heart);
+    const [brokenHeart, setBrkHeart] =   useState(props.data.brokenHeart);
+    const [heartPoint, setHeartPoint]=   useState(1);
+    const isAuth                     =   useSelector(state => state.auth.isAuthenticated);
+    const heartBtnHandler            =  () =>{
+        if(heartPoint < 1){
+            return;
+        }
+        else{
+            setHeartPoint(heartPoint-1);
+            setHeart(heart+1);
+            axios.patch("/api/board/boardlist",{
+                postNum: props.data.articleNum,
+                heart: heart+1
+            }).then(console.log("성공"))
+            .catch(err => console.log(err));
+        }
+    }
+    const brokenHeartBtnHandler      =  () =>{
+        if(heartPoint < 1){
+            return;
+        }
+        else{
+        setHeartPoint(heartPoint-1);
+        setBrkHeart(brokenHeart+1);
+        axios.patch("/api/board/boardlist",{
+            postNum: props.data.articleNum,
+            brokenHeart: brokenHeart+1,
+        }).then(console.log("성공"))
+        .catch(err => console.log(err));
+        }
+    }
+    return(
+            <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0}>
+                <Grid item xs={12}>
+                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>{props.data.userId}</Typography></Paper>
+                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'} className={classes.content}>{props.data.content}</Typography></Paper>
+                </Grid>
+                {isAuth &&
+                <Grid item xs={12} className={classes.iconGrid}>
+                    <IconButton aria-label="heart" onClick={heartBtnHandler}>
+                        <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
+                        <Typography component={'span'} variant={"subtitle1"} className={classes.content}>{heart}</Typography>
+                    </IconButton>
+                    <IconButton aria-label="brokenHeart" onClick={brokenHeartBtnHandler}>
+                        <img className={classes.brokenHeart} src="/icons/broken_heart.png" alt="broken heart"/>
+                        <Typography component={'span'} variant={"subtitle1"} className={classes.content}>{brokenHeart}</Typography>
+                    </IconButton>
+                </Grid>
+                }
+            </Grid>
 
+    );
+};
+```
+### hooks/use-input.jsx
+```javascript
+const useInput = validateValue => {
+    const [enteredValue, setEnteredValue]           =   useState('');
+    const [isTouched, setIsTouched]                 =   useState(false);
+    const [validation, setValidation]               =   useState(true);
+    const [validationId, setValidationId]           =   useState(true);
+    const valueIsValid                              =   validateValue(enteredValue);
+    const hasError                                  =   !valueIsValid && isTouched;
+
+    const valueChangeHandlerWithEmailValidation  =   event =>{
+        setEnteredValue(event.target.value);
+        axios.post("/api/signup/check/email", {
+            userMemberEmail: event.target.value
+        }, {
+            headers: { 
+            "Content-Type": "application/x-www-form-urlencoded"
+          }})
+        .then(res => {
+            if(res.data.validation === true){
+                setValidation(true);
+            }else{
+                setValidation(false);
+            }
+        })
+        .catch(err => console.log(err));
+    };
+    const valueChangeHandlerWithIdValidation  =   event =>{
+        setEnteredValue(event.target.value);
+        axios.post("/api/signup/check/id", {
+            userMemberId: event.target.value
+        }, {
+            headers: { 
+            "Content-Type": "application/x-www-form-urlencoded"
+          }})
+        .then(res => {
+            if(res.data.validation === true){
+                setValidationId(true);
+            }else{
+                setValidationId(false);
+            }
+        })
+        .catch(err => console.log(err));
+    };
+
+    const valueChangeHandler                =   event =>{
+        setEnteredValue(event.target.value);
+    };
+    const inputBlurHandler                  =   event =>{
+        setIsTouched(true);
+    };
+
+    const reset                             =   () =>{
+        setEnteredValue('');
+        setValidation(true);
+        setIsTouched(false);
+    };
+
+    return{
+        value: enteredValue,
+        isValid: valueIsValid,
+        validation,
+        validationId,
+        hasError,
+        valueChangeHandlerWithEmailValidation,
+        valueChangeHandlerWithIdValidation,
+        valueChangeHandler,
+        inputBlurHandler,
+        reset
+    };
+};
+```
+###SignUp.jsx
+```javascript
+const SignUp = props => {
+    const classes                       = useStyles();
+    const [open, setOpen]               = useState(false);
+    //custom hook
+    const { value: enteredEmail ,
+        validation: emailValidation,
+        isValid: enteredEmailIsValid,
+        hasError: emailInputHasError,
+        valueChangeHandlerWithEmailValidation: emailChangeHandler,
+        inputBlurHandler: emailBlurHandler,
+        reset: resetEmailInput}         = useInput(value => value.trim() !=='' && value.includes('@'));
+    const { value: enteredId ,
+        validationId: idValidation,
+        isValid: enteredIdIsValid,
+        hasError: idInputHasError,
+        valueChangeHandlerWithIdValidation: idChangeHandler,
+        inputBlurHandler: idBlurHandler,
+        reset: resetIdInput}            = useInput(value => value.trim() !=='' && value.length >= 6);
+    const { value: enteredPass ,
+        isValid: enteredPassIsValid,
+        hasError: passInputHasError,
+        valueChangeHandler: passChangeHandler,
+        inputBlurHandler: passBlurHandler,
+        reset: resetPassInput}            = useInput(value => value.trim() !=='' && value.length >= 6);
+    const {
+        isValid: enteredRePassIsValid,
+        hasError: rePassInputHasError,
+        valueChangeHandler: rePassChangeHandler,
+        inputBlurHandler: rePassBlurHandler,
+        reset: resetRePassInput}          = useInput(value => value.trim() !=='' && value.length >= 6 && value === enteredPass);
+    const idInputClasses                  = idInputHasError? clsx(classes.joinInput, classes.invalid): classes.joinInput;
+    const emailInputClasses               = emailInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
+    const passInputClasses                = passInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
+    
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const fetchJoinInfo = (event) =>{
+        event.preventDefault();
+
+        if(!enteredIdIsValid || !enteredEmailIsValid || !enteredPassIsValid || !enteredRePassIsValid || !emailValidation || !idValidation){
+            return;
+        }
+        axios.post("/api/signup", {
+            userMemberId: enteredId,
+            userMemberEmail : enteredEmail,
+            userMemberPass: enteredPass,
+        })
+        .then(res => {
+            props.history.push("/main");
+        })
+        .catch(err => console.log(err) );
+        
+        resetEmailInput();
+        resetIdInput();
+        resetPassInput();
+        resetRePassInput();
+    }
+    return (
+        <section>
+            <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+                <CircularProgress color="primary" />
+            </Backdrop>
+
+            <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.joinBox}>
+                <form onSubmit={fetchJoinInfo}>
+                    <Grid item xs={12} className={clsx(classes.inputIdGrid)}>
+                        <Input type="text" name="userName" placeholder="ID" onChange={idChangeHandler} onBlur={idBlurHandler}
+                            value={enteredId}
+                               startAdornment={( <InputAdornment position="start">
+                                    <AssignmentIndIcon />
+                                    </InputAdornment>)}
+                               className={idInputClasses}
+                        />
+                        {idInputHasError && <Typography className={classes.errorText} align="center">Enter A Valid ID</Typography>}
+                        {!idValidation && <Typography className={classes.errorText} align="center">This ID Has Been Already Used</Typography>}
+                    </Grid>
+                    <Grid item xs={12} className={clsx(classes.inputGridPadding)}> 
+                        <Input type="text" name="userEmail" placeholder="Email" onChange={emailChangeHandler} onBlur={emailBlurHandler}
+                               value={enteredEmail}
+                               startAdornment={( <InputAdornment position="start">
+                                   <EmailIcon />
+                                   </InputAdornment>)}
+                               className={emailInputClasses}
+                        />
+                        {!emailValidation && <Typography className={classes.errorText} align="center">Your Email Has Been Already Used</Typography>}
+                        {emailInputHasError && <Typography className={classes.errorText} align="center">Enter A Valid Email Address</Typography>}
+                    </Grid>
+                    <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
+                        <Input type="password" name="userPass" placeholder="Password" onChange={passChangeHandler} onBlur={passBlurHandler}
+                               value={enteredPass}
+                               startAdornment={( <InputAdornment position="start">
+                                    <LockIcon />
+                                    </InputAdornment>)}
+                               className={passInputClasses}
+                        />
+                        {passInputHasError && <Typography className={classes.errorText} align="center">Enter Valid Password</Typography>}
+                    </Grid>
+                    <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
+                        <Input type="password" name="userPassCheck" placeholder="Confirm Password" onChange={rePassChangeHandler} onBlur={rePassBlurHandler}
+                               startAdornment={( <InputAdornment position="start">
+                                    <LockIcon />
+                                    </InputAdornment>)}
+                               className={passInputClasses}
+                        />
+                        {rePassInputHasError && <Typography className={classes.errorText} align="center">Check Your Password</Typography>}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button type="submit" className={classes.joinBtn} >Sign Up</Button>
+                    </Grid>
+                </form>
+            </Grid>
+        </section>
+    );
+};
 ```
