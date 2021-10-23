@@ -315,7 +315,7 @@ const csvSeoulDistrictCrime = "https://gist.githubusercontent.com/yoondev83/7a81
 
 const mapSeoulDistricts     = features; // import {features} from "./Map/seoulGeoJson.json"
                                         // It imports seoulGeoJson that has geographic information on Seoul. Inside the file, it has "features", which includes geoJSON data and
-                                          names of districts in Seoul.
+                                        //  names of districts in Seoul.
 
 
 export const UseData = () => {
@@ -820,7 +820,7 @@ const useInput = validateValue => {
     };
 };
 ```
-###SignUp.jsx
+### SignUp.jsx
 ```javascript
 const SignUp = props => {
     const classes                       = useStyles();
