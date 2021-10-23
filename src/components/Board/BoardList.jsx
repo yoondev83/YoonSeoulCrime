@@ -222,11 +222,11 @@ const BoardList = props => {
                               <Typography className={classes.dateTxt}>{article.date.toString().slice(0, 10)}</Typography>
                             </div>
                             <div className={classes.heartDiv}>
-                              <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
+                              <img className={classes.heart} src="/YoonSeoulCrimeFront/icons/heart.png" alt="heart"/>
                               <Typography className={classes.heartTxt}>{article.heart}</Typography>
                             </div>
                             <div className={classes.brokenHeartDiv}>
-                              <img className={classes.brokenHeart} src="/icons/broken_heart.png" alt="broken heart"/>
+                              <img className={classes.brokenHeart} src="/YoonSeoulCrimeFront/icons/broken_heart.png" alt="broken heart"/>
                               <Typography className={classes.brokenHeartTxt}>{article.brokenHeart}</Typography>
                             </div>
                           </AccordionSummary>
