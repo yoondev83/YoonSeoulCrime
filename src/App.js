@@ -45,7 +45,7 @@ function App() {
 
   useEffect(() => {
     const getBoardLists = async() =>{
-        const response    = await axios.get("https://salty-dusk-00893.herokuapp.com//api/board/boardlist");
+        const response    = await axios.get("https://salty-dusk-00893.herokuapp.com/api/board/boardlist");
         if (response.status !== 200){
           throw new Error("Oops!!");
         }
