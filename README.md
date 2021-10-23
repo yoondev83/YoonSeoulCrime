@@ -7,12 +7,12 @@
 # npm install
 # npm start
 ```
+#### Delete the homepage line in package.json for running locally
+#### 로컬환경에서 실행하실 경우 package.json속의 homepage 라인을 지워주시기 바랍니다.
 
 ## [Backend 백엔드](https://github.com/yoondev83/YoonSeoulCrimeBackend)
 ###	Demo 페이지
 https://yoondev83.github.io/YoonSeoulCrimeFront/
-###	Preview Video 실행영상
-
 
 ### Environment 개발환경
 + Operating System: Win 10
@@ -120,7 +120,7 @@ This project is to provide non Korean speakers with visualized crime data in Seo
   +	Leaflet.js와 Chart.js를 이용하여 데이터 시각화.
 2.	CSV 파싱
   +	papaparse를 이용하여 gist에 올린 csv파일을 파싱합니다.
-3.	회원가입
+3.	회원가입 (현재 로컬에서만 작동)
   +	onChange를 이용하여 실시간 중복 조회.
   +	비밀번호 변경.
   +	회원탈퇴.
@@ -134,7 +134,7 @@ This project is to provide non Korean speakers with visualized crime data in Seo
   +	Leaflet.js & Chart.js for the data visualization.
 2.	CSV parsing
   +	papaparse.
-3.	Sign up
+3.	Sign up ()
   +	Check email duplication, using onChange.
   +	Change password.
   +	Delete account.
@@ -266,4 +266,152 @@ function App() {
     </div>
   );
 }
+```
+#### UseData.jsx
+```javascript
+const csvUrl = "https://gist.githubusercontent.com/yoondev83/c005986d80b0a16dc35f415c3b742abf/raw/fad0801f4bf194cf5409a8d401de9979f6202199/2010-2020_Annual_Seoul_Crime_Data.csv";
+const csvReportUrl = "https://gist.githubusercontent.com/yoondev83/9168b5f93ff4920478856c40373e4b48/raw/57be8a04d5fb2268fa2d8457cbef32f66bed9a52/2005-2009_The_Seoul_Police_Dispatches";
+const csvSeoulDistrictCrime = "https://gist.githubusercontent.com/yoondev83/7a811ec87fc150fcfba4cef6712070b4/raw/347b61b6025f13b564aef400424ea6ecbd2e1aaf/Seoul_District_Crimes.csv";
+
+const mapSeoulDistricts     = features; // import {features} from "./Map/seoulGeoJson.json"
+                                        // It imports seoulGeoJson that has geographic information on Seoul. Inside the file, it has "features", which includes geoJSON data and
+                                          names of districts in Seoul.
+
+
+export const UseData = () => {
+    const [data, setData]   = useState([]);
+    const [reportData, setReportData]   = useState([]);
+    const [seoulCrimetData, setSeoulCrimeData]   = useState([]);
+    
+    const setDistrictColor = mapDistrict => {
+        //legendItems are made up of objects to show the colored titles based on the number of total incidents.
+        //isFor returns true or false
+        const legendItem2019 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2019));
+        const legendItem2018 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2018));
+        const legendItem2017 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2017));
+        const legendItem2016 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2016));
+        const legendItem2015 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2015));
+        const legendItem2014 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2014));
+
+        //This code addes data into each mapDistrict.properties.totalIncidents_20OOColor in order to show different colors on the 42th line of SeoulCrimeMap2014~2019.jsx
+        if(legendItem2019 != null){
+            mapDistrict.properties.totalIncidents_2019Color = legendItem2019.color;
+        }
+        if(legendItem2018 != null){
+            mapDistrict.properties.totalIncidents_2018Color = legendItem2018.color;
+        }
+        if(legendItem2017 != null){
+            mapDistrict.properties.totalIncidents_2017Color = legendItem2017.color;
+        }
+        if(legendItem2016 != null){
+            mapDistrict.properties.totalIncidents_2016Color = legendItem2016.color;
+        }
+        if(legendItem2015 != null){
+            mapDistrict.properties.totalIncidents_2015Color = legendItem2015.color;
+        }
+        if(legendItem2014 != null){
+            mapDistrict.properties.totalIncidents_2014Color = legendItem2014.color;
+        }
+    };
+
+
+    const processCrimeMapData = (seoulDistrict) => {
+        setSeoulCrimeData(seoulDistrict); //it saves the parsed data of csvSeoulDistrictCrime.
+        //자료는 6년치인데 행정구역 정보는 년도별이 아닌 그냥 행정구역 이름이 나열된거니 한 해 수치밖에 나오지 못 함.
+        for (let i = 0; i < mapSeoulDistricts.length; i++){
+            const mapDistrict = mapSeoulDistricts[i];
+            const crimeDistrict= seoulDistrict.data.filter(data=> data.District === mapDistrict.properties.SIG_ENG_NM);
+            mapDistrict.properties.totalIncidents_2019      = 0;
+            mapDistrict.properties.totalIncidentsText_2019  = "0";
+            mapDistrict.properties.totalIncidents_2018      = 0;
+            mapDistrict.properties.totalIncidentsText_2018  = "0";
+            mapDistrict.properties.totalIncidents_2017      = 0;
+            mapDistrict.properties.totalIncidentsText_2017  = "0";
+            mapDistrict.properties.totalIncidents_2016      = 0;
+            mapDistrict.properties.totalIncidentsText_2016  = "0";
+            mapDistrict.properties.totalIncidents_2015      = 0;
+            mapDistrict.properties.totalIncidentsText_2015  = "0";
+            mapDistrict.properties.totalIncidents_2014      = 0;
+            mapDistrict.properties.totalIncidentsText_2014  = "0";
+            
+            if(crimeDistrict != null){ 
+                //2019
+                const totalCrimeIncidents2019 = crimeDistrict[5].Total_Incidents;
+                mapDistrict.properties.totalIncidents_2019 = totalCrimeIncidents2019;
+                mapDistrict.properties.totalIncidentsText_2019 = totalCrimeIncidents2019;
+                //2018
+                const totalCrimeIncidents2018 = crimeDistrict[4].Total_Incidents;
+                mapDistrict.properties.totalIncidents_2018 = totalCrimeIncidents2018;
+                mapDistrict.properties.totalIncidentsText_2018 = totalCrimeIncidents2018;
+                //2017
+                const totalCrimeIncidents2017 = crimeDistrict[3].Total_Incidents;
+                mapDistrict.properties.totalIncidents_2017 = totalCrimeIncidents2017;
+                mapDistrict.properties.totalIncidentsText_2017 = totalCrimeIncidents2017;
+                //2016
+                const totalCrimeIncidents2016 = crimeDistrict[2].Total_Incidents;
+                mapDistrict.properties.totalIncidents_2016 = totalCrimeIncidents2016;
+                mapDistrict.properties.totalIncidentsText_2016 = totalCrimeIncidents2016;
+                //2015
+                const totalCrimeIncidents2015 = crimeDistrict[1].Total_Incidents;
+                mapDistrict.properties.totalIncidents_2015 = totalCrimeIncidents2015;
+                mapDistrict.properties.totalIncidentsText_2015 = totalCrimeIncidents2015;
+                //2014
+                const totalCrimeIncidents2014 = crimeDistrict[0].Total_Incidents;
+                mapDistrict.properties.totalIncidents_2014 = totalCrimeIncidents2014;
+                mapDistrict.properties.totalIncidentsText_2014 = totalCrimeIncidents2014;
+
+            }
+            setDistrictColor(mapDistrict);
+        };
+    }
+    useEffect(() => {
+        papa.parse(csvUrl, {
+            download: true,
+            header: true,
+            complete: result => setData(result)
+        });
+        papa.parse(csvReportUrl, {
+            download: true,
+            header: true,
+            complete: result => setReportData(result)
+        });
+        papa.parse(csvSeoulDistrictCrime, {
+            download: true,
+            header: true,
+            complete: result => processCrimeMapData(result),
+        });
+        }, []);
+    return [data, reportData, seoulCrimetData];
+  }
+```
+
+
+
+#### 
+```javascript
+
+```
+#### 
+```javascript
+
+```
+#### 
+```javascript
+
+```
+#### 
+```javascript
+
+```
+#### 
+```javascript
+
+```
+#### 
+```javascript
+
+```
+#### 
+```javascript
+
 ```
