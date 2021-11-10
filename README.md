@@ -7,8 +7,8 @@
 # npm install
 # npm start
 ```
-#### Delete the homepage line in package.json for running locally
-#### 로컬환경에서 실행하실 경우 package.json속의 homepage 라인을 지워주시기 바랍니다.
+#### Please run with backend
+#### 로컬환경에서 실행하실 경우 백엔드 프로젝트와 같이 실행 부탁드리겠습니다.
 
 ## [Backend 백엔드](https://github.com/yoondev83/YoonSeoulCrimeBackend)
 ###	Demo 페이지
@@ -159,6 +159,10 @@ This project is to provide non Korean speakers with visualized crime data in Seo
 3.	Can search.
 4.	Allow non-members to write.
 5.	Comments
+
+### 업데이트 기록:
+1. 프로젝트 코드를 로컬 실행 환경으로 수정함.
+
 
 ## Code
 ### Explanations are written between codes as comments and Korean comments are written between components below.
