@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   boardContainer: {
     paddingBottom: "100px",
     paddingTop: 120,
-    height: "100%",
+    height: "100vh",
   },
   paper:{
     backgroundColor: "#252933",
