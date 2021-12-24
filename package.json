@@ -35,6 +35,7 @@
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build"
   },
+  "homepage": "https://yoondev83.github.io/YoonSeoulCrimeFront/",
   "eslintConfig": {
     "extends": [
       "react-app",

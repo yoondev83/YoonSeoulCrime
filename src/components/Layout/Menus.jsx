@@ -184,7 +184,7 @@ const Menus = () => {
       <div className={classes.header}>
         <div className={classes.logoDiv}>
             <IconButton edge="start" component={Link} to="/" className={classes.titleBtn} aria-label="menu">
-              <img src="/image/logo2.png" className={classes.logoImg} alt="logo img"/>
+              <img src="https://yoondev83.github.io/YoonSeoulCrimeFront/image/logo2.png" className={classes.logoImg} alt="logo img"/>
             </IconButton>
         </div>
         <nav className={navClass}>

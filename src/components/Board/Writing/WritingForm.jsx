@@ -42,14 +42,14 @@ const WritingForm = (props) => {
 
     const submitPostHandler = event => {
         event.preventDefault();
-        axios.post("/api/board/boardlist", {
+        axios.post("https://guarded-plains-97482.herokuapp.com/api/board/boardlist", {
             title: postTitle,
             content: postContent,
             userId: props.userId,
         })
         .then(() => {
             props.isChanged(true);
-            window.location.replace("/api/board/boardlist");
+            window.location.replace("/YoonSeoulCrimeFront/api/board/boardlist");
         })
         .catch(err => console.log(err));
 

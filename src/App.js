@@ -31,7 +31,7 @@ function App() {
   const isAuth                              = useSelector(state => state.auth.isAuthenticated);
   const dispatch                            = useDispatch();
   useEffect(() => {
-    axios.get('/checkAuthentication')
+    axios.get('https://guarded-plains-97482.herokuapp.com/checkAuthentication')
          .then(res => {
           if(res.data.isAuth){
             dispatch(authActions.login({userEmail: res.data.userEmail, userId: res.data.userId}));
@@ -45,7 +45,7 @@ function App() {
 
   useEffect(() => {
     const getBoardLists = async() =>{
-        const response    = await axios.get("/api/board/boardlist");
+        const response    = await axios.get("https://guarded-plains-97482.herokuapp.com/api/board/boardlist");
         if (response.status !== 200){
           throw new Error("Oops!!");
         }
@@ -68,7 +68,7 @@ function App() {
   }, [isChanged]);
   return (
     <div className={classes.App}>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Layout>
           <Switch>
             {/* Main */}

@@ -17,7 +17,7 @@ const authSlice = createSlice({
             console.log("logout!");
             state.isAuthenticated = false;
             state.userId          = null;
-            axios.post("/api/logout")
+            axios.post("/YoonSeoulCrimeFront/api/logout")
             .then(res => console.log(res.data))
             .catch(err => console.log(err));
         },

@@ -95,7 +95,7 @@ const AccountProfileDetails = (props) => {
     const deleteBtnHandler                = (event) =>{
       event.preventDefault();
       dispatch(authActions.logout());
-      axios.post("/api/account/removal", {userEmail: userEmail}, {
+      axios.post("https://guarded-plains-97482.herokuapp.com/api/account/removal", {userEmail: userEmail}, {
         headers: { 
         "Content-Type": "application/x-www-form-urlencoded"
       }})
@@ -108,7 +108,7 @@ const AccountProfileDetails = (props) => {
         event.preventDefault();
 
         if(!passInputHasError && !rePassInputHasError && enteredPass !== ''){
-          axios.patch("/api/account/change", {userEmail: userEmail, userPass: enteredPass})
+          axios.patch("https://guarded-plains-97482.herokuapp.com/api/account/change", {userEmail: userEmail, userPass: enteredPass})
           .then(res => {
             setIsAnswerYes(true);
           })

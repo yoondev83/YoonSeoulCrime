@@ -56,7 +56,7 @@ const Post = props => {
         else{
             setHeartPoint(heartPoint-1);
             setHeart(heart+1);
-            axios.patch("/api/board/boardlist",{
+            axios.patch("https://guarded-plains-97482.herokuapp.com/api/board/boardlist",{
                 postNum: props.data.articleNum,
                 heart: heart+1
             }).then(console.log("성공"))
@@ -70,7 +70,7 @@ const Post = props => {
         else{
         setHeartPoint(heartPoint-1);
         setBrkHeart(brokenHeart+1);
-        axios.patch("/api/board/boardlist",{
+        axios.patch("https://guarded-plains-97482.herokuapp.com/api/board/boardlist",{
             postNum: props.data.articleNum,
             brokenHeart: brokenHeart+1,
         }).then(console.log("성공"))
@@ -90,11 +90,11 @@ const Post = props => {
                 {isAuth &&
                 <Grid item xs={12} className={classes.iconGrid}>
                     <IconButton aria-label="heart" onClick={heartBtnHandler}>
-                        <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
+                        <img className={classes.heart} src="https://yoondev83.github.io/YoonSeoulCrimeFront/icons/heart.png" alt="heart"/>
                         <Typography component={'span'} variant={"subtitle1"} className={classes.content}>{heart}</Typography>
                     </IconButton>
                     <IconButton aria-label="brokenHeart" onClick={brokenHeartBtnHandler}>
-                        <img className={classes.brokenHeart} src="/icons/broken_heart.png" alt="broken heart"/>
+                        <img className={classes.brokenHeart} src="https://yoondev83.github.io/YoonSeoulCrimeFront/icons/broken_heart.png" alt="broken heart"/>
                         <Typography component={'span'} variant={"subtitle1"} className={classes.content}>{brokenHeart}</Typography>
                     </IconButton>
                 </Grid>

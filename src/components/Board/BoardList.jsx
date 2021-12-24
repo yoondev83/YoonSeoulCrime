@@ -226,13 +226,13 @@ const BoardList = props => {
                               </Grid>
                               <Grid item md={1} sm={1} xs={1}>
                                 <div className={classes.heartDiv}>
-                                  <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
+                                  <img className={classes.heart} src="https://yoondev83.github.io/YoonSeoulCrimeFront/icons/heart.png" alt="heart"/>
                                   <Typography display="inline" className={classes.heartIconTxt}>{article.heart}</Typography>
                                 </div>
                               </Grid>
                               <Grid item md={1} sm={1} xs={1}>
                                 <div className={classes.heartDiv}>
-                                  <img className={classes.brokenHeart} src="/icons/broken_heart.png" alt="broken heart"/>
+                                  <img className={classes.brokenHeart} src="https://yoondev83.github.io/YoonSeoulCrimeFront/icons/broken_heart.png" alt="broken heart"/>
                                   <Typography display="inline" className={classes.heartIconTxt}>{article.brokenHeart}</Typography>
                                 </div>
                               </Grid>
