@@ -31,18 +31,20 @@ function App() {
   const isAuth                              = useSelector(state => state.auth.isAuthenticated);
   const dispatch                            = useDispatch();
   useEffect(() => {
-    axios.post("https://guarded-plains-97482.herokuapp.com/api/signin",
-            {
-            userMemberEmail: localStorage.getItem("userInfo").userMemberEmail,
-            userMemberPass: localStorage.getItem("userInfo").userMemberPass
-            }, 
-        )
-        .then(res =>{
-            if(res.data.authentication === true){
-                dispatch(authActions.login({userEmail: res.data.userEmail, userId: res.data.userId}));
-            }
-                })
-        .catch(err => console.log(err));
+    if(localStorage.getItem("userInfo")){
+      axios.post("https://guarded-plains-97482.herokuapp.com/api/signin",
+              {
+              userMemberEmail: localStorage.getItem("userInfo").userMemberEmail,
+              userMemberPass: localStorage.getItem("userInfo").userMemberPass
+              }, 
+          )
+          .then(res =>{
+              if(res.data.authentication === true){
+                  dispatch(authActions.login({userEmail: res.data.userEmail, userId: res.data.userId}));
+              }
+                  })
+          .catch(err => console.log(err));
+    }
     axios.get('https://guarded-plains-97482.herokuapp.com/checkAuthentication')
          .then(res => {
           if(res.data.isAuth){
