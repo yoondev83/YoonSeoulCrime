@@ -178,7 +178,7 @@ const Menus = () => {
       setAnchorUserEl(null);
       setIsMobileMenuOpen(false);
       dispatch(authActions.logout());
-      window.location.replace("/");
+      window.location.replace("/main");
     }
     return(
       <div className={classes.header}>

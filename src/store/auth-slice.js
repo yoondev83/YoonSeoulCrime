@@ -19,7 +19,7 @@ const authSlice = createSlice({
             state.userId          = null;
             localStorage.removeItem("userEmail");
             localStorage.removeItem("userPass");
-            axios.post("/YoonSeoulCrimeFront/api/logout")
+            axios.post("https://guarded-plains-97482.herokuapp.com/api/logout")
             .then(res => console.log(res.data))
             .catch(err => console.log(err));
         },
