@@ -33,7 +33,7 @@ const WritingForm = (props) => {
     const classes                       =   useStyles();
     const [postTitle, setPostTitle]     =   useState(null);
     const [postContent, setPostContent] =   useState(null);
-    const userId                         =   useSelector(state => state.auth.userId);
+    const userId                         =  localStorage.getItem("userId");
 
     const titleChangeHandler        = event =>{
         setPostTitle(event.target.value);

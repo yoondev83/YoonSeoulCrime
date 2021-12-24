@@ -86,6 +86,7 @@ const SignInMain = (props) => {
                 dispatch(authActions.login({userEmail: res.data.userEmail, userId: res.data.userId}));
                 localStorage.setItem("userEmail", res.data.userEmail);
                 localStorage.setItem("userPass", userPass);
+                localStorage.setItem("userId", res.data.userId);
                 props.history.push("/main");
             }else{
                 setLoginError(true);
