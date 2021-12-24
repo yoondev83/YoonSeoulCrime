@@ -11,69 +11,51 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {authActions} from "../../store/auth-slice";
+import Container from '@material-ui/core/Container';
 const useStyles = makeStyles((theme) => ({
-    section:{
-        height:"100vh",
-    },
-    loginBox:{
-        paddingTop: "8%",
-        [theme.breakpoints.down('md')]: {
-            paddingTop: "250px",
-          },
-        [theme.breakpoints.down('xs')]: {
-            paddingTop: "40%",
-          },
-    },
-    loginBtn:{
-        fontSize: "30px",
-        paddingRight:0,
-        marginTop:"10px",
-        width: "400px",
-        height: "50px",
-        backgroundColor:"#2699FB",
-        [theme.breakpoints.down('sm')]: {
-            width: "100%",
-          },
-    },
-    joinBtn:{
-        fontSize: "30px",
-        paddingRight:0,
-        marginTop:"10px",
-        width: "400px",
-        height: "50px",
-        backgroundColor: "#b4bbd0",
-        [theme.breakpoints.down('sm')]: {
-            width: "100%",
-          },
+    container:{
+        maxWidth: "120rem",
+        padding: "0 3.2rem",
+        margin: "6.4rem auto 7.4rem auto"
+      },
+    inputIdGrid:{
+        backgroundColor:"#1f1f1f",
+        borderRadius: "3%",
     },
     loginInput:{
-        width: "400px",
-        height: "50px",
+        width: "100%",
+        height: "4rem",
         borderColor:"#fff",
         color: "#fff",
-        [theme.breakpoints.down('sm')]: {
-            width: "100%",
-          },
     },
-    inputGrid:{
-        textAlign:"center",
-        margin: "20px 0px",
-    },
-
-    inputGridPadding:{
-        paddingTop:"15px",
-        backgroundColor:"#1f1f1f",
-    },
-    inputIdGrid:{
-        backgroundColor:"#1f1f1f"
-    },
-
-    findTxt:{
-        color: "#b4bbd0",
-        padding: "0 40px",
+    icon:{
+        margin: "0 1rem"
     },
     errorText:{
-        color: "#b40e0e"
+        color: "#b40e0e",
+        fontSize: "1rem",
+    },
+
+    loginBtn:{
+        fontSize: "2rem",
+        paddingRight:0,
+        marginTop:"2rem",
+        width: "100%",
+        height: "4rem",
+        backgroundColor:"#2699FB",
+    },
+    joinBtn:{
+        fontSize: "2rem",
+        paddingRight:0,
+        marginTop:"1rem",
+        width: "30rem",
+        height: "4rem",
+        backgroundColor: "#b4bbd0",
+    },
+    
+    inputGrid:{
+        textAlign:"center",
+        margin: "1.5rem 0px",
     },
 }));
 
@@ -114,8 +96,8 @@ const SignInMain = (props) => {
     };
 
     return (
-        <section className={classes.section}>
-        <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.loginBox}>
+        <Container fixed className={classes.container}>
+        <Grid container direction="row" justifyContent="center" alignItems="center">
             <form onSubmit={submitHandler}>
             <Grid item xs={12} className={classes.inputIdGrid}>
                 <Input type="email" name="userEmail" placeholder="Email" onChange={emailHandler}
@@ -124,7 +106,7 @@ const SignInMain = (props) => {
                                         </InputAdornment>)}
                        className={classes.loginInput}/>
             </Grid>
-            <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
+            <Grid item xs={12} className={classes.inputIdGrid}>
                 <Input type="password" name="userPass" placeholder="Password" onChange={passHandler}
                        startAdornment={( <InputAdornment position="start">
                            <LockIcon className={classes.icon}/>
@@ -143,7 +125,7 @@ const SignInMain = (props) => {
             </Grid>
             </form>
         </Grid>
-    </section>
+    </Container>
     );
 }
 

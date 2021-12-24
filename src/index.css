@@ -1,13 +1,39 @@
+/* 
+Background: #121212,
+
+Font
+Color: #ced4da,
+##4dabf7,
+- Font sizes (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+Nav: 1.6rem
+HeroText: 3.6rem,
+
+
+- Font weights
+Default: 400
+Medium: 500
+Semi-bold: 600
+Bold: 700
+
+- Line heights
+Default: 1
+Small: 1.05
+Medium: 1.2
+Paragraph default: 1.6
+*/
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-weight: 300;
+    text-decoration: none;
 
 }
 
 html {
     background: #121212;
+    font-size: 62.5%;
 }
 
 body {
@@ -24,4 +50,18 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
+}
+
+@media (max-width: 75em) {
+    html {
+        /* 9px / 16px  */
+        font-size: 56.25%;
+    }
+}
+
+@media (max-width: 59em) {
+    html {
+        /* 8px / 16px = 0.5 = 50% */
+        font-size: 50%;
+    }
 }

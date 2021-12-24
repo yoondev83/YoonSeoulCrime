@@ -3,144 +3,73 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 const useStyles = makeStyles((theme) => ({
-    contactFirPap:{
-        backgroundColor: "#121212",
-        display: "inline-block",
-        width: "50%",
-        // height: 40,
-        [theme.breakpoints.down('md')]: {
-            width: "55%",
-            display: "block",
-            height: 550
-          },
-          [theme.breakpoints.down('sm')]: {
-            width: "100%",
-          },
+    sectionContact:{
+        padding: "9.6rem 0",
     },
-    contactFirContainer:{
-        paddingLeft: 40,
-        [theme.breakpoints.down('md')]: {
-            paddingLeft: 0,
-          },
-        [theme.breakpoints.down('sm')]: {
-            paddingLeft: 0,
-        },
+    container:{
+        maxWidth: "120rem",
+        padding: "0 3.2rem",
+        margin: "0 auto"
+      },
+    formTitle:{
+        fontSize: "5.2rem",
+        fontWeight: "700",
+        letterSpacing: 0.75,
+        transform: "translate(0, -20%)"
     },
-    leftTitle:{
-        paddingLeft:25,
-        paddingTop: 100,
-        color: "#667081",
-        [theme.breakpoints.down('md')]: {
-            paddingLeft:53,
-            paddingTop: 30,
-          },
-        [theme.breakpoints.down('sm')]: {
-            paddingLeft:20,
-            paddingTop: 30,
-          },
-        
+    grid:{
+        padding:"2rem 0"
     },
-    contactForm: {
-        paddingTop: 50,
-        '& .MuiTextField-root': {
-            margin: theme.spacing(3),
-        },
-        flexWrap: 'wrap',
-        [theme.breakpoints.down('md')]: {
-            paddingTop: 0,
-            paddingLeft: 50,
-            '& .MuiTextField-root': {
-                margin: theme.spacing(1),
-            },
-        },
-        [theme.breakpoints.down('xs')]: {
-            paddingLeft: 10,
-          },
-    },
-
     inputLabel:{
-        color: "#f2f2f2",
-        fontSize: 25,
+        color:"#ced4da",
+        fontSize: "1.4rem",
+        fontWeight: "500",
+        letterSpacing: 0.75,
     },
-    inputLongLineText:{
-        borderBottom: "solid white",
-        width: "500px",
-        color: "#fff",
-        
-        [theme.breakpoints.down('md')]: {
-            width: "520px",
-          },
-        [theme.breakpoints.down('sm')]: {
-            width: "500px",
-          },
-        [theme.breakpoints.down('xs')]: {
-            width: "100%",
-          },
+    inputText:{
+        color:"#fff",
+        fontSize: "1.6rem",
     },
-
+    logoBox:{
+        position: "relative",
+        display: "flex",
+    },
+    logo:{
+        width: "100%",
+        marginBottom: "4.4rem"
+    },
+    emailBoxText:{
+        fontSize: "4.4rem",
+        fontWeight: "700",
+        letterSpacing: 0.75,
+    },
+    youText:{
+        color:"#4dabf7"
+    },
+    email:{
+        fontSize: "2rem",
+        fontWeight: "500",
+    },
+    contactBtn:{
+        margin: "0 auto",
+        width: "100%"
+    },
     sendBtn:{
-        marginTop: 50,
-        width:"50%",
-        float: "right",
-        fontWeight: 400,
-        
-        [theme.breakpoints.down('md')]: {
-            marginTop: 10,
-            width:"100%"
+        width: "98%",
+        "& h6":{
+            fontSize: "1.4rem",
+        }
+    },
+    [theme.breakpoints.down('md')]: {
+        container:{
+            padding: "1rem",
+          },
+        logo:{
+            marginBottom: "10.4rem"
         },
-        [theme.breakpoints.down('sm')]: {
-            width: "100%",
-            marginRight:0,
-            float: "right",
-          },
-        [theme.breakpoints.down('xs')]: {
-            width: "100%",
-            marginRight:0,
-            float: "right",
-          },
-        
-    },
-    contactSecPap:{
-        paddingTop:200,
-        display: "inline-block",
-        backgroundColor: "#10203d",
-        width: "50%",
-        height: "1000px",
-        [theme.breakpoints.down('md')]: {
-            display: "block",
-            width: "100%",
-            height: "600px",
-          },
-    },
-    contactSecContainer:{
-        paddingRight: 60,
-        [theme.breakpoints.down('md')]: {
-            paddingRight: 15,
-            display: "block"
-          },
-    },
-    rightTitle:{
-        marginBottom: 120,
-        fontWeight: 400,
-        color: "#284168",
-        [theme.breakpoints.down('sm')]: {
-            marginBottom: 50
-          },
-        [theme.breakpoints.down('xs')]: {
-            marginBottom: 0
-          },
-    },
-    rightSmallTitle:{
-        fontWeight: 500,
-        color: "#476597",
-    },
-    emailAddr:{
-        fontWeight: 400,
-        color:"#384e72",
-
     }
+  
 
 }
 ));
@@ -151,47 +80,49 @@ const Contact = () => {
 
 
     return (
-        <div>
-             <Paper className={classes.contactFirPap}>
-                <Container maxWidth="sm" className={classes.contactFirContainer}>
-                    <Typography variant="h6" align="left" className={classes.leftTitle} >
+    <section className={classes.sectionContact}>
+        <Container fixed className={classes.container}>
+            <Grid container direction="row" justifyContent="space-around" alignItems="stretch" spacing={2}>
+                <Grid item className={classes.contactForm} xs={12} sm={12} md={6}>
+                    <Typography variant="h2" align="left" className={classes.formTitle} >
                             Hello, Let's get in touch
                     </Typography>
-                    <form className={classes.contactForm} noValidate autoComplete="off">
-                            <Grid className={classes.grid} item sm={12} md={12}>
-                                {/* <TextField id="standard-required" label="First Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} /> */}
-                                <TextField id="standard-required" label="First Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
+                    <form noValidate autoComplete="off">
+                        <Grid container direction="row" justifyContent="space-between" alignItems="flex-start" >
+                            <Grid className={classes.grid} item xs={12} sm={12} md={6}>
+                                <TextField id="standard-required" label="First Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputText}} />
                             </Grid>
-                            <Grid className={classes.grid} item sm={12} md={12}>
-                                <TextField required id="standard-required" label="Last Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
+                            <Grid className={classes.grid} item xs={12} sm={12} md={6}>
+                                <TextField required id="standard-required" label="Last Name" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputText}} />
                             </Grid>
-                            <Grid className={classes.grid} item sm={12} md={12}>
-                                <TextField required id="standard-required" label="Email" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText}} />
+                            <Grid className={classes.grid} item xs={12} sm={12}>
+                                <TextField required id="standard-required" label="Email" InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputText}} />
                             </Grid>
-                            <Grid className={classes.grid} item sm={12} md={12}>
-                                <TextField required id="standard-multiline-static" label="Message" fullWidth multiline rows={4} InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputLongLineText }} />
+                            <Grid className={classes.grid} item xs={12} sm={12}>
+                                <TextField required id="standard-multiline-static" label="Message" fullWidth multiline rows={4} InputLabelProps={{ className: classes.inputLabel }} InputProps={{className: classes.inputText }} />
                             </Grid>
-                            <Grid className={classes.grid} item sm={12} md={12}>
+                            <div className={classes.contactBtn}>
                                 <Button variant="contained" color="secondary" className={classes.sendBtn} href="mailto:yoondev83@gmail.com"> <Typography variant="h6" align="center">Send</Typography></Button>
-                            </Grid>
-                            
-                        </form>
-                </Container>
-             </Paper>
-             <Paper className={classes.contactSecPap}>
-                <Container maxWidth="sm" className={classes.contactSecContainer}>
-                    <div className={classes.rightTitleDiv}>
-                    <Typography variant="h2" align="left" className={classes.rightTitle} >
-                            I'd Love to Hear From <span className={classes.rightSmallTitle}>You</span>
-                    </Typography>
-                    <Typography variant="h6" align="left" className={classes.emailAddr} >
-                            yoondev83@gmail.com
-                    </Typography>
+                            </div>
+                        </Grid>    
+                    </form>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6}>
+                    <div classes={classes.logoBox}>
+                        <img src="./image/logo1.jpeg" className={classes.logo} alt="contact logo"/>
                     </div>
-                </Container>
-             </Paper>
-                
-        </div>
+                    <div className={classes.emailBox}>
+                        <Typography variant="h2" align="left" className={classes.emailBoxText} >
+                                I'd Love to Hear From <span className={classes.youText}>You</span>
+                        </Typography>
+                        <Typography variant="h2" align="left" className={classes.email} >
+                                yoondev83@gmail.com
+                        </Typography>
+                    </div>
+                </Grid>
+            </Grid>
+        </Container>        
+    </section>
       );
     };
     

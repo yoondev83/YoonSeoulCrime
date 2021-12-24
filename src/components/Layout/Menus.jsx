@@ -1,154 +1,252 @@
 import { useState } from 'react';
-import { Container, IconButton } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import { IconButton } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { Link} from 'react-router-dom';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import CancelIcon from '@material-ui/icons/Cancel';
+import { useDispatch, useSelector } from 'react-redux';
+import PersonIcon from '@material-ui/icons/Person';
+import { authActions } from '../../store/auth-slice';
 const useStyles = makeStyles((theme) => ({
-  logoDiv:{
-    display:"inline-block",
-    [theme.breakpoints.down('xs')]: {
-      display:"none"
-    },
+  header:{
+    display: "flex",
+    justifyContent:"space-between",
+    alignItems: "center",
+    height: "6.6rem",
+    padding: "0 4.8rem",
+    background: "#121212",
   },
-  submenuDiv:{
-    display:"inline-block",
-    float:"right",
-    paddingTop:5,
-    [theme.breakpoints.down('xs')]: {
-      display:"none"
-    },
+  logoImg:{
+    height: "5.2rem",
+    width: "12.2rem"
   },
-  navLink:{
-    textDecoration: "none",
+  mainNavList:{
+    color:"#ced4da",
+    listStyle: "none",
+    display:"flex",
+    alignItems:"center",
+    gap: "6.2rem",
+   
   },
-  navMenuBtn: {
-    color: "#fff",
-    paddingRight:50,
-    fontWeight: "bold",
-    [theme.breakpoints.down('md')]: {
-      paddingRight:30,
-    },
-    [theme.breakpoints.down('sm')]: {
-      paddingRight:10,
-    },
-    [theme.breakpoints.down('xs')]: {
-      padding:10
-    },
-  },
-  titleTxt: {
-    width: "450px",
-    [theme.breakpoints.down('md')]: {
-      width: "340px",
-    },
-  },
-  titleHiddenTxt:{
-    [theme.breakpoints.down('xs')]: {
-      display:"none"
-    },
-  },
-  titleBtn:{
-    color: "#fff",
-    textDecoration: "none",
-    paddingLeft: "9%",
-    fontWeight: "bold",
-    [theme.breakpoints.down('sm')]: {
-      display:"none",
-    },
-  },
-  hiddenTitleBtn:{
-    color: "#fff",
-    textDecoration: "none",
-    display: "none",
-    [theme.breakpoints.down('sm')]: {
-      display:"inline",
-      paddingLeft: "8%",
-    },
-  },
-  subMenus:{
-    [theme.breakpoints.down('sm')]: {
-      fontSize:14,
-      paddingTop: 5,
-    },
-  },
+  navMenuBtn:{
+    color:"#ced4da",
 
-  // ------mobile-------
-  mobileMenu:{
-    [theme.breakpoints.up('sm')]: {
-      display:"none"
+    "&:link, &:visited":{
+      color:"#ced4da",
+      display: "inline-block",
+      transition: "all 0.3s",
     },
-    float:"left",
+    "&:hover, &:active":{
+      color:"#fff"
+    },
+    "& h6":{
+      fontWeight: "500",
+      fontSize: "1.6rem"
+    }
+  },
+  graphMenu:{
+    "& ul":{
+      zIndex:9999,
+    },
+    "& li":{
+      fontWeight: "400",
+      fontSize: "1.6rem"
+    },
+  },
+  mobileNavBtn:{
+    display:"none",
+    background:"none",
+    border: "none",
+    cursor: "pointer",
+    zIndex: 5001,
   },
   menuIcon:{
-    fontSize:45,
-    color: "#fff",
-    textAlign:"left",
+    color:"#fff",
+    height: "4.8rem",
+    width: "4.8rem",
   },
-  mobileLink:{
-    textDecoration:"none",
-    color:"black"
-  }
+  closeIcon:{
+    color:"black",
+    height: "4.8rem",
+    width: "4.8rem",
+  },
+  userIcon:{
+    color:"#fff",
+    height: "2.8rem",
+    width: "2.8rem",
+    transform: "translate(0, -10%)"
 
+  },
+  hideIcon:{
+    display: "none",
+  },
+  // Mobile
+  [theme.breakpoints.down('xs')]: {
+    logoDiv:{
+      display:"none"
+    },
+    mainNav:{
+      opacity:0,
+      PointerEvent: "none",
+      visibility: "hidden",
+      backdropFilter: "blur(10px)",
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      transition: "all 0.5s ease-in",
+    },
+    mainNavShow:{
+      opacity: 1,
+      pointerEvents: "auto",
+      visibility: "visible",
+      transform: "translateX(0)",
+      zIndex: 50,
+      PointerEvent: "none",
+      backgroundColor: "rgba(255, 255, 255, 1)",
+      // backdropFilter: "blur(10px)",
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      transition: "all 0.5s ease-in",
+      "&.closeIcon":{
+        display:"block"
+      },
+      "& ul":{
+        flexDirection: "column",
+        gap: 0,
+      },
+      "& h6":{
+        fontWeight: "500",
+        fontSize: "3rem",
+        color: "black",
+      }
+    },
+    mobileNavBtn:{
+      display:"block",
+      margin: "0 0 0 auto"
+    },
+  }
 }));
 
 const Menus = () => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-
+    const [anchorUserEl, setAnchorUserEl] = useState(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const isAuth = useSelector(state => state.auth.isAuthenticated);
+    const dispatch = useDispatch();
+    let navClass = !isMobileMenuOpen ? classes.mainNav : classes.mainNavShow;
+    let menuIconClass = !isMobileMenuOpen ? classes.menuIcon : classes.hideIcon;
+    let closeIconClass = isMobileMenuOpen ? classes.closeIcon : classes.hideIcon;
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
-
     const handleClose = () => {
       setAnchorEl(null);
     };
+    const handleClosewithMobileMenu = () =>{
+      setAnchorEl(null);
+      setIsMobileMenuOpen(false);
+    }
+    const accountBtnHandler = (event) =>{
+      setAnchorUserEl(event.currentTarget);
+    }
+    const accountBtnCloseHandler = () =>{
+      setAnchorUserEl(null);
+      setIsMobileMenuOpen(false);
+    }
+    const mobileMenuOpenHandler = () =>{
+      setIsMobileMenuOpen(true);
+    }
+    const mobileMenuCloseHandler = () =>{
+      setIsMobileMenuOpen(false);
+    }
+    const logoutHandler = () =>{
+      setAnchorUserEl(null);
+      setIsMobileMenuOpen(false);
+      dispatch(authActions.logout());
+      window.location.replace("/");
+    }
     return(
-        <Container maxWidth="lg">
+      <div className={classes.header}>
         <div className={classes.logoDiv}>
-          <Link to="/" className={classes.navLink}>
-            <IconButton edge="start" className={classes.titleBtn} color="inherit" aria-label="menu">
-              <Typography variant="h6" className={classes.titleTxt}>Yoon's Seoul Crime Data</Typography>
+            <IconButton edge="start" component={Link} to="/" className={classes.titleBtn} aria-label="menu">
+              <img src="/image/logo2.png" className={classes.logoImg} alt="logo img"/>
             </IconButton>
-            <IconButton edge="start" className={classes.hiddenTitleBtn} color="inherit" aria-label="menu">
-              <Typography variant="h6" className={classes.titleHiddenTxt}>Yoon's</Typography>
-            </IconButton>
-          </Link>
         </div>
-        <div className={classes.submenuDiv}>
-          <Link to="/main" className={classes.navLink}>
-            <IconButton edge="start" className={classes.navMenuBtn} color="inherit" aria-label="menu">
-              <Typography variant="subtitle1" className={classes.subMenus}>ABOUT</Typography>
-            </IconButton>
-          </Link>
-          <Link to="/api/graph" className={classes.navLink}>
-            <IconButton edge="start" className={classes.navMenuBtn} color="inherit" aria-label="menu">
-              <Typography variant="subtitle1" className={classes.subMenus}>DATA</Typography>
-            </IconButton>
-          </Link>
-          <Link to="/api/board/boardlist" className={classes.navLink}>
-            <IconButton edge="start" className={classes.navMenuBtn} color="inherit" aria-label="menu">
-              <Typography variant="subtitle1" className={classes.subMenus}>BOARD</Typography>
-            </IconButton>
-          </Link>
-        </div>
-
-        <div className={classes.mobileMenu}>
-          <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
-            <MenuIcon className={classes.menuIcon}/>
-          </Button>
-          <Menu id="fade-menu" anchorEl={anchorEl} keepMounted open={open} onClose={handleClose} TransitionComponent={Fade}>
-            <MenuItem onClick={handleClose}> <Link to="/main" className={classes.mobileLink}>ABOUT</Link></MenuItem>
-            <MenuItem onClick={handleClose}> <Link to="/api/graph" className={classes.mobileLink}>DATA</Link></MenuItem>
-            <MenuItem onClick={handleClose}><Link to="/api/board/boardlist" className={classes.mobileLink}>BOARD</Link></MenuItem>
-          </Menu>
-        </div>
-        </Container>
+        <nav className={navClass}>
+            <ul className={classes.mainNavList}>
+              <li>
+                <IconButton edge="start" component={Link} to="/main" className={classes.navMenuBtn} aria-label="menu" onClick={mobileMenuCloseHandler}>
+                  <Typography variant="h6" className={classes.subMenus}>MAIN</Typography>
+                </IconButton>
+              </li>
+              <li>
+                {/* <IconButton edge="start" component={Link} to="/api/graph" className={classes.navMenuBtn} aria-label="menu" onClick={handleClick}> */}
+                <IconButton edge="start"  className={classes.navMenuBtn} aria-label="menu" onClick={handleClick}>
+                  <Typography variant="h6" className={classes.subMenus}>DATA</Typography>
+                </IconButton>
+                <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} className={classes.graphMenu}>
+                  <MenuItem component={Link} to="/api/graph/stackedbar">
+                    <Typography variant="h6" className={classes.subMenus} onClick={handleClosewithMobileMenu}>Seoul Crime Reports & Arrests (2010-2020)</Typography>
+                  </MenuItem>
+                  <MenuItem component={Link} to="/api/graph/linegraph">
+                    <Typography variant="h6" className={classes.subMenus} onClick={handleClosewithMobileMenu}>Arrests Per Crime (2010-2020)</Typography>
+                  </MenuItem>
+                  <MenuItem component={Link} to="/api/graph/bargraph">
+                    <Typography variant="h6" className={classes.subMenus} onClick={handleClosewithMobileMenu}>How Fast is the Korean National Police?</Typography>
+                  </MenuItem>
+                  <MenuItem component={Link} to="/api/graph/map">
+                    <Typography variant="h6" className={classes.subMenus} onClick={handleClosewithMobileMenu}>Seoul Crime Map (2014-2019)</Typography>
+                  </MenuItem>
+                </Menu>
+              </li>
+              <li>
+                <IconButton edge="start" component={Link} to="/api/board/boardlist" className={classes.navMenuBtn} aria-label="menu" onClick={mobileMenuCloseHandler}>
+                  <Typography variant="h6" className={classes.subMenus}>BOARD</Typography>
+                </IconButton>
+              </li>
+              <li>
+                {!isAuth?
+                <IconButton edge="start" component={Link} to="/api/signin" className={classes.navMenuBtn} aria-label="menu" onClick={mobileMenuCloseHandler}>
+                  <Typography variant="h6" className={classes.subMenus}>Login</Typography>
+                </IconButton>:
+                <>
+                  <IconButton edge="start" className={classes.navMenuBtn} aria-label="menu" onClick={accountBtnHandler}>
+                    {!isMobileMenuOpen? <PersonIcon className={classes.userIcon} /> : <Typography variant="h6" className={classes.subMenus}>Account & Logout</Typography>}
+                  </IconButton>
+                  <Menu id="simple-menu" anchorEl={anchorUserEl} keepMounted open={Boolean(anchorUserEl)} onClose={accountBtnCloseHandler} className={classes.graphMenu}>
+                    <MenuItem component={Link} to="/api/mypage">
+                      <Typography variant="h6" className={classes.subMenus} onClick={accountBtnCloseHandler}>Account</Typography>
+                    </MenuItem>
+                    <MenuItem >
+                      <Typography variant="h6" className={classes.subMenus} onClick={logoutHandler}>Logout</Typography>
+                    </MenuItem>
+                  </Menu>
+                </>
+                }
+              </li>
+            </ul>
+        </nav>
+        <button className={classes.mobileNavBtn}>
+          <MenuIcon className={menuIconClass} onClick={mobileMenuOpenHandler}/>
+          <CancelIcon className={closeIconClass} onClick={mobileMenuCloseHandler}/>
+        </button>
+      </div>
     );
-};
-
-export default Menus;
+  };
+  
+  export default Menus;

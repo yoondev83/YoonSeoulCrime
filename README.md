@@ -160,8 +160,11 @@ This project is to provide non Korean speakers with visualized crime data in Seo
 4.	Allow non-members to write.
 5.	Comments
 
-### 업데이트 기록:
-1. 프로젝트 코드를 로컬 실행 환경으로 수정함.
+### Updated:
+December 24, 2021
+1. 프로젝트 코드를 로컬 실행 환경으로 수정함 (Can run in the local environment)
+2. 전반적인 디자인 수정 및 반응형 웹 기능 수정 (Overall design edited and responsiveness added)
+3. 코드 리팩토링 (Code refactored)
 
 
 ## Code

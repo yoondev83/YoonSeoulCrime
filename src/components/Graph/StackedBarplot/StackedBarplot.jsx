@@ -2,17 +2,42 @@ import React, { useEffect } from "react";
 import {Bar} from "react-chartjs-2";
 import { defaults } from 'react-chartjs-2';
 import ShowRawData from "./ShowRawData";
-import classes from "./StackedBarplot.module.css";
-import { Container} from '@material-ui/core';
-const StackedBarplot = props => {
+import { Container, makeStyles } from '@material-ui/core';
+import { useSelector } from "react-redux";
+import LoadingSpinner from "../../UI/LoadingSpinner";
+
+const useStyles = makeStyles((theme) => ({
+  container:{
+      maxWidth: "120rem",
+      padding: "0 3.2rem",
+      margin: "0 auto",
+    },
+    title: {
+      marginTop: "6.2rem",
+      color: "#ced4da",
+      fontWeight: 700,
+      fontSize: "2.4rem",
+      textAlign: "center",
+  },
+  [theme.breakpoints.down('xs')]: {
+    title: {
+      fontSize: "2rem",
+      marginBottom: "1rem",
+  },
+  },
+}
+));
+
+const StackedBarplot = () => {
   const year = [];
   const totalReport = [];
   const totalArrest = [];
-  // const arbitraryStackKey = "stack1";
+  const annualData = useSelector(state => state.data.annualCrimeData);
+  const classes = useStyles();
+  let chartHeight = window.innerWidth < 544 ? "400vh" : "";
   defaults.font.size="15";
-  
-  if(props.data.data){
-    props.data.data.forEach(y => {
+  if(annualData){
+    annualData.data.forEach(y => {
       year.push(y.Year);
       totalReport.push(y.Total_reports);
       totalArrest.push(y.Total_arrests);
@@ -55,9 +80,9 @@ const StackedBarplot = props => {
       };
       
       const options = {
-        responsive: true,
+        // responsive: true,
         indexAxis: 'y',
-        maintainAspectRatio: true,
+        maintainAspectRatio : true,
         scales: {
           yAxes: [
             {stacked: true,
@@ -85,7 +110,7 @@ const StackedBarplot = props => {
               }
           },
           tooltip:{
-            boxWidth: 20
+            boxWidth: 200
           }
       },
       
@@ -95,12 +120,14 @@ const StackedBarplot = props => {
         window.scrollTo(0,0);
     }, [])
     return(
-      <Container maxWidth="lg">
-          <div className='header'>
+      <Container fixed className={classes.container}>
             <h1 className={classes.title}>The Total Number of Reported Crimes & Arrests (2010-2020)</h1>
-            <Bar data={data} options={options}/>
-            <ShowRawData data={props.data}/>
-          </div>
+          {!annualData ? <LoadingSpinner />: 
+            <>
+            <Bar data={data} options={options} height={chartHeight}/>
+            <ShowRawData data={annualData}/>
+            </>
+          }
       </Container>
     );
 };

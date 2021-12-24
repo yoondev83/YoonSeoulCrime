@@ -25,8 +25,8 @@ import SeoulCrimeMap2015 from './components/Graph/Map/SeoulCrimeMap2015';
 import SeoulCrimeMap2014 from './components/Graph/Map/SeoulCrimeMap2014';
 
 function App() {
+  UseData();
   const [boardLists, setBoardLists]         = useState(null);
-  const [data, reportData, seoulCrimetData] = UseData();
   const [isChanged, setIsChanged]           = useState(false);
   const isAuth                              = useSelector(state => state.auth.isAuthenticated);
   const dispatch                            = useDispatch();
@@ -89,24 +89,18 @@ function App() {
             {isAuth && <Route path="/api/mypage" exact render={() => <MyPage/>} />}
             
             {/* Graph */}
-              <Route exact path="/api/graph"  render={() => <StackedBarplot data={data}/>} />
-              <Route exact path="/api/graph/graph2" render={() => <LineArrestedCrimes data={data}/>} />
-              <Route exact path="/api/graph/graph3" render={() => <BarGraphPoliceDispatch data={reportData}/>} />
-              <Route exact path="/api/graph/graph4" render={() => <BarGraphSeoulCrime data={seoulCrimetData}/>} />
+              <Route exact path="/api/graph/stackedbar"  render={() => <StackedBarplot/>} />
+              <Route exact path="/api/graph/linegraph" render={() => <LineArrestedCrimes/>} />
+              <Route exact path="/api/graph/bargraph" render={() => <BarGraphPoliceDispatch />} />
 
-              <Route exact path="/api/graph/seoulCrimeMap" render={() => <SeoulCrimeMap2019 data={seoulCrimetData}/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/2019" render={() => <SeoulCrimeMap2019 data={seoulCrimetData}/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/2018" render={() => <SeoulCrimeMap2018 data={seoulCrimetData}/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/2017" render={() => <SeoulCrimeMap2017 data={seoulCrimetData}/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/2016" render={() => <SeoulCrimeMap2016 data={seoulCrimetData}/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/2015" render={() => <SeoulCrimeMap2015 data={seoulCrimetData}/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/2014" render={() => <SeoulCrimeMap2014 data={seoulCrimetData}/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/graph2019" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2019"/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/graph2018" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2018"/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/graph2017" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2017"/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/graph2016" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2016"/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/graph2015" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2015"/>}/>
-              <Route exact path="/api/graph/seoulCrimeMap/graph2014" render={() => <BarGraphSeoulCrime data={seoulCrimetData} year="2014"/>}/>
+              <Route exact path="/api/graph/map" render={() => <SeoulCrimeMap2019/>}/>
+              <Route exact path="/api/graph/map/2019" render={() => <SeoulCrimeMap2019/>}/>
+              <Route exact path="/api/graph/map/2018" render={() => <SeoulCrimeMap2018/>}/>
+              <Route exact path="/api/graph/map/2017" render={() => <SeoulCrimeMap2017/>}/>
+              <Route exact path="/api/graph/map/2016" render={() => <SeoulCrimeMap2016/>}/>
+              <Route exact path="/api/graph/map/2015" render={() => <SeoulCrimeMap2015/>}/>
+              <Route exact path="/api/graph/map/2014" render={() => <SeoulCrimeMap2014/>}/>
+              <Route exact path={`/api/graph/map/bargraph/:year`} render={() => <BarGraphSeoulCrime/>} />
               
               {/* Not Found Page */}
               <Route path="*" component={NotFound} />

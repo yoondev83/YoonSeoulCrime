@@ -2,12 +2,34 @@ import React from "react";
 import { Line } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
 import ShowRawData from "../StackedBarplot/ShowRawData";
-import classes from "./LineArrestedCrimes.module.css";
-import { Container} from '@material-ui/core';
-const LineArrestedCrimes = props => {
-  const year = [];
-  // reports
+import { Container, makeStyles } from '@material-ui/core';
+import { useSelector } from "react-redux";
+import LoadingSpinner from "../../UI/LoadingSpinner";
+const useStyles = makeStyles((theme) => ({
+  container:{
+      maxWidth: "120rem",
+      padding: "0 3.2rem",
+      margin: "0 auto"
+    },
+    title: {
+      marginTop: "6.2rem",
+      color: "#ced4da",
+      fontWeight: 700,
+      fontSize: "2.4rem",
+      textAlign: "center",
+  },
+  [theme.breakpoints.down('xs')]: {
+    title: {
+      fontSize: "2rem",
+      marginBottom: "1rem",
+  },
+  },
+}
+));
 
+const LineArrestedCrimes = props => {
+  const classes = useStyles();
+  const year = [];
   //arrest
   const violentCrimeArrests = [];
   const larcenyArrests      = [];
@@ -16,12 +38,12 @@ const LineArrestedCrimes = props => {
   const sexualCrimeArrests  = [];
   const otherCrimeArrests   = [];
   const specialCrimeArrests = [];
-  
+  const annualData          = useSelector(state => state.data.annualCrimeData); 
+  let chartHeight = window.innerWidth < 544 ? "400vh" : "";
   //graph
   defaults.font.size="15";
-  
-  if(props.data.data){
-    props.data.data.forEach(y => {
+  if(annualData){
+    annualData.data.forEach(y => {
       year.push(y.Year);
   
       //arrest
@@ -166,12 +188,14 @@ const LineArrestedCrimes = props => {
     
 
     return(
-      <Container maxWidth="lg">
-          <div className='header'>
+      <Container fixed className={classes.container}>
             <h1 className={classes.title}>The Arrested Crimes (2010-2020) </h1>
-            <Line data={data} options={options} />
-            <ShowRawData data={props.data}/>
-          </div>
+            {!annualData? <LoadingSpinner />:
+            <>
+            <Line data={data} options={options} height={chartHeight}/>
+            <ShowRawData data={annualData}/>
+            </>
+            }
       </Container>
     );
 };

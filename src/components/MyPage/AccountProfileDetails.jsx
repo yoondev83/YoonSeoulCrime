@@ -14,11 +14,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 const useStyles = makeStyles((theme) => ({
     joinInput:{
-        // width: "400px",
-        height: "63px",
+        height: "5rem",
         color:"#fff",
-        [theme.breakpoints.down('xs')]: {
-          },
     },
     invalid:{
         border: "1px solid #b40e0e",
@@ -35,14 +32,14 @@ const useStyles = makeStyles((theme) => ({
       color: "#b40e0e",
       textAlign:"left",
       float:"left",
-      paddingRight: 20,
-      fontSize: 15
+      paddingRight: "2rem",
+      fontSize: "1.4rem"
     },
     deleteBtn:{
       float: "left",
       padding: 0,
       color:"#b40e0e",
-      fontSize: 15
+      fontSize: "1.2rem"
     },
     modal: {
       display: 'flex',

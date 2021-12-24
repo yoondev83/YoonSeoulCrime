@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react';
 import papa from "papaparse";
 import {features} from "./Map/seoulGeoJson.json"
 import legendItems from './Map/entities/LegendItems';
+import { useDispatch } from 'react-redux';
+import {dataActions} from "../../store/dataSlice";
 const csvUrl = "https://gist.githubusercontent.com/yoondev83/c005986d80b0a16dc35f415c3b742abf/raw/fad0801f4bf194cf5409a8d401de9979f6202199/2010-2020_Annual_Seoul_Crime_Data.csv";
 const csvReportUrl = "https://gist.githubusercontent.com/yoondev83/9168b5f93ff4920478856c40373e4b48/raw/57be8a04d5fb2268fa2d8457cbef32f66bed9a52/2005-2009_The_Seoul_Police_Dispatches";
 const csvSeoulDistrictCrime = "https://gist.githubusercontent.com/yoondev83/7a811ec87fc150fcfba4cef6712070b4/raw/347b61b6025f13b564aef400424ea6ecbd2e1aaf/Seoul_District_Crimes.csv";
@@ -9,10 +11,11 @@ const mapSeoulDistricts     = features;
 
 
 export const UseData = () => {
-    const [data, setData]   = useState([]);
-    const [reportData, setReportData]   = useState([]);
-    const [seoulCrimetData, setSeoulCrimeData]   = useState([]);
-    
+    const dispatch = useDispatch();
+    const [annualCrimeData, setAnnualCrimeData] = useState();
+    const [policeDispatchData, setPoliceDispatchData] = useState();
+    const [seoulDistrictCrimeData, setSeoulDistrict] = useState();
+
     const setDistrictColor = mapDistrict => {
         const legendItem2019 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2019));
         const legendItem2018 = legendItems.find(item => item.isFor(mapDistrict.properties.totalIncidents_2018));
@@ -43,7 +46,7 @@ export const UseData = () => {
 
 
     const processCrimeMapData = (seoulDistrict) => {
-        setSeoulCrimeData(seoulDistrict); 
+        setSeoulDistrict(seoulDistrict);
         //자료는 6년치인데 행정구역 정보는 년도별이 아닌 그냥 행정구역 이름이 나열된거니 한 해 수치밖에 나오지 못 함.
         for (let i = 0; i < mapSeoulDistricts.length; i++){
             const mapDistrict = mapSeoulDistricts[i];
@@ -91,16 +94,21 @@ export const UseData = () => {
             setDistrictColor(mapDistrict);
         };
     }
+    dispatch(dataActions.setData({
+        annualCrimeData: annualCrimeData,
+        policeDispatchData: policeDispatchData,
+        districtData: seoulDistrictCrimeData,
+    }));
     useEffect(() => {
         papa.parse(csvUrl, {
             download: true,
             header: true,
-            complete: result => setData(result)
+            complete: result => setAnnualCrimeData(result),
         });
         papa.parse(csvReportUrl, {
             download: true,
             header: true,
-            complete: result => setReportData(result)
+            complete: result => setPoliceDispatchData(result),
         });
         papa.parse(csvSeoulDistrictCrime, {
             download: true,
@@ -108,5 +116,4 @@ export const UseData = () => {
             complete: result => processCrimeMapData(result),
         });
         }, []);
-    return [data, reportData, seoulCrimetData];
   }

@@ -20,105 +20,98 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import LoadingSpinner from '../UI/LoadingSpinner';
-
+import Grid from '@material-ui/core/Grid';
 const useStyles = makeStyles((theme) => ({
   boardContainer: {
-    paddingBottom: "100px",
-    paddingTop: 120,
-    height: "100vh",
+      maxWidth: "120rem",
+      padding: "0 3.2rem",
+      margin: "6.2rem auto",
+      flexGrow: 1,
+  },
+  wrtBtn:{
+    float:"right",
+    marginBottom: "1rem"
   },
   paper:{
-    backgroundColor: "#252933",
-  },
-  tablePagin: {
-    backgroundColor: "#252933",
-    color: "#fff"
-  },
-  selectDropdown:{
-    color: "black",
-  },
-  titleDiv:{
-    width: "100%",
-    paddingTop: 0,
-  },
-  titleHeading: {
-    fontSize: theme.typography.pxToRem(20),
-    fontWeight: theme.typography.fontWeightRegular,
-    paddingTop: "1.5%",
-    [theme.breakpoints.down('xs')]: {
-      fontSize: theme.typography.pxToRem(20),
-    },
+    backgroundColor: "#121212",
   },
   accodrionBoard:{
-    backgroundColor: "#fff",
-    marginBottom:15,
-    verticalAlign: "bottom",
+    backgroundColor:"#121212",
+    width: "100%",
+    borderBottom: "1px solid rgba(206, 212, 218, 0.2)",
+    "& p":{
+      color:"#ced4da",
+      fontSize: "1.4rem",
+      fontWeight: 500,
+  }
+},
+  postNum:{
+    textAlign:"center"
   },
-  accodrionSummary:{
-    backgroundColor: "#252933",
-    color: "white",
-    
-  },
-  dateDiv:{
-    paddingTop: "10px",
-    marginRight: 15,
-    textAlign: "right",
-    tableLayout: "fixed",
-    width:"100%",
-    [theme.breakpoints.down('xs')]: {
-      width: "5px",
-      paddingRight: 40,
-    },
-  },
-  dateTxt: {
-    fontSize: theme.typography.pxToRem(20),
-    paddingBottom: "10px",
-    [theme.breakpoints.down('xs')]: {
-      fontSize: theme.typography.pxToRem(15),
-    },
+  titleDiv:{
+    "&:hover":{
+      "& p":{
+        color:"#fff",
+      }
+    }
   },
   heartDiv:{
-    width: 100,
-    textAlign:"center",
-    paddingRight: 20,
-    [theme.breakpoints.down('sm')]: {
-      height: "100%",
-    },
-    [theme.breakpoints.down('xs')]: {
-      display:"none"
-    },
+    textAlign:"right"
   },
+  heartIconTxt:{
+    marginLeft: "1rem",
+  },
+  
   heart:{
-    width: "30px",
-    height: "30px",
+    width: "2rem",
+    height: "2rem",
     paddingBottom: 0,
     textAlign:"center"
   },
-  heartTxt:{
-    textAlign:"center",
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 15
-    },
-  },
-  brokenHeartDiv:{
-    textAlign:"center",
-    [theme.breakpoints.down('sm')]: {
-      width: "100px",
-    },
-    [theme.breakpoints.down('xs')]: {
-      display:"none"
-    },
-  },
   brokenHeart:{
-    width: "30px",
-    height: "30px",
+    width: "2rem",
+    height: "2rem",
   },
-  brokenHeartTxt:{
-    textAlign:"center",
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 15
+  tablePagin:{
+    color:"#fff",
+    "& button":{
+      backgroundColor: "red",
+      color: "red",
+      "& span":{
+        color: "#f06595"
+      }
+
+    }
+    
+  },
+
+  [theme.breakpoints.down('xs')]: {
+    accodrionBoard:{
+      "& p":{
+        fontSize: "1.6rem",
+        textAlign: "left",
+      },
+      
     },
+  heartDiv:{
+    textAlign:"center"
   },
+  heartIconTxt:{
+    marginLeft: "0",
+  },
+
+  
+},
+  // brokenHeartDiv:{
+  //   textAlign:"center",
+  //   [theme.breakpoints.down('sm')]: {
+  //     width: "100px",
+  //   },
+  //   [theme.breakpoints.down('xs')]: {
+  //     display:"none"
+  //   },
+  // },
+
 }));
 
 
@@ -192,7 +185,6 @@ const BoardList = props => {
   const [page, setPage]               = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const isAuth                        = useSelector(state => state.auth.isAuthenticated);
-  // const emptyRows                     = rowsPerPage - Math.min(rowsPerPage, props.boardLists.length - page * rowsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -204,46 +196,62 @@ const BoardList = props => {
   };
     return(
             <>
-              <Container maxWidth="lg" className={classes.boardContainer}>
-                {isAuth && <WritingBtn/>}
+              <Container fixed className={classes.boardContainer}>
                 {/* <SearchBtn /> */}
+                <div className={classes.wrtBtn}>
+                  {isAuth && <WritingBtn/>}
+                </div>
                 <TableContainer component={Paper} className={classes.paper}>
                   {props.boardLists === null? <LoadingSpinner/> :
-                  <div>
+                <Grid container  direction="row" justifyContent="space-between" alignItems="flex-end">
                   {(rowsPerPage > 0 ? props.boardLists.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : props.boardLists
                       ).map((article) => (
-                        <Accordion key={article.date} className={classes.accodrionBoard}>
-                          <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" className={classes.accodrionSummary}>
-                            <div className={classes.titleDiv}>
-                              <Typography className={classes.titleHeading}>{article.title.length > 40? article.title.slice(0, 40) + "...": article.title}</Typography>
-                            </div>
-                            <div className={classes.dateDiv}>
-                              <Typography className={classes.dateTxt}>{article.date.toString().slice(0, 10)}</Typography>
-                            </div>
-                            <div className={classes.heartDiv}>
-                              <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
-                              <Typography className={classes.heartTxt}>{article.heart}</Typography>
-                            </div>
-                            <div className={classes.brokenHeartDiv}>
-                              <img className={classes.brokenHeart} src="/icons/broken_heart.png" alt="broken heart"/>
-                              <Typography className={classes.brokenHeartTxt}>{article.brokenHeart}</Typography>
-                            </div>
-                          </AccordionSummary>
-                        <AccordionDetails>
-                          <Post data={article}/>
-                        </AccordionDetails>
-                        </Accordion>
+                          <Accordion className={classes.accodrionBoard}>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header" className={classes.accodrionSummary}>
+                              <Grid item md={1} sm={1} xs={1}>
+                                <div className={classes.postNum}>
+                                  <Typography className={classes.titleHeading}>{article.articleNum}</Typography>
+                                </div>
+                              </Grid>
+                              <Grid item md={7} sm={7} xs={6}>
+                                <div className={classes.titleDiv}>
+                                  <Typography className={classes.titleHeading}>{article.title.length > 40? article.title.slice(0, 40) + "...": article.title}</Typography>
+                                </div>
+                              </Grid>
+                              <Grid item md={2} sm={2} xs={3}>
+                                <div className={classes.dateDiv}>
+                                  <Typography className={classes.dateTxt}>{article.date.toString().slice(0, 10)}</Typography>
+                                </div>
+                              </Grid>
+                              <Grid item md={1} sm={1} xs={1}>
+                                <div className={classes.heartDiv}>
+                                  <img className={classes.heart} src="/icons/heart.png" alt="heart"/>
+                                  <Typography display="inline" className={classes.heartIconTxt}>{article.heart}</Typography>
+                                </div>
+                              </Grid>
+                              <Grid item md={1} sm={1} xs={1}>
+                                <div className={classes.heartDiv}>
+                                  <img className={classes.brokenHeart} src="/icons/broken_heart.png" alt="broken heart"/>
+                                  <Typography display="inline" className={classes.heartIconTxt}>{article.brokenHeart}</Typography>
+                                </div>
+                              </Grid>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              <Post data={article}/>
+                            </AccordionDetails>
+                          </Accordion>
                       ))}
-                      <TablePagination rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]} colSpan={3} count={props.boardLists.length}
-                          rowsPerPage={rowsPerPage} page={page} className={classes.tablePagin} component="div"
+                      <Grid item md={12}>
+                        <TablePagination rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]} colSpan={3} count={props.boardLists.length}
+                          rowsPerPage={rowsPerPage} page={page} className={classes.tablePagin} component="span"
                           SelectProps={{
                             MenuProps: { classes: {paper: classes.selectDropdown} },
                             inputProps: { 'aria-label': 'rows per page' },
                           }}
                           onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} ActionsComponent={TablePaginationActions}/>
-                  </div> 
-                          
+                      </Grid>
+                  </Grid>
                   }
                 </TableContainer>
               </Container>

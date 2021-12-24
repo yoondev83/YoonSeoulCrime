@@ -10,31 +10,35 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    minWidth: "65rem",
   },
   tableContainer:{
-      backgroundColor:"#1f1f1f",
-      width: "100%",
-      height: "100%",
-      marginTop: 80,
-      marginBottom: 50
+    backgroundColor:"#212529",
+    width: "100%",
+    height: "25vh",
+    marginTop: "6.4rem",
+    marginBottom: "6.4rem",
+    },
+    tRow:{
+      "&:nth-child(odd)": {
+        backgroundColor: "#343a40",
+      }
     },
     tableHead:{
-        color:"#fff",
-        fontWeight: "bold",
-        fontSize: "20px",
-        textAlign: "center"
+      color:"#ced4da",
+      fontWeight: "500",
+      fontSize: "1.2rem",
+      textAlign: "center"
     },
     tableBody:{
-        color:"grey",
-        border: "none",
-        textAlign: "center"
+      color:"grey",
+      fontSize: "1.2rem",
+      border: "none",
   }
 });
 
 const ShowDispatchRawData = props => {
   const classes = useStyles();
-
   return (
     <TableContainer component={Paper} className={classes.tableContainer}>
       <Table className={classes.table} size="small" aria-label="a dense table">
@@ -47,7 +51,7 @@ const ShowDispatchRawData = props => {
         </TableHead>
         <TableBody>
           {props.data.data.map((d) => (
-            <TableRow key={d.Year}>
+            <TableRow key={d.Year} className={classes.tRow}>
               <TableCell component="th" scope="row" className={classes.tableBody}>
                 {d.Year}
               </TableCell>

@@ -13,61 +13,51 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import useInput from "../hooks/use-input";
 import { Typography } from "@material-ui/core";
+import Container from '@material-ui/core/Container';
 const useStyles = makeStyles((theme) => ({
+    container:{
+        maxWidth: "120rem",
+        padding: "0 3.2rem",
+        margin: "6.4rem auto 7.4rem auto"
+      },
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     },
-    joinBox:{
-        paddingTop: "5%",
-        paddingBottom: "100px",
-        textAlign:"right",
-        height:"100vh",
-        [theme.breakpoints.down('sm')]: {
-            paddingTop: "12%",
-            width: "100%",
-          },
-        [theme.breakpoints.down('xs')]: {
-            paddingTop: "30%",
-            width: "100%",
-          },
+    signUpInput:{
+        width: "100%",
+        height: "4rem",
+        borderColor:"#fff",
+        color: "#fff",
+    },
+    icon:{
+        margin: "0 1rem"
     },
     joinBtn:{
-        fontSize: "30px",
-        paddingRight:0,
-        marginTop:"10px",
-        width: "400px",
-        height: "50px",
+        fontSize: "2rem",
+        marginTop:"2rem",
+        width: "30rem",
+        height: "4rem",
         backgroundColor:"#2699FB",
-        [theme.breakpoints.down('xs')]: {
-            width: "100%",
-          },
-    },
-    joinInput:{
-        width: "400px",
-        height: "50px",
-        color:"#fff",
-        [theme.breakpoints.down('xs')]: {
-            width: "100%",
-          },
     },
     inputIdGrid:{
         backgroundColor:"#1f1f1f",
     },
     inputGridPadding:{
-        paddingTop:"15px",
         backgroundColor:"#1f1f1f",
     },
     invalid:{
         border: "1px solid #b40e0e",
         backgroundColor: "#fddddd",
+        color: "#030303",
         "&.Mui-focused": {
             backgroundColor: "#fbe8d2",
             borderColor:"#ff8800",
         },
     },
     errorText:{
-        color: "#b40e0e"
+        color: "#b40e0e",
+        fontSize: "1rem",
     },
 
 }));
@@ -102,9 +92,9 @@ const SignUp = props => {
         valueChangeHandler: rePassChangeHandler,
         inputBlurHandler: rePassBlurHandler,
         reset: resetRePassInput}          = useInput(value => value.trim() !=='' && value.length >= 6 && value === enteredPass);
-    const idInputClasses                  = idInputHasError? clsx(classes.joinInput, classes.invalid): classes.joinInput;
-    const emailInputClasses               = emailInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
-    const passInputClasses                = passInputHasError? clsx(classes.joinInput, classes.invalid) : classes.joinInput;
+    const idInputClasses                  = idInputHasError? clsx(classes.signUpInput, classes.invalid): classes.signUpInput;
+    const emailInputClasses               = emailInputHasError? clsx(classes.signUpInput, classes.invalid) : classes.signUpInput;
+    const passInputClasses                = passInputHasError? clsx(classes.signUpInput, classes.invalid) : classes.signUpInput;
     
     const handleClose = () => {
         setOpen(false);
@@ -132,18 +122,18 @@ const SignUp = props => {
         resetRePassInput();
     }
     return (
-        <section>
+        <Container fixed className={classes.container}>
             <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
                 <CircularProgress color="primary" />
             </Backdrop>
 
             <Grid container direction="row" justifyContent="center" alignItems="center" className={classes.joinBox}>
                 <form onSubmit={fetchJoinInfo}>
-                    <Grid item xs={12} className={clsx(classes.inputIdGrid)}>
+                    <Grid item xs={12} className={classes.inputIdGrid}>
                         <Input type="text" name="userName" placeholder="ID" onChange={idChangeHandler} onBlur={idBlurHandler}
                             value={enteredId}
                                startAdornment={( <InputAdornment position="start">
-                                    <AssignmentIndIcon />
+                                    <AssignmentIndIcon className={classes.icon}/>
                                     </InputAdornment>)}
                                className={idInputClasses}
                         />
@@ -154,7 +144,7 @@ const SignUp = props => {
                         <Input type="text" name="userEmail" placeholder="Email" onChange={emailChangeHandler} onBlur={emailBlurHandler}
                                value={enteredEmail}
                                startAdornment={( <InputAdornment position="start">
-                                   <EmailIcon />
+                                   <EmailIcon className={classes.icon}/>
                                    </InputAdornment>)}
                                className={emailInputClasses}
                         />
@@ -165,7 +155,7 @@ const SignUp = props => {
                         <Input type="password" name="userPass" placeholder="Password" onChange={passChangeHandler} onBlur={passBlurHandler}
                                value={enteredPass}
                                startAdornment={( <InputAdornment position="start">
-                                    <LockIcon />
+                                    <LockIcon className={classes.icon}/>
                                     </InputAdornment>)}
                                className={passInputClasses}
                         />
@@ -174,7 +164,7 @@ const SignUp = props => {
                     <Grid item xs={12} className={clsx(classes.inputGridPadding)}>
                         <Input type="password" name="userPassCheck" placeholder="Confirm Password" onChange={rePassChangeHandler} onBlur={rePassBlurHandler}
                                startAdornment={( <InputAdornment position="start">
-                                    <LockIcon />
+                                    <LockIcon className={classes.icon}/>
                                     </InputAdornment>)}
                                className={passInputClasses}
                         />
@@ -185,7 +175,7 @@ const SignUp = props => {
                     </Grid>
                 </form>
             </Grid>
-        </section>
+        </Container>
     );
 };
 

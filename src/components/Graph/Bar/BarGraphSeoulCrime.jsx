@@ -1,34 +1,46 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Container } from "@material-ui/core";
 import YearTabs from '../../UI/YearTabs';
-import { makeStyles } from "@material-ui/styles";
+import { Container, makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import LoadingSpinner from '../../UI/LoadingSpinner';
+import { useLocation } from 'react-router-dom';
 const useStyles = makeStyles((theme) =>({
-    container:{
-        padding: 0,
-        paddingTop: 30,
-        height: "100%"
-    },
-    title:{
-        paddingTop: 20,
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: "24px",
-        textAlign: "center",
-    }
+  container:{
+    maxWidth: "120rem",
+    padding: "0 3.2rem",
+    margin: "6.2rem auto 6.2rem auto"
+  },
+  title: {
+    marginTop: "6.2rem",
+    color: "#ced4da",
+    fontWeight: 700,
+    fontSize: "2.4rem",
+    textAlign: "center",
+  },
+  [theme.breakpoints.down('xs')]: {
+    title: {
+      fontSize: "2rem",
+      marginBottom: "1rem",
+  },
+  },
    
 }));
 
 const BarGraphSeoulCrime = props =>{
     const classes           = useStyles();
-    const crimeData         =   props.data.data;
-    const selectedYear      =   +props.year;
+    const seoulCrimeData    = useSelector(state => state.data.districtData); 
+    const location          = useLocation();
+    const {year}            = location.state;
     const incidents         =   [];
     const districts         =   [];
+    let chartHeight = window.innerWidth < 544 ? "400vh" : "";
+    let crimeData;          
     let selectedYearData;
-    if(crimeData){
+    if(seoulCrimeData){
+      crimeData = seoulCrimeData.data;
 
-     switch (selectedYear) {
+     switch (year) {
        case 2019:  selectedYearData = crimeData.slice(1,25);
          break;
        case 2018:  selectedYearData = crimeData.slice(27,51);
@@ -88,11 +100,11 @@ const BarGraphSeoulCrime = props =>{
       },
     };
     return(
-        <Container maxWidth="lg" className={classes.container}>
-
+        <Container fixed className={classes.container}>
             <YearTabs/>
-            <h1 className={classes.title}>The Crime Incidents Per District ({selectedYear})</h1>
-            <Bar data={data} options={options} />
+            <h1 className={classes.title}>The Crime Incidents Per District ({year})</h1>
+            {!seoulCrimeData? <LoadingSpinner />:
+            <Bar data={data} options={options} height={chartHeight}/>}
         </Container>
     );
 };

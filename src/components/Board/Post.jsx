@@ -2,7 +2,7 @@ import { Grid, Paper, Typography } from "@material-ui/core";
 import {useSelector} from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import clsx from "clsx";
+import {Container} from "@material-ui/core"
 import { useState } from "react";
 import axios from "axios";
 
@@ -10,32 +10,36 @@ const useStyles = makeStyles({
     paper:{
         paddingLeft: "10px",
         borderRadius: "0",
-        boxShadow: "none"
+        boxShadow: "none",
+        padding: "1.2rem" ,
+        backgroundColor: "#343a40",
+        "& span":{
+            fontSize: "1.4rem",
+            fontWeight: 500,
+        }
     },
     postInfoUser:{
-        fontSize: "24px",
         color: "#52CDB9",
-        paddingLeft: "3px",
-        paddingTop:"10px"
+        paddingLeft: "0.3rem",
     },
     content:{
-        color:"#6B6B6B"
+        marginTop:"4.4rem",
+        color: "#ced4da",
     },
     heart:{
-        width: "68px",
-        height: "65px",
+        width: "4.2rem",
+        height: "4.2rem",
         paddingBottom: 0,
-        marginRight: 15
+        marginRight: "1.2rem"
     },
     brokenHeart:{
-        width: "60px",
-        height: "65px",
-        marginTop:"10px"
+        width: "4.2rem",
+        height: "4.6rem",
+        marginTop:"0.5rem"
     },
     iconGrid:{
         textAlign:"center",
-        paddingRight: "15px",
-        paddingTop: 50
+        paddingRight: "1.5rem",
         },
 });
 
@@ -74,10 +78,14 @@ const Post = props => {
         }
     }
     return(
-            <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={0}>
+            <Container >
                 <Grid item xs={12}>
-                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>{props.data.userId}</Typography></Paper>
-                    <Paper className={clsx(classes.paper)}><Typography component={'span'} variant={'body2'} className={classes.content}>{props.data.content}</Typography></Paper>
+                    <Paper className={classes.paper}>
+                        <Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>userid</Typography>
+                    </Paper>
+                    <Paper className={classes.paper}>
+                        <Typography component={'span'} variant={'body2'} className={classes.content}>{props.data.content}</Typography>
+                    </Paper>
                 </Grid>
                 {isAuth &&
                 <Grid item xs={12} className={classes.iconGrid}>
@@ -91,7 +99,7 @@ const Post = props => {
                     </IconButton>
                 </Grid>
                 }
-            </Grid>
+            </Container>
 
     );
 };

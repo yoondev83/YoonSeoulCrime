@@ -3,24 +3,28 @@ import { Fab, Grid, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import EditIcon from '@material-ui/icons/Edit';
 import axios from "axios";
+import Container from '@material-ui/core/Container';
 const useStyles = makeStyles(() =>({
+    container:{
+        maxWidth: "120rem",
+        padding: "0 3.2rem",
+        margin: "6.4rem auto"
+      },
     inputTxt:{
-        color: "#fff",
+        color: "#ced4da",
+        fontSize: "1.2rem",
+        fontWeight: 300,
     },
 
     wrtInput:{
-        border: "2px solid #fff",
+        border: "2px solid #ced4da",
         width: "80%",
         backgroundColor:"#1f1f1f",
     },
     wrtBtn:{
         marginRight:"10%",
-        marginTop: "20px",
+        marginTop: "1.5rem",
     },
-    section: {
-        paddingTop:"10%",
-        height: "80vh"
-      },
 }));
 
 
@@ -54,8 +58,7 @@ const WritingForm = (props) => {
     };
 
     return(
-        <>
-        <section className={classes.section}>
+       <Container fixed className={classes.container}>
                 <form noValidate autoComplete="off" >
                     <Grid container spacing={0} alignItems="flex-start" justifyContent="center" >
                         <TextField id="outlined-basic" label="Title" variant="outlined" className={classes.wrtInput} InputLabelProps={{ className: classes.inputTxt}} InputProps={{className:classes.inputTxt }} onChange={titleChangeHandler} />
@@ -67,8 +70,7 @@ const WritingForm = (props) => {
                         </Fab>
                     </Grid>
                 </form>
-        </section>
-        </>
+        </Container>
     );
 };
 

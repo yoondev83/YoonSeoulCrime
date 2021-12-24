@@ -6,92 +6,93 @@ import Paper from '@material-ui/core/Paper';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import MoneyOffIcon from '@material-ui/icons/MoneyOff';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
+import Container from '@material-ui/core/Container';
 
-/*
-  모바일 사이즈 정도 되었을때 메인바디컨텐츠와 컨택트가 겹쳐버림.
-*/
 const useStyles = makeStyles((theme) => ({
-  bodyDiv:{
-    paddingTop: "100px",
-    height: "110vh",
-    backgroundColor: "#252933",
-    [theme.breakpoints.down('md')]: {
-      height: "115vh",
-    },
-    [theme.breakpoints.down('sm')]: {
-      height: "120vh",
-    },
+  sectionFeature:{
+    padding:"4.8rem 0 3.2rem 0",
+    backgroundColor: "#1f1f1f"
   },
-  gridTitle: {
-    paddingTop: "80px",
+  container:{
+    maxWidth: "120rem",
+    padding: "0 3.2rem",
+    margin: "0 auto"
+  },
+  title:{
+    fontWeight: "700",
+    textTransform: "uppercase",
+    color: "#ced4da",
+    letterSpacing: "0.75px",
+    marginBottom:"7.4rem",
   },
   icons: {
     fontSize: "150px",
     color: "#fff",
   },
   papers:{
-    backgroundColor: "#252933",
+    backgroundColor: "#1f1f1f",
     width: "100%",
     textAlign: "center",
-  },
-  title:{
-    paddingTop: "30px",
-    fontWeight: "bold",
-    color: "#fff",
+    "& h3":{
+      fontSize: "2.4rem",
+    }
   },
   featureIconTitle:{
     fontWeight: "bold",
-    color: "#fff",
+    color: "#ced4da",
   },
   featureContent:{
-    color:"#f2f2f2",
-    paddingTop: 70,
-  }
+    color:"#ced4da",
+    lineHeight:1.8,
+    paddingTop: "7rem",
+  },
 }));
 
 const MainBodyContent = () => {
   const classes = useStyles();
 
     return (
-      <div className={classes.bodyDiv}>
-          <Typography variant="h3" align="center" className={classes.title} >
-            FEATURES
+      <section className={classes.sectionFeature}>
+         <Container fixed className={classes.container}>
+          <Typography variant="h2" align="center" className={classes.title} >
+            features
           </Typography>
-          <Grid container spacing={2} justifyContent="center" className={classes.gridTitle}>
-            <Grid item xs={12} sm={12} md={4}>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={12} sm={4}>
               <Paper elevation={0} className={classes.papers}>
                 <AccountBoxIcon color="secondary" className={classes.icons}/>
-                  <Typography variant="h5" align="center" className={classes.featureIconTitle} >
+                  <Typography variant="h3" align="center" className={classes.featureIconTitle} >
                     DATA
                   </Typography>
               </Paper>
             </Grid>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={4}>
               <Paper elevation={0} className={classes.papers}>
                 <EqualizerIcon className={classes.icons} />
-                  <Typography variant="h5" align="center" className={classes.featureIconTitle} >
+                  <Typography variant="h3" align="center" className={classes.featureIconTitle} >
                     GRAPH
                   </Typography>
               </Paper>
             </Grid>
-            <Grid item xs={12} sm={12} md={4}>
+            <Grid item xs={12} sm={4}>
               <Paper elevation={0} className={classes.papers} >
                 <MoneyOffIcon className={classes.icons} />
-                  <Typography variant="h5" align="center" className={classes.featureIconTitle} >
+                  <Typography variant="h3" align="center" className={classes.featureIconTitle} >
                     NO CHARGE
                   </Typography>
               </Paper>
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid item lg={12}>
               <Paper elevation={0} className={classes.papers} >
-                  <Typography variant="h5" align="center" className={classes.featureContent}>
+                  <Typography variant="h3" align="center" className={classes.featureContent}>
                   Data sources are from the Korea Institute of Criminology, the Supreme Prosecutors' Office of the Republic of Korea, and Data Seoul!
                   This website shows you a variety of graphs that you can read and analyze easily without any membership fee!
                   </Typography>
               </Paper>
             </Grid>
           </Grid>
-      </div>
+          </Container>
+      </section>
     );
 };
 

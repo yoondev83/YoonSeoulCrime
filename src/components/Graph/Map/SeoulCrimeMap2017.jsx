@@ -8,7 +8,8 @@ import YearTabs from "../../UI/YearTabs";
 import Legend from "./Legend";
 import legendItems from "./entities/LegendItems";
 import { mapStyle, MapStyles } from "./MapStyles";
-
+import LoadingSpinner from "../../UI/LoadingSpinner";
+import { useSelector } from "react-redux";
 const mouseoverEvent= event=>{
     event.target.setStyle({
         weight: 5,
@@ -23,6 +24,7 @@ const SeoulCrimeMap2017 = props => {
     const classes = MapStyles();
     const legendReverse = [...legendItems].reverse();
     let seoulLocation = [37.5605, 126.9780];
+    const seoulCrimeData    = useSelector(state => state.data.districtData); 
     const mouseoutEvent= event=>{
         getJsonRef.current.setStyle({color: "white",
         weight:1,
@@ -44,15 +46,18 @@ const SeoulCrimeMap2017 = props => {
     };
 
     return(
-        <Container maxWidth="lg" className={classes.container}>
+        <Container fixed className={classes.container}>
             <YearTabs/>
+            {!seoulCrimeData ? <LoadingSpinner />: 
+            <>
             <MapContainer center={seoulLocation} zoom={11} scrollWheelZoom={true} className={classes.mapContainer}>
                 <TileLayer attribution='&copy; <a href="#">Seoul Crime Map</a>' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 <GeoJSON ref={getJsonRef} data={seoulGeoJson} onEachFeature={OnEachDistrict} style={mapStyle}/>
             </MapContainer>
                 <Legend data={legendReverse} />
             <Typography variant="subtitle1" className={classes.message}>*The data is based on the total number of incidents in 2017</Typography>
-            <ShowSeoulDistrictCrimeData data={props.data} year="2017"/>
+           <ShowSeoulDistrictCrimeData data={seoulCrimeData} year="2017"/>
+           </>}
         </Container>
     );
 };

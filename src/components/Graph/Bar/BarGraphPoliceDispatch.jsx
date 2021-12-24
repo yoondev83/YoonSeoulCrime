@@ -1,16 +1,39 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import ShowDispatchRawData from './ShowDispatchRawData';
-import classes from "./BarGraphPoliceDispatch.module.css";
-import { Container} from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import LoadingSpinner from '../../UI/LoadingSpinner';
+const useStyles = makeStyles((theme) => ({
+  container:{
+      maxWidth: "120rem",
+      padding: "0 3.2rem",
+      margin: "0 auto"
+    },
+    title: {
+      marginTop: "6.2rem",
+      color: "#ced4da",
+      fontWeight: 700,
+      fontSize: "2.4rem",
+      textAlign: "center",
+  },
+  [theme.breakpoints.down('xs')]: {
+    title: {
+      fontSize: "2rem",
+      marginBottom: "1rem",
+  },
+  },
+}
+));
 
 const BarGraphPoliceDispatch = props =>{
     const year              =   [];
     const dispatcherVolume  =   [];
     const within5Min        =   [];
-
-    if(props.data.data){
-      props.data.data.forEach(d => {
+    const reportData          = useSelector(state => state.data.policeDispatchData); 
+    const classes = useStyles();
+    if(reportData){
+      reportData.data.forEach(d => {
         year.push(d.Year);
         dispatcherVolume.push(d.The_Total_112_Dispatcher_Volume);
         within5Min.push(d.Within_5min);
@@ -60,12 +83,13 @@ const BarGraphPoliceDispatch = props =>{
       },
     };
     return(
-      <Container maxWidth="lg">
-        <div className='header'>
+      <Container fixed className={classes.container}>
             <h1 className={classes.title}>How Fast Is The Seoul Police? (2005 - 2009)</h1>
-            <Bar data={data} options={options} />
-            <ShowDispatchRawData data={props.data}/>
-        </div>
+            {!reportData? <LoadingSpinner />:
+            <>
+              <Bar data={data} options={options} />
+              <ShowDispatchRawData data={reportData}/>
+            </>}
         </Container>
     );
 };
