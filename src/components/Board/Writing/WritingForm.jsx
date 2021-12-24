@@ -52,7 +52,7 @@ const WritingForm = (props) => {
         .then(() => {
             props.isChanged(true);
             // window.location.replace("/YoonSeoulCrimeFront/api/board/boardlist");
-            history.push("/YoonSeoulCrimeFront/api/board/boardlist")
+            history.push("/api/board/boardlist")
         })
         .catch(err => console.log(err));
 
