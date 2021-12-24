@@ -31,11 +31,12 @@ function App() {
   const isAuth                              = useSelector(state => state.auth.isAuthenticated);
   const dispatch                            = useDispatch();
   useEffect(() => {
-    if(localStorage.getItem("userInfo")){
+    if(localStorage.getItem("userEmail")){
+      console.log()
       axios.post("https://guarded-plains-97482.herokuapp.com/api/signin",
               {
-              userMemberEmail: localStorage.getItem("userInfo").userMemberEmail,
-              userMemberPass: localStorage.getItem("userInfo").userMemberPass
+              userMemberEmail: localStorage.getItem("userEmail"),
+              userMemberPass: localStorage.getItem("userPass")
               }, 
           )
           .then(res =>{
