@@ -17,7 +17,8 @@ const authSlice = createSlice({
             console.log("logout!");
             state.isAuthenticated = false;
             state.userId          = null;
-            localStorage.removeItem("userInfo");
+            localStorage.removeItem("userEmail");
+            localStorage.removeItem("userPass");
             axios.post("/YoonSeoulCrimeFront/api/logout")
             .then(res => console.log(res.data))
             .catch(err => console.log(err));

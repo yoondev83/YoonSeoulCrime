@@ -32,7 +32,6 @@ function App() {
   const dispatch                            = useDispatch();
   useEffect(() => {
     if(localStorage.getItem("userEmail")){
-      console.log()
       axios.post("https://guarded-plains-97482.herokuapp.com/api/signin",
               {
               userMemberEmail: localStorage.getItem("userEmail"),
