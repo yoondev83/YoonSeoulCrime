@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/YoonSeoulCrimeFront/static/css/main.51208fa7.chunk.css",
-    "main.js": "/YoonSeoulCrimeFront/static/js/main.f9c1b646.chunk.js",
-    "main.js.map": "/YoonSeoulCrimeFront/static/js/main.f9c1b646.chunk.js.map",
+    "main.js": "/YoonSeoulCrimeFront/static/js/main.c0ac8c87.chunk.js",
+    "main.js.map": "/YoonSeoulCrimeFront/static/js/main.c0ac8c87.chunk.js.map",
     "runtime-main.js": "/YoonSeoulCrimeFront/static/js/runtime-main.ae314484.js",
     "runtime-main.js.map": "/YoonSeoulCrimeFront/static/js/runtime-main.ae314484.js.map",
     "static/css/2.b67fccb8.chunk.css": "/YoonSeoulCrimeFront/static/css/2.b67fccb8.chunk.css",
-    "static/js/2.e33af930.chunk.js": "/YoonSeoulCrimeFront/static/js/2.e33af930.chunk.js",
-    "static/js/2.e33af930.chunk.js.map": "/YoonSeoulCrimeFront/static/js/2.e33af930.chunk.js.map",
+    "static/js/2.aba5d463.chunk.js": "/YoonSeoulCrimeFront/static/js/2.aba5d463.chunk.js",
+    "static/js/2.aba5d463.chunk.js.map": "/YoonSeoulCrimeFront/static/js/2.aba5d463.chunk.js.map",
     "index.html": "/YoonSeoulCrimeFront/index.html",
     "static/css/2.b67fccb8.chunk.css.map": "/YoonSeoulCrimeFront/static/css/2.b67fccb8.chunk.css.map",
     "static/css/main.51208fa7.chunk.css.map": "/YoonSeoulCrimeFront/static/css/main.51208fa7.chunk.css.map",
-    "static/js/2.e33af930.chunk.js.LICENSE.txt": "/YoonSeoulCrimeFront/static/js/2.e33af930.chunk.js.LICENSE.txt"
+    "static/js/2.aba5d463.chunk.js.LICENSE.txt": "/YoonSeoulCrimeFront/static/js/2.aba5d463.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.ae314484.js",
     "static/css/2.b67fccb8.chunk.css",
-    "static/js/2.e33af930.chunk.js",
+    "static/js/2.aba5d463.chunk.js",
     "static/css/main.51208fa7.chunk.css",
-    "static/js/main.f9c1b646.chunk.js"
+    "static/js/main.c0ac8c87.chunk.js"
   ]
 }
