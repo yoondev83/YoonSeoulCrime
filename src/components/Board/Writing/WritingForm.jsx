@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import EditIcon from '@material-ui/icons/Edit';
 import axios from "axios";
 import Container from '@material-ui/core/Container';
+import { useSelector } from "react-redux";
 const useStyles = makeStyles(() =>({
     container:{
         maxWidth: "120rem",
@@ -32,6 +33,7 @@ const WritingForm = (props) => {
     const classes                       =   useStyles();
     const [postTitle, setPostTitle]     =   useState(null);
     const [postContent, setPostContent] =   useState(null);
+    const userId                         =   useSelector(state => state.auto.userId);
 
     const titleChangeHandler        = event =>{
         setPostTitle(event.target.value);
@@ -45,7 +47,7 @@ const WritingForm = (props) => {
         axios.post("https://guarded-plains-97482.herokuapp.com/api/board/boardlist", {
             title: postTitle,
             content: postContent,
-            userId: props.userId,
+            userId: userId,
         })
         .then(() => {
             props.isChanged(true);

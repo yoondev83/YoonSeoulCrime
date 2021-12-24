@@ -81,7 +81,7 @@ const Post = props => {
             <Container >
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
-                        <Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>userid</Typography>
+                        <Typography component={'span'} variant={'body2'}  className={classes.postInfoUser}>{props.data.userId || "User"}</Typography>
                     </Paper>
                     <Paper className={classes.paper}>
                         <Typography component={'span'} variant={'body2'} className={classes.content}>{props.data.content}</Typography>
