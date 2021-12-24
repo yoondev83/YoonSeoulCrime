@@ -178,7 +178,7 @@ const Menus = () => {
       setAnchorUserEl(null);
       setIsMobileMenuOpen(false);
       dispatch(authActions.logout());
-      window.location.replace("/main");
+      window.location.replace("/YoonSeoulCrimeFront/api/board/boardlist");
     }
     return(
       <div className={classes.header}>
