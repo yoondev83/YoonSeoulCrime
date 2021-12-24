@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/styles";
 import EditIcon from '@material-ui/icons/Edit';
 import axios from "axios";
 import Container from '@material-ui/core/Container';
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles(() =>({
     container:{
         maxWidth: "120rem",
@@ -30,6 +31,7 @@ const useStyles = makeStyles(() =>({
 
 const WritingForm = (props) => {
     const classes                       =   useStyles();
+    const history                       =   useHistory();
     const [postTitle, setPostTitle]     =   useState(null);
     const [postContent, setPostContent] =   useState(null);
 
@@ -49,7 +51,8 @@ const WritingForm = (props) => {
         })
         .then(() => {
             props.isChanged(true);
-            window.location.replace("/YoonSeoulCrimeFront/api/board/boardlist");
+            // window.location.replace("/YoonSeoulCrimeFront/api/board/boardlist");
+            history.push("/YoonSeoulCrimeFront/api/board/boardlist")
         })
         .catch(err => console.log(err));
 
