@@ -104,6 +104,7 @@ const SignUp = props => {
         event.preventDefault();
 
         if(!enteredIdIsValid || !enteredEmailIsValid || !enteredPassIsValid || !enteredRePassIsValid || !emailValidation || !idValidation){
+            alert("Please check your info");
             return;
         }
         axios.post("https://guarded-plains-97482.herokuapp.com/api/signup", {

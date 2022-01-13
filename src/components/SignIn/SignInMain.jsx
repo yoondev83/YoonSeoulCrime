@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
-import clsx from "clsx";
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -12,6 +11,7 @@ import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {authActions} from "../../store/auth-slice";
 import Container from '@material-ui/core/Container';
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     container:{
         maxWidth: "120rem",
@@ -102,30 +102,30 @@ const SignInMain = (props) => {
         <Container fixed className={classes.container}>
         <Grid container direction="row" justifyContent="center" alignItems="center">
             <form onSubmit={submitHandler}>
-            <Grid item xs={12} className={classes.inputIdGrid}>
-                <Input type="email" name="userEmail" placeholder="Email" onChange={emailHandler}
-                       startAdornment={( <InputAdornment position="start">
-                                            <EmailIcon className={classes.icon}/>
-                                        </InputAdornment>)}
-                       className={classes.loginInput}/>
-            </Grid>
-            <Grid item xs={12} className={classes.inputIdGrid}>
-                <Input type="password" name="userPass" placeholder="Password" onChange={passHandler}
-                       startAdornment={( <InputAdornment position="start">
-                           <LockIcon className={classes.icon}/>
-                       </InputAdornment>)}
-                       className={classes.loginInput}/>
-            </Grid>
-            {loginError &&  <Typography className={classes.errorText} align="center">Check Your Email or Password!</Typography>}
-            <Grid item xs={12} className={classes.inputGrid}>
-                {/* <Typography  display="inline" align="left" className={clsx(classes.findTxt, classes.findTxtId)}>Forgot your password?</Typography> */}
-            </Grid>
-            <Grid item xs={12}>
-                <Button type="submit" className={classes.loginBtn} >Login</Button>
-            </Grid>
-            <Grid item xs={12}>
-                <Button type="submit" href="/api/signup" className={clsx(classes.joinBtn)}>Sign Up</Button>
-            </Grid>
+                <Grid item xs={12} className={classes.inputIdGrid}>
+                    <Input type="email" name="userEmail" placeholder="Email" onChange={emailHandler}
+                        startAdornment={( <InputAdornment position="start">
+                                                <EmailIcon className={classes.icon}/>
+                                            </InputAdornment>)}
+                        className={classes.loginInput}/>
+                </Grid>
+                <Grid item xs={12} className={classes.inputIdGrid}>
+                    <Input type="password" name="userPass" placeholder="Password" onChange={passHandler}
+                        startAdornment={( <InputAdornment position="start">
+                            <LockIcon className={classes.icon}/>
+                        </InputAdornment>)}
+                        className={classes.loginInput}/>
+                </Grid>
+                {loginError &&  <Typography className={classes.errorText} align="center">Check Your Email or Password!</Typography>}
+                <Grid item xs={12} className={classes.inputGrid}>
+                    {/* <Typography  display="inline" align="left" className={clsx(classes.findTxt, classes.findTxtId)}>Forgot your password?</Typography> */}
+                </Grid>
+                <Grid item xs={12}>
+                    <Button type="submit" className={classes.loginBtn} >Login</Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <Button component={Link} to={"/api/signup"} className={classes.joinBtn}>Sign Up</Button>
+                </Grid>
             </form>
         </Grid>
     </Container>
